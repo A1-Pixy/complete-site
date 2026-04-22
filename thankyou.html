@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Order Confirmed — Pixy Dust Seasoning</title>
+  <link rel="stylesheet" href="assets/css/pixy.css" />
+  <script src="assets/js/pixy-cart.js" defer></script>
+</head>
+<body>
+
+  <header class="topbar topbar--solid">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
+        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+      </a>
+      <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);">Order Confirmed</span>
+      <div></div>
+    </div>
+  </header>
+
+  <div class="thankyou-wrap">
+    <div class="thankyou-box">
+
+      <div class="thankyou-icon">✦</div>
+
+      <h1 style="font-size:clamp(1.4rem,3vw,2rem);margin:0 0 8px;">Your Order is Confirmed</h1>
+      <p class="muted" style="margin:0 0 4px;">Thank you for your Pixy Dust order.</p>
+      <p class="thankyou-order-id" id="order-id-display"></p>
+      <p class="muted" style="font-size:13px;margin:0;">A confirmation email will be sent to you shortly.</p>
+
+      <!-- Order summary (loaded from sessionStorage) -->
+      <div class="thankyou-summary" id="order-summary" style="display:none;">
+        <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);margin:0 0 10px;">What you ordered</p>
+        <div id="order-summary-items"></div>
+      </div>
+
+      <div class="thankyou-actions">
+        <a class="btn btn-primary" href="shop.html?view=Pouches">Add Another Blend</a>
+        <a class="btn btn-secondary" href="index.html#email" id="vip-link">Join the VIP List</a>
+      </div>
+
+      <!-- VIP mini form -->
+      <div style="margin-top:24px;border-top:1px solid rgba(255,255,255,.06);padding-top:20px;">
+        <p class="muted" style="font-size:12px;margin:0 0 10px;text-align:center;">Get 10% off your next order — join the VIP list:</p>
+        <form id="ty-subscribe-form" name="ty-subscribe" method="post" data-netlify="true"
+          style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+          <input type="hidden" name="form-name" value="ty-subscribe" />
+          <input type="email" name="email" id="ty-email" placeholder="Your email"
+            autocomplete="email" required
+            style="flex:1;min-width:180px;max-width:280px;" />
+          <button class="btn btn-gold" type="submit" style="white-space:nowrap;">Subscribe</button>
+        </form>
+        <div id="ty-subscribe-note" style="text-align:center;font-size:12px;color:var(--gold);margin-top:8px;min-height:1.2em;"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner" style="justify-content:center;text-align:center;grid-template-columns:1fr;">
+      <div class="footer-left" style="text-align:center;">
+        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Questions? <a href="contact.html" style="color:var(--gold);">Contact us</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Show order ID from URL
+      var params  = new URLSearchParams(window.location.search);
+      var orderId = params.get("order");
+      var idEl    = document.getElementById("order-id-display");
+      if (orderId && idEl) {
+        idEl.textContent = "Order #" + orderId;
+      }
+
+      // Try to show order summary from sessionStorage
+      var summaryRaw = sessionStorage.getItem("pixy_last_order");
+      if (summaryRaw) {
+        try {
+          var order   = JSON.parse(summaryRaw);
+          var items   = order.items || [];
+          var section = document.getElementById("order-summary");
+          var grid    = document.getElementById("order-summary-items");
+
+          if (items.length && section && grid) {
+            var html = "";
+            for (var i = 0; i < items.length; i++) {
+              var item = items[i];
+              html +=
+                '<div style="display:flex;justify-content:space-between;align-items:center;' +
+                  'padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;">' +
+                  '<span style="color:rgba(243,243,243,.80);">' + esc(item.title) + ' × ' + (item.qty || 1) + '</span>' +
+                  '<span style="color:var(--gold);">$' + ((item.price || 0) * (item.qty || 1)).toFixed(2) + '</span>' +
+                '</div>';
+            }
+            if (order.subtotal != null) {
+              html += '<div style="display:flex;justify-content:space-between;padding:10px 0 0;' +
+                'font-size:14px;font-weight:600;color:var(--gold);">' +
+                '<span>Total</span><span>$' + Number(order.subtotal || 0).toFixed(2) + '</span></div>';
+            }
+            grid.innerHTML    = html;
+            section.style.display = "";
+          }
+        } catch (_) {}
+        sessionStorage.removeItem("pixy_last_order");
+      }
+
+      // VIP form
+      var tyForm = document.getElementById("ty-subscribe-form");
+      if (tyForm) {
+        tyForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var noteEl = document.getElementById("ty-subscribe-note");
+          var email  = document.getElementById("ty-email").value.trim();
+          if (!email) return;
+
+          var formData = new FormData(tyForm);
+          fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(formData).toString() })
+            .then(function () {
+              if (noteEl) noteEl.textContent = "You're on the list! 10% off coming your way.";
+              tyForm.reset();
+            })
+            .catch(function () {
+              if (noteEl) noteEl.textContent = "Something went wrong. Please try again.";
+            });
+        });
+      }
+    });
+
+    function esc(s) {
+      return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+
+  })();
+  </script>
+
+</body>
+</html>

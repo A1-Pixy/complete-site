@@ -1,0 +1,5 @@
+# Exclude local tooling and dev artifacts from Netlify deployments
+.claude/
+.git/
+*.md
+node_modules/

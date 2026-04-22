@@ -1,0 +1,44 @@
+[build]
+publish = "."
+
+[functions]
+directory = "functions"
+# esbuild handles both CommonJS (gemini.js, chat.js) and ESM v2 functions
+# (chat.mjs, recipes-get.mjs, recipes-post.mjs) correctly.
+node_bundler = "esbuild"
+
+[build.environment]
+NODE_VERSION = "18"
+
+# ── Required environment variables ──────────────────────────────────────────
+# Set these in the Netlify dashboard → Site settings → Environment variables.
+#
+#   GEMINI_API_KEY     — Google Gemini API key (get free key at aistudio.google.com)
+#                        Required for /.netlify/functions/gemini (AI assistant)
+#                        Required for /.netlify/functions/chat (AI fallback)
+#
+#   SUPABASE_URL         — Supabase project URL
+#                          Required for /.netlify/functions/recipes-get
+#                          Required for /.netlify/functions/recipes-post
+#                          Required for /.netlify/functions/products-get
+#                          Required for /.netlify/functions/products-admin
+#
+#   SUPABASE_ANON_KEY    — Supabase anonymous (public) key
+#                          Required for /.netlify/functions/recipes-get
+#                          Required for /.netlify/functions/recipes-post
+#                          Required for /.netlify/functions/products-get
+#                          Required for /.netlify/functions/products-admin
+#
+#   SUPABASE_SERVICE_KEY — Supabase service_role key (bypasses RLS for admin writes)
+#                          Found in: Supabase Dashboard → Project Settings → API → service_role
+#                          Required for /.netlify/functions/products-admin
+#
+#   ADMIN_SECRET         — Any strong password you choose (protects /admin/products.html)
+#                          Required for /.netlify/functions/products-admin
+# ─────────────────────────────────────────────────────────────────────────────
+
+[[headers]]
+for = "/*"
+[headers.values]
+cache-control = "max-age=0, no-cache, no-store, must-revalidate"
+X-Frame-Options = "DENY"

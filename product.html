@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product — Pixy Dust Seasoning</title>
+  <link rel="stylesheet" href="assets/css/pixy.css" />
+  <script src="assets/js/products.js" defer></script>
+  <script src="assets/js/pixy-cart.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/chatbot.js" defer></script>
+</head>
+
+<body>
+  <div class="flash-sale" role="banner" aria-label="Promotion">
+    <div class="container">
+      <div class="flash-sale-inner">
+        <span><strong>Free Shipping</strong> on all Gift Sets — no minimum required</span>
+        <a class="btn btn-secondary" href="gifting.html" style="font-size:.75rem;padding:5px 14px;letter-spacing:.08em;">Shop Gift Sets</a>
+      </div>
+    </div>
+  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar topbar--solid">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
+        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+        <a id="navShopLink" href="shop.html">Shop</a>
+        <a href="gifting.html">Gifting</a>
+        <a href="about.html">About</a>
+      </nav>
+
+      <div class="header-right">
+        <a class="nav-icon-btn" href="shop.html" aria-label="Search products">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </a>
+        <button class="nav-icon-btn" id="openCartBtn" type="button" aria-label="Open cart">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-badge" data-cart-badge hidden></span>
+        </button>
+        <a class="btn btn-gold btn-sm" href="shop.html">Buy Now</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="container">
+
+      <div class="product-crumbs">
+        <a id="backToShop" href="shop.html">← Back to Shop</a>
+        <span id="crumbRight" style="color:var(--muted2);font-size:13px;"></span>
+      </div>
+
+      <div class="product-panel" id="productPanel">
+        <div class="product-layout">
+
+          <!-- Left: product image -->
+          <div class="product-media">
+            <img id="productImage" src="" alt="" decoding="async" loading="eager" />
+          </div>
+
+          <!-- Right: product details -->
+          <div class="product-details">
+            <p class="kicker" id="productKicker">Collection</p>
+            <h1 id="productTitle"></h1>
+            <p class="product-blurb" id="productBlurb"></p>
+
+            <!-- Price -->
+            <div class="product-price" id="productPrice" style="font-size:1.6rem;font-weight:700;color:var(--gold);margin:2px 0;"></div>
+
+            <!-- Story -->
+            <div class="product-section-block" id="storyBlock" style="display:none;">
+              <p class="product-section-label">The Story</p>
+              <p class="product-section-text" id="productStory"></p>
+            </div>
+
+            <!-- Ingredients -->
+            <div class="product-section-block" id="ingredientsBlock" style="display:none;">
+              <p class="product-section-label">Ingredients</p>
+              <p class="product-section-text" id="productIngredients"></p>
+            </div>
+
+            <!-- Quantity + Buy Now -->
+            <div class="product-qty-row" id="qtyRow">
+              <span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);">Qty</span>
+              <div class="qty-selector">
+                <button class="qty-btn" id="qtyDec" type="button" aria-label="Decrease quantity">−</button>
+                <span class="qty-val" id="qtyVal">1</span>
+                <button class="qty-btn" id="qtyInc" type="button" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+
+            <div class="product-buy-row" id="actionRow">
+              <button class="btn btn-primary" id="buyNowBtn" type="button" style="flex:1;">Buy Now</button>
+              <button class="btn btn-gold" id="addToCartBtn" type="button" style="flex:1;">Add to Cart</button>
+            </div>
+
+            <!-- Trust bar -->
+            <div class="trust-bar">
+              <span>Secure Checkout</span>
+              <span>Fast Shipping</span>
+              <span>Easy Returns</span>
+            </div>
+
+            <p class="muted" id="productNote" style="font-size:13px;margin-top:4px;display:none;"></p>
+          </div>
+        </div>
+      </div>
+
+      <div id="errorBox" style="display:none;"></div>
+
+      <!-- You might also like -->
+      <section id="upsellSection" style="display:none;padding-top:44px;">
+        <div class="section-head">
+          <h2 class="section-title">You Might Also Like</h2>
+        </div>
+        <div id="upsellGrid" class="grid three"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <button class="chat-fab" type="button" aria-label="Open Pixy Assistant" data-chat-open>
+    <span class="chat-fab-glow" aria-hidden="true"></span>
+    <span class="chat-fab-icon" aria-hidden="true">✦</span>
+  </button>
+  <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
+    <header class="chat-head">
+      <div class="chat-brand">
+        <span class="chat-spark" aria-hidden="true"></span>
+        <div>
+          <div class="chat-title">Pixy Assistant</div>
+          <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
+        </div>
+      </div>
+      <button class="chat-close" type="button" aria-label="Close chat" data-chat-close>×</button>
+    </header>
+    <div class="chat-body" data-chat-body aria-live="polite"></div>
+    <form class="chat-input" data-chat-form>
+      <label class="sr-only" for="chatTextProd">Message</label>
+      <input id="chatTextProd" name="message" type="text" placeholder="Ask about flavors, ingredients, pairings" autocomplete="off" required />
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </section>
+
+  <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Luxury gourmet blends. Let's sprinkle a little magic.</div>
+      </div>
+      <div class="footer-mid">
+        <a href="about.html">About Pixy Dust</a>
+        <a href="recipes.html">Kitchen Table</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="juniors.html">Juniors</a>
+        <a href="wholesale.html">Wholesale</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-right">
+        <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
+        <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // ── State ──────────────────────────────────────────────────────
+      var _qty     = 1;
+      var _product = null;
+
+      // ── Helpers ────────────────────────────────────────────────────
+      function byId(id) { return document.getElementById(id); }
+
+      function escapeText(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      }
+
+      function getProductsArray() {
+        if (Array.isArray(window.PIXY_PRODUCTS)) return window.PIXY_PRODUCTS;
+        return null;
+      }
+
+      function getParams() {
+        var p = new URLSearchParams(window.location.search);
+        return { key: (p.get("key") || "").trim(), ecwid: (p.get("ecwid") || "").trim() };
+      }
+
+      function collectionLabel(cat) {
+        var map = { Pouches:"Signature Blends", Bottles:"Heritage Collection",
+          Grills:"Open Flame Collection", "Individual Spices":"Individual Spices",
+          Subscriptions:"Subscriptions","Gift Sets":"Gift Sets",Bundles:"Bundles",Books:"Books" };
+        return map[cat] || "Collection";
+      }
+
+      function setText(id, val) {
+        var el = byId(id);
+        if (el) el.textContent = val == null ? "" : String(val);
+      }
+      function showBlock(id, v) { var el = byId(id); if (el) el.style.display = v ? "" : "none"; }
+      function showError(msg) {
+        var panel = byId("productPanel"); var box = byId("errorBox");
+        if (panel) panel.style.display = "none";
+        if (box) { box.style.display = "block"; box.textContent = msg; }
+      }
+
+      // ── Qty controls ───────────────────────────────────────────────
+      function updateQty(n) {
+        _qty = Math.max(1, n);
+        var el = byId("qtyVal");
+        if (el) el.textContent = String(_qty);
+      }
+
+      // ── Cart actions ───────────────────────────────────────────────
+      function doAddToCart() {
+        if (!_product || !window.PIXY_CART) return;
+        var result = window.PIXY_CART.add(_product, _qty);
+        if (result && typeof window.PIXY_CART.open === "function") {
+          window.PIXY_CART.open();
+        }
+      }
+
+      function doBuyNow() {
+        if (!_product || !window.PIXY_CART) return;
+        window.PIXY_CART.add(_product, _qty);
+        window.location.href = "checkout.html";
+      }
+
+      // ── Render product ─────────────────────────────────────────────
+      function renderProduct(product) {
+        _product = product;
+
+        document.title = (product.title || "Product") + " — Pixy Dust Seasoning";
+
+        setText("productTitle", product.title || "");
+        setText("productBlurb", product.blurb || "");
+        setText("productKicker", collectionLabel(String(product.category || "").trim()));
+
+        var img = byId("productImage");
+        img.src = product.image || "";
+        img.alt = product.title || "Product";
+        img.onerror = function () { this.onerror = null; this.src = "assets/images/logo-circle.png"; };
+
+        var price = byId("productPrice");
+        if (product.price != null && product.price !== "") {
+          price.textContent = "$" + Number(product.price).toFixed(2);
+          if (product.freeShipping) {
+            var s = document.createElement("span");
+            s.className = "card-free-ship";
+            s.style.cssText = "margin-left:10px;font-size:0.65em;color:#d9b96c;font-weight:400;";
+            s.textContent = "Free Shipping";
+            price.appendChild(s);
+          }
+        } else {
+          price.style.display = "none";
+        }
+
+        var story       = (product.story || "").trim();
+        var ingredients = (product.ingredients || "").trim();
+        showBlock("storyBlock",       !!story);
+        showBlock("ingredientsBlock", !!ingredients);
+        setText("productStory",       story);
+        setText("productIngredients", ingredients);
+
+        // Nav/crumb
+        var cat       = String(product.category || "").trim();
+        var backToShop = byId("backToShop");
+        var last       = sessionStorage.getItem("pixy_last_listing");
+        if (last) { backToShop.href = last; backToShop.textContent = "← Back"; }
+        else { backToShop.href = "shop.html?view=" + encodeURIComponent(cat || "Pouches"); }
+
+        var navShop = byId("navShopLink");
+        if (navShop) navShop.href = "shop.html?view=" + encodeURIComponent(cat || "Pouches");
+
+        var crumbRight = byId("crumbRight");
+        if (crumbRight) crumbRight.textContent = collectionLabel(cat);
+
+        // Wire qty buttons
+        var decBtn = byId("qtyDec");
+        var incBtn = byId("qtyInc");
+        if (decBtn) decBtn.addEventListener("click", function () { updateQty(_qty - 1); });
+        if (incBtn) incBtn.addEventListener("click", function () { updateQty(_qty + 1); });
+
+        // Wire action buttons
+        var addBtn = byId("addToCartBtn");
+        var buyBtn = byId("buyNowBtn");
+
+        if (!product.ecwidProductId && !product.key) {
+          if (addBtn) { addBtn.textContent = "Coming Soon"; addBtn.disabled = true; }
+          if (buyBtn) { buyBtn.textContent = "Coming Soon"; buyBtn.disabled = true; }
+        } else {
+          if (addBtn) addBtn.addEventListener("click", doAddToCart);
+          if (buyBtn) buyBtn.addEventListener("click", doBuyNow);
+        }
+      }
+
+      // ── Boot ───────────────────────────────────────────────────────
+      document.addEventListener("DOMContentLoaded", function () {
+        var products = getProductsArray();
+        if (!products) { showError("Products could not load. Please refresh."); return; }
+
+        var q = getParams();
+        if (!q.key && !q.ecwid) { showError("No product selected."); return; }
+
+        var product = null;
+        if (q.key) product = products.find(function (p) { return String(p.key || "") === q.key; });
+        if (!product && q.ecwid) {
+          var eid = Number(q.ecwid);
+          if (eid) product = products.find(function (p) { return Number(p.ecwidProductId) === eid; });
+        }
+
+        if (!product) { showError("Product not found."); return; }
+
+        renderProduct(product);
+        buildUpsell(product);
+      });
+
+      // ── Upsell ─────────────────────────────────────────────────────
+      function buildUpsell(current) {
+        var products = window.PIXY_PRODUCTS || [];
+        var same = products.filter(function (p) {
+          return p.category === current.category && p.key !== current.key && p.image;
+        }).sort(function () { return 0.5 - Math.random(); }).slice(0, 3);
+
+        if (!same.length) return;
+
+        var grid    = byId("upsellGrid");
+        var section = byId("upsellSection");
+        if (!grid || !section) return;
+
+        same.forEach(function (p) {
+          var card = document.createElement("article");
+          card.className = "card";
+          card.style.cssText = "display:flex;flex-direction:column;gap:10px;";
+
+          var link = document.createElement("a");
+          link.href = "product.html?key=" + encodeURIComponent(p.key);
+          link.style.cssText = "display:block;text-decoration:none;";
+
+          var img = document.createElement("img");
+          img.src = p.image; img.alt = p.title;
+          img.style.cssText = "width:100%;max-height:160px;object-fit:contain;filter:drop-shadow(0 10px 24px rgba(0,0,0,.5));";
+          img.loading = "lazy";
+
+          var title = document.createElement("h3");
+          title.className = "card-title";
+          title.style.margin = "8px 0 0";
+          title.textContent = p.title;
+
+          link.appendChild(img);
+          link.appendChild(title);
+          card.appendChild(link);
+
+          if (p.price != null) {
+            var price = document.createElement("p");
+            price.className = "card-price"; price.style.margin = "0";
+            price.textContent = "$" + Number(p.price).toFixed(2);
+            card.appendChild(price);
+          }
+
+          var actions = document.createElement("div");
+          actions.style.cssText = "display:flex;gap:8px;margin-top:auto;flex-wrap:wrap;";
+
+          var buyBtn = document.createElement("button");
+          buyBtn.className = "btn btn-primary"; buyBtn.type = "button";
+          buyBtn.style.flex = "1"; buyBtn.textContent = "Buy Now";
+          buyBtn.addEventListener("click", function () {
+            if (window.PIXY_CART) {
+              window.PIXY_CART.addByKey(p.key, 1);
+              window.location.href = "checkout.html";
+            }
+          });
+
+          var detailBtn = document.createElement("a");
+          detailBtn.className = "btn btn-secondary";
+          detailBtn.href = "product.html?key=" + encodeURIComponent(p.key);
+          detailBtn.style.cssText = "flex:1;text-align:center;";
+          detailBtn.textContent = "View Details";
+
+          actions.appendChild(buyBtn);
+          actions.appendChild(detailBtn);
+          card.appendChild(actions);
+          grid.appendChild(card);
+        });
+
+        section.style.display = "";
+      }
+
+    })();
+  </script>
+
+</body>
+</html>

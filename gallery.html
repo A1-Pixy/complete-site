@@ -1,0 +1,235 @@
+<!--
+File name: gallery.html
+Purpose:
+- Gallery landing page for cinematic brand visuals and experiences
+- Informational only. No products rendered from products.js
+- Tiles render as empty frames if gallery/images are not yet placed
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gallery — Pixy Dust Seasoning</title>
+  <meta name="description" content="Pixy Dust gallery — cinematic product shots, Lion premium grill moments, Juniors storytelling, and brand visuals." />
+  <meta property="og:title" content="Gallery — Pixy Dust Seasoning" />
+  <meta property="og:description" content="Product moments, cooking scenes, and brand storytelling — captured in full frame." />
+  <meta property="og:image" content="assets/images/Gallery/chophouse.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/css/pixy.css" />
+  <script src="assets/js/cms.js" defer></script>
+  <script src="assets/js/chatbot.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/pixy-cart.js" defer></script>
+  <script src="assets/js/cart.js" defer></script>
+</head>
+
+<body>
+  <div class="flash-sale" role="banner" aria-label="Promotion">
+    <div class="container">
+      <div class="flash-sale-inner">
+        <span><strong>Free Shipping</strong> on all Gift Sets — no minimum required</span>
+        <a class="btn btn-secondary" href="gifting.html" style="font-size:.75rem;padding:5px 14px;letter-spacing:.08em;">Shop Gift Sets</a>
+      </div>
+    </div>
+  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar topbar--solid">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
+        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+        <a href="shop.html">Shop</a>
+        <a href="gifting.html">Gifting</a>
+        <a href="about.html">About</a>
+      </nav>
+
+      <div class="header-right">
+        <a class="nav-icon-btn" href="shop.html" aria-label="Search products">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </a>
+        <button class="nav-icon-btn" id="openCartBtn" type="button" aria-label="Open cart">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-badge" data-cart-badge hidden></span>
+        </button>
+        <a class="btn btn-gold btn-sm" href="checkout.html">Buy Now</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="container">
+
+      <section class="pg-hero" aria-label="Gallery hero">
+        <div class="pg-hero-inner">
+          <div>
+            <p class="kicker">Gallery</p>
+            <h1>Cinematic visuals and experiences.</h1>
+            <p class="subcopy">
+              Product moments, cooking scenes, and brand storytelling — captured in full frame.
+            </p>
+          </div>
+
+          <aside class="pg-hero-aside" aria-label="Gallery note">
+            <h2>Product · Grill · Story</h2>
+            <p>
+              Signature pouches, the Lion premium grill line, Juniors storytelling, and the brand's classic
+              bottle heritage — all in one place.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="pg-gallery" aria-label="Gallery grid">
+
+        <!-- Full-bleed cinematic brand background — best hero image -->
+        <article class="pg-gallery-card pg-span-8" aria-label="Signature Blends campaign">
+          <img class="pg-gallery-img" src="assets/images/Gallery/chophouse.png" alt="Pixy Dust — golden dust atmosphere" style="object-fit:cover;" loading="lazy" decoding="async" />
+          <div class="pg-gallery-overlay" aria-hidden="true"></div>
+          <div class="pg-gallery-meta">
+            <div class="pg-gallery-title">Signature Blends</div>
+            <div class="pg-gallery-tag">Campaign</div>
+          </div>
+        </article>
+
+        <!-- Premium seafood pouch with gold glow -->
+        <article class="pg-gallery-card pg-span-4" aria-label="Deep Blue Seafood signature pouch">
+          <img class="pg-gallery-img" src="assets/images/Gallery/asian pork roll.png" alt="Pixy Dust Seafood Signature Collection" style="object-fit:contain;padding:18px;" loading="lazy" decoding="async" />
+          <div class="pg-gallery-overlay" aria-hidden="true"></div>
+          <div class="pg-gallery-meta">
+            <div class="pg-gallery-title">Kitchen Table</div>
+            <div class="pg-gallery-tag">Boards</div>
+          </div>
+        </article>
+
+        <!-- Chophouse premium pouch shot -->
+        <article class="pg-gallery-card pg-span-4" aria-label="Chophouse Steak signature pouch">
+          <img class="pg-gallery-img" src="assets/images/Gallery/crab cakes.jpg" alt="Pixy Dust Chophouse Signature Collection" style="object-fit:contain;padding:18px;" loading="lazy" decoding="async" />
+          <div class="pg-gallery-overlay" aria-hidden="true"></div>
+          <div class="pg-gallery-meta">
+            <div class="pg-gallery-title">ARCHIVES</div>
+            <div class="pg-gallery-tag">Heritage</div>
+          </div>
+        </article>
+
+        <!-- Lion premium grill — open flame -->
+        <article class="pg-gallery-card pg-span-4" aria-label="Lion L60000 premium grill">
+          <img class="pg-gallery-img" src="assets/images/Gallery/lion.png" alt="Lion L60000 Premium Grill" style="object-fit:contain;padding:14px;" loading="lazy" decoding="async" />
+          <div class="pg-gallery-overlay" aria-hidden="true"></div>
+          <div class="pg-gallery-meta">
+            <div class="pg-gallery-title">Open Flame</div>
+            <div class="pg-gallery-tag">Outdoor</div>
+          </div>
+        </article>
+
+        <!-- Heritage bottle line -->
+        <article class="pg-gallery-card pg-span-4" aria-label="Heritage bottle collection">
+          <img class="pg-gallery-img" src="assets/images/Gallery/pizza recipe.png" alt="Pixy Dust Universal All Purpose bottle" style="object-fit:contain;padding:18px;" loading="lazy" decoding="async" />
+          <div class="pg-gallery-overlay" aria-hidden="true"></div>
+          <div class="pg-gallery-meta">
+            <div class="pg-gallery-title">Recipes</div>
+            <div class="pg-gallery-tag">Classic</div>
+          </div>
+        </article>
+
+        <!-- Juniors book — storytelling -->
+        <article class="pg-gallery-card pg-span-6" aria-label="Juniors Zen in the Pearl Market book">
+          <img class="pg-gallery-img" src="assets/images/Gallery/Zen.png" alt="Zen in the Pearl Market — Pixy Dust Juniors" style="object-fit:contain;padding:14px;" loading="lazy" decoding="async" />
+          <div class="pg-gallery-overlay" aria-hidden="true"></div>
+          <div class="pg-gallery-meta">
+            <div class="pg-gallery-title">Juniors</div>
+            <div class="pg-gallery-tag">Story</div>
+          </div>
+        </article>
+
+        <!-- Signature Collection brand badge -->
+        <article class="pg-gallery-card pg-span-6" aria-label="Pixy Dust Signature Collection badge">
+          <img class="pg-gallery-img" src="assets/images/Gallery/Ap scallop steak.png" alt="Pixy Dust Signature Collection" style="object-fit:contain;padding:28px;" loading="lazy" decoding="async" />
+          <div class="pg-gallery-overlay" aria-hidden="true"></div>
+          <div class="pg-gallery-meta">
+            <div class="pg-gallery-title">Signature Collection</div>
+            <div class="pg-gallery-tag">Brand</div>
+          </div>
+        </article>
+
+      </section>
+
+      <section class="pg-strip" aria-label="Gallery call to action">
+        <div class="pg-strip-left">
+          <div class="pg-strip-t">Ready for the shop experience.</div>
+          <div class="pg-strip-d">
+            Browse the full collection by category. Every blend has its moment.
+          </div>
+        </div>
+        <div class="pg-strip-actions">
+          <a class="btn btn-gold" href="shop.html?view=Pouches">Signature Blends</a>
+          <a class="btn btn-secondary" href="shop.html?view=Bottles">Heritage</a>
+          <a class="btn btn-secondary" href="shop.html?view=Grills">Open Flame</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <button class="chat-fab" type="button" aria-label="Open Pixy Assistant" data-chat-open>
+    <span class="chat-fab-glow" aria-hidden="true"></span>
+    <span class="chat-fab-icon" aria-hidden="true">✦</span>
+  </button>
+  <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
+    <header class="chat-head">
+      <div class="chat-brand">
+        <span class="chat-spark" aria-hidden="true"></span>
+        <div>
+          <div class="chat-title">Pixy Assistant</div>
+          <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
+        </div>
+      </div>
+      <button class="chat-close" type="button" aria-label="Close chat" data-chat-close>×</button>
+    </header>
+    <div class="chat-body" data-chat-body aria-live="polite"></div>
+    <form class="chat-input" data-chat-form>
+      <label class="sr-only" for="chatTextGal">Message</label>
+      <input id="chatTextGal" name="message" type="text" placeholder="Ask about flavors, ingredients, pairings" autocomplete="off" required />
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </section>
+
+  <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Luxury gourmet blends. Let's sprinkle a little magic.</div>
+      </div>
+      <div class="footer-mid">
+        <a href="about.html">About Pixy Dust</a>
+        <a href="recipes.html">Recipes</a>
+        <a href="faq.html">FAQ</a>
+        <a href="shipping.html">Shipping</a>
+        <a href="returns.html">Returns</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-right">
+        <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
+        <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

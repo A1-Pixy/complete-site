@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products Admin — PD Seasoning</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #c9a84c;
+      --gold-dim: #c9a84c33;
+      --bg: #0d0d0d;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #e8e0d0;
+      --muted: #888;
+      --green: #5dba5d;
+      --red: #f8a8a8;
+    }
+
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── Auth ── */
+    #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+    .auth-box { background: var(--surface); border: 1px solid var(--gold-dim); border-radius: 8px; padding: 2.5rem; width: 100%; max-width: 380px; text-align: center; }
+    .auth-box h1 { color: var(--gold); font-size: 1.4rem; margin-bottom: 0.4rem; }
+    .auth-box p  { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+
+    /* ── App ── */
+    #app { display: none; }
+
+    header { background: var(--surface); border-bottom: 1px solid var(--gold-dim); padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    header h1 { color: var(--gold); font-size: 1rem; letter-spacing: 0.05em; }
+    .header-actions { display: flex; gap: 0.75rem; align-items: center; }
+
+    main { padding: 1.5rem; max-width: 1300px; margin: 0 auto; }
+
+    /* ── Toolbar ── */
+    .toolbar { display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+    .toolbar input[type="text"] { flex: 1; min-width: 200px; max-width: 300px; }
+    .toolbar select { min-width: 140px; }
+
+    /* ── Filter pills ── */
+    .filter-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .pill-btn { padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--muted); transition: all 0.15s; }
+    .pill-btn:hover, .pill-btn.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th { background: var(--surface); color: var(--gold); font-weight: 600; text-align: left; padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td { padding: 0.55rem 0.85rem; border-bottom: 1px solid #1a1a1a; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #111; }
+
+    .product-img { width: 36px; height: 36px; object-fit: contain; border-radius: 4px; background: #111; }
+    .no-img { width: 36px; height: 36px; background: #222; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: #555; font-size: 0.65rem; }
+
+    .status-pill { display: inline-block; padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
+    .pill-active   { background: #1a3a1a; color: var(--green); }
+    .pill-inactive { background: #3a1a1a; color: var(--red); }
+    .pill-featured { background: #3a2a0a; color: var(--gold); }
+    .pill-oos      { background: #2a1a1a; color: #e07070; }
+
+    .icon-check { color: var(--green); font-size: 1rem; }
+    .icon-dash  { color: var(--border); font-size: 1rem; }
+
+    /* ── Modal ── */
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
+    .modal-backdrop.open { display: flex; }
+    .modal { background: var(--surface); border: 1px solid #c9a84c44; border-radius: 8px; padding: 1.75rem; width: 100%; max-width: 680px; margin: auto; }
+    .modal h2 { color: var(--gold); font-size: 1.1rem; margin-bottom: 1.25rem; }
+
+    /* ── Form ── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .form-grid .full { grid-column: 1 / -1; }
+
+    label { display: block; font-size: 0.75rem; color: var(--muted); margin-bottom: 0.3rem; font-weight: 500; letter-spacing: 0.03em; text-transform: uppercase; }
+    .label-hint { font-size: 0.68rem; color: #555; text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: 4px; }
+
+    input[type="text"], input[type="number"], input[type="url"],
+    input[type="password"], select, textarea {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 5px; color: var(--text); padding: 0.55rem 0.75rem;
+      font-size: 0.875rem; outline: none; transition: border-color 0.15s; font-family: inherit;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+    textarea { resize: vertical; min-height: 70px; }
+
+    .checkboxes-row { display: flex; gap: 1.5rem; flex-wrap: wrap; padding-top: 0.25rem; }
+    .checkbox-item { display: flex; align-items: center; gap: 0.45rem; }
+    .checkbox-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
+    .checkbox-item span { font-size: 0.875rem; }
+
+    /* ── Buttons ── */
+    .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 1rem; border-radius: 5px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; transition: opacity 0.15s, transform 0.1s; white-space: nowrap; font-family: inherit; }
+    .btn:hover   { opacity: 0.85; }
+    .btn:active  { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-gold    { background: var(--gold); color: var(--bg); }
+    .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold-dim); }
+    .btn-danger  { background: #5a1a1a; color: var(--red); border: 1px solid #8a2a2a44; }
+    .btn-ghost   { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .btn-sm      { padding: 0.28rem 0.6rem; font-size: 0.75rem; }
+    .btn-icon    { padding: 0.28rem 0.5rem; font-size: 0.85rem; }
+
+    /* ── Status bar ── */
+    #status-bar { position: fixed; bottom: 1.25rem; right: 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.65rem 1rem; font-size: 0.82rem; max-width: 340px; display: none; z-index: 200; }
+    #status-bar.ok      { border-color: #5dba5d55; color: var(--green); }
+    #status-bar.err     { border-color: #ba5d5d55; color: var(--red); }
+    #status-bar.loading { border-color: #c9a84c55; color: var(--gold); }
+
+    /* ── Empty ── */
+    .empty { text-align: center; color: #555; padding: 3rem 1rem; }
+    .empty strong { display: block; font-size: 1rem; margin-bottom: 0.35rem; color: #666; }
+
+    /* ── Section header ── */
+    .section-title { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 0.5rem; padding-top: 0.25rem; border-top: 1px solid var(--border); margin-top: 0.25rem; }
+  </style>
+</head>
+<body>
+
+<!-- ── Auth Screen ─────────────────────────────────────────── -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <h1>PD Seasoning</h1>
+    <p>Products Admin</p>
+    <form id="auth-form">
+      <div style="margin-bottom:1rem;">
+        <label for="secret-input">Admin Secret</label>
+        <input type="password" id="secret-input" placeholder="Enter admin secret" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-gold" style="width:100%">Sign In</button>
+      <div id="auth-error" style="margin-top:0.75rem;color:var(--red);font-size:0.82rem;display:none;"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ── App ────────────────────────────────────────────────── -->
+<div id="app">
+  <header>
+    <h1>Products Admin</h1>
+    <div class="header-actions">
+      <span id="product-count" style="color:#555;font-size:0.8rem;"></span>
+      <a class="btn btn-ghost btn-sm" href="../shop.html" target="_blank">View Shop</a>
+      <button class="btn btn-ghost btn-sm" id="btn-signout">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <input type="text" id="search-input" placeholder="Search name, SKU, or category…">
+      <select id="filter-category">
+        <option value="">All categories</option>
+        <option>Pouches</option>
+        <option>Bottles</option>
+        <option>Individual Spices</option>
+        <option>Gift Sets</option>
+        <option>Bundles</option>
+        <option>Subscriptions</option>
+        <option>Grills</option>
+        <option>Books</option>
+      </select>
+      <button class="btn btn-gold" id="btn-new">+ New Product</button>
+    </div>
+
+    <!-- Filter pills -->
+    <div class="filter-pills">
+      <button class="pill-btn active" data-pill="all">All</button>
+      <button class="pill-btn" data-pill="active">Active</button>
+      <button class="pill-btn" data-pill="inactive">Inactive</button>
+      <button class="pill-btn" data-pill="featured">Featured</button>
+      <button class="pill-btn" data-pill="oos">Out of Stock</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table id="products-table">
+        <thead>
+          <tr>
+            <th style="width:42px;"></th>
+            <th>Name</th>
+            <th>Slug / SKU</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Active</th>
+            <th>Stock</th>
+            <th>Featured</th>
+            <th style="width:130px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="products-tbody">
+          <tr><td colspan="9"><div class="empty"><strong>Loading…</strong></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- ── Product Form Modal ─────────────────────────────────── -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <h2 id="modal-title">New Product</h2>
+    <form id="product-form" autocomplete="off">
+      <div class="form-grid">
+
+        <!-- Identity -->
+        <div>
+          <label for="f-slug">Slug * <span class="label-hint">(URL key, e.g. deep-blue-seafood)</span></label>
+          <input type="text" id="f-slug" name="slug" required placeholder="my-product-name">
+        </div>
+        <div>
+          <label for="f-sku">SKU <span class="label-hint">(leave blank = same as slug)</span></label>
+          <input type="text" id="f-sku" name="sku" placeholder="auto from slug">
+        </div>
+
+        <div class="full">
+          <label for="f-name">Product Name *</label>
+          <input type="text" id="f-name" name="name" required placeholder="Full product name">
+        </div>
+
+        <!-- Pricing + Category -->
+        <div>
+          <label for="f-category">Category</label>
+          <select id="f-category" name="category">
+            <option value="">— select —</option>
+            <option>Pouches</option>
+            <option>Bottles</option>
+            <option>Individual Spices</option>
+            <option>Gift Sets</option>
+            <option>Bundles</option>
+            <option>Subscriptions</option>
+            <option>Grills</option>
+            <option>Books</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="f-price">Price ($)</label>
+          <input type="number" id="f-price" name="price" step="0.01" min="0" placeholder="0.00">
+        </div>
+
+        <div>
+          <label for="f-compare-price">Compare At Price ($) <span class="label-hint">strikethrough</span></label>
+          <input type="number" id="f-compare-price" name="compare_at_price" step="0.01" min="0" placeholder="0.00">
+        </div>
+
+        <div>
+          <label for="f-sort">Sort Order <span class="label-hint">lower = first</span></label>
+          <input type="number" id="f-sort" name="sort_order" value="0" min="0">
+        </div>
+
+        <!-- Images -->
+        <div class="full" style="margin-top:0.25rem;">
+          <p class="section-title">Images</p>
+        </div>
+
+        <div class="full">
+          <label for="f-image">Main Image URL or Path</label>
+          <input type="text" id="f-image" name="image" placeholder="assets/images/pouches/my-product.png">
+        </div>
+
+        <div class="full">
+          <label for="f-gallery">Gallery Images <span class="label-hint">one URL per line</span></label>
+          <textarea id="f-gallery" name="gallery_images" rows="3" placeholder="assets/images/pouches/my-product-2.png&#10;assets/images/pouches/my-product-3.png"></textarea>
+        </div>
+
+        <!-- Descriptions -->
+        <div class="full" style="margin-top:0.25rem;">
+          <p class="section-title">Descriptions</p>
+        </div>
+
+        <div class="full">
+          <label for="f-blurb">Blurb <span class="label-hint">1-2 sentences for product cards</span></label>
+          <textarea id="f-blurb" name="blurb" rows="2" placeholder="Short, punchy description for the shop grid…"></textarea>
+        </div>
+
+        <div class="full">
+          <label for="f-story">Story <span class="label-hint">narrative shown on product page</span></label>
+          <textarea id="f-story" name="story" rows="3" placeholder="The inspiration behind this blend…"></textarea>
+        </div>
+
+        <div class="full">
+          <label for="f-ingredients">Ingredients</label>
+          <textarea id="f-ingredients" name="ingredients" rows="2" placeholder="Sea Salt, Black Pepper, Garlic…"></textarea>
+        </div>
+
+        <!-- Meta -->
+        <div class="full" style="margin-top:0.25rem;">
+          <p class="section-title">Settings</p>
+        </div>
+
+        <div class="full">
+          <label for="f-tags">Tags <span class="label-hint">comma-separated</span></label>
+          <input type="text" id="f-tags" name="tags" placeholder="keto, gift, bestseller">
+        </div>
+
+        <div class="full">
+          <label for="f-square-link">Square Payment Link <span class="label-hint">optional Buy Now URL</span></label>
+          <input type="text" id="f-square-link" name="square_payment_link" placeholder="https://square.link/…">
+        </div>
+
+        <div>
+          <label for="f-inventory">Inventory Count</label>
+          <input type="number" id="f-inventory" name="inventory_count" value="0" min="0">
+        </div>
+
+        <div>
+          <label for="f-ecwid">Ecwid Product ID <span class="label-hint">legacy</span></label>
+          <input type="number" id="f-ecwid" name="ecwid_product_id" placeholder="optional">
+        </div>
+
+        <!-- Toggles -->
+        <div class="full">
+          <div class="checkboxes-row">
+            <label class="checkbox-item">
+              <input type="checkbox" id="f-active" name="active" checked>
+              <span>Active <span style="color:#555;font-size:0.75rem;">(visible in store)</span></span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="f-in-stock" name="in_stock" checked>
+              <span>In Stock</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="f-featured" name="featured">
+              <span>Featured <span style="color:#555;font-size:0.75rem;">(shown in highlights)</span></span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;">
+        <button type="button" class="btn btn-ghost" id="btn-cancel">Cancel</button>
+        <button type="submit" class="btn btn-gold" id="btn-save">Save Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── Confirm Delete Modal ───────────────────────────────── -->
+<div class="modal-backdrop" id="confirm-backdrop">
+  <div class="modal" style="max-width:400px;text-align:center;">
+    <h2 style="color:var(--red);">Delete Product?</h2>
+    <p id="confirm-msg" style="color:#aaa;margin:1rem 0;font-size:0.9rem;"></p>
+    <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;">
+      <button class="btn btn-ghost" id="btn-confirm-cancel">Cancel</button>
+      <button class="btn btn-danger" id="btn-confirm-delete">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div id="status-bar"></div>
+
+<script>
+"use strict";
+
+const API = "/.netlify/functions";
+
+let adminSecret  = sessionStorage.getItem("pixy_admin_secret") || "";
+let allProducts  = [];
+let editingSlug  = null;
+let activePill   = "all";
+let activeCategory = "";
+
+// ── Elements ──────────────────────────────────────────────────
+const authScreen    = document.getElementById("auth-screen");
+const app           = document.getElementById("app");
+const authForm      = document.getElementById("auth-form");
+const authError     = document.getElementById("auth-error");
+const secretInput   = document.getElementById("secret-input");
+const tbody         = document.getElementById("products-tbody");
+const countEl       = document.getElementById("product-count");
+const searchInput   = document.getElementById("search-input");
+const catFilter     = document.getElementById("filter-category");
+const modalBackdrop = document.getElementById("modal-backdrop");
+const confirmBdrop  = document.getElementById("confirm-backdrop");
+const productForm   = document.getElementById("product-form");
+const modalTitle    = document.getElementById("modal-title");
+const btnSave       = document.getElementById("btn-save");
+const statusBar     = document.getElementById("status-bar");
+
+// ── Auth ──────────────────────────────────────────────────────
+authForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  authError.style.display = "none";
+  const secret = secretInput.value.trim();
+  if (!secret) return;
+  setStatus("Verifying…", "loading");
+  try {
+    const res = await apiFetch("GET", "/products-admin", null, secret);
+    if (res.status === 401) {
+      clearStatus();
+      authError.textContent = "Incorrect admin secret.";
+      authError.style.display = "block";
+      return;
+    }
+    if (!res.ok) throw new Error("Server error " + res.status);
+    adminSecret = secret;
+    sessionStorage.setItem("pixy_admin_secret", secret);
+    const data = await res.json();
+    allProducts = data.products || [];
+    showApp();
+    clearStatus();
+  } catch (err) {
+    clearStatus();
+    authError.textContent = "Connection error. Check console.";
+    authError.style.display = "block";
+    console.error(err);
+  }
+});
+
+document.getElementById("btn-signout").addEventListener("click", () => {
+  sessionStorage.removeItem("pixy_admin_secret");
+  adminSecret = "";
+  authScreen.style.display = "flex";
+  app.style.display = "none";
+  secretInput.value = "";
+});
+
+if (adminSecret) {
+  (async () => {
+    try {
+      const res = await apiFetch("GET", "/products-admin", null, adminSecret);
+      if (!res.ok) { sessionStorage.removeItem("pixy_admin_secret"); return; }
+      const data = await res.json();
+      allProducts = data.products || [];
+      showApp();
+    } catch {}
+  })();
+}
+
+// ── Show App ──────────────────────────────────────────────────
+function showApp() {
+  authScreen.style.display = "none";
+  app.style.display = "block";
+  renderTable();
+}
+
+// ── Filter + Search ───────────────────────────────────────────
+function getFiltered() {
+  const q   = searchInput.value.toLowerCase().trim();
+  const cat = catFilter.value;
+  return allProducts.filter(p => {
+    if (cat && p.category !== cat) return false;
+    if (activePill === "active"   && !p.active)  return false;
+    if (activePill === "inactive" &&  p.active)  return false;
+    if (activePill === "featured" && !p.featured) return false;
+    if (activePill === "oos"      &&  p.in_stock) return false;
+    if (q && !`${p.name} ${p.slug} ${p.sku} ${p.category}`.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+searchInput.addEventListener("input", renderTable);
+catFilter.addEventListener("change", renderTable);
+
+document.querySelectorAll(".pill-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activePill = btn.dataset.pill;
+    renderTable();
+  });
+});
+
+// ── Table ──────────────────────────────────────────────────────
+function renderTable() {
+  const rows = getFiltered();
+  countEl.textContent = rows.length + " of " + allProducts.length + " products";
+
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="9"><div class="empty"><strong>No products found</strong>Try a different search or filter.</div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = rows.map(p => `
+    <tr data-slug="${esc(p.slug)}">
+      <td>${p.image
+        ? `<img class="product-img" src="${esc("/" + p.image.replace(/^\//, ""))}" alt="" onerror="this.style.display='none'">`
+        : `<span class="no-img">img</span>`}</td>
+      <td style="font-weight:500;max-width:200px;">${esc(p.name)}</td>
+      <td style="color:#666;font-size:0.75rem;font-family:monospace;">${esc(p.slug || p.sku || "")}</td>
+      <td style="color:#aaa;">${esc(p.category || "—")}</td>
+      <td style="white-space:nowrap;">
+        ${p.price != null ? "$" + Number(p.price).toFixed(2) : "—"}
+        ${p.compare_at_price ? `<span style="color:#555;text-decoration:line-through;font-size:0.78rem;margin-left:4px;">$${Number(p.compare_at_price).toFixed(2)}</span>` : ""}
+      </td>
+      <td>${p.active ? `<span class="status-pill pill-active">Active</span>` : `<span class="status-pill pill-inactive">Hidden</span>`}</td>
+      <td>${p.in_stock ? `<span class="icon-check">✓</span>` : `<span class="status-pill pill-oos">OOS</span>`}</td>
+      <td>${p.featured ? `<span class="status-pill pill-featured">★</span>` : `<span class="icon-dash">—</span>`}</td>
+      <td style="display:flex;gap:0.4rem;">
+        <button class="btn btn-outline btn-sm" onclick="openEdit('${esc(p.slug)}')">Edit</button>
+        <button class="btn btn-danger btn-sm"  onclick="confirmDelete('${esc(p.slug)}','${esc(p.name)}')">Del</button>
+      </td>
+    </tr>`).join("");
+}
+
+// ── New Product ───────────────────────────────────────────────
+document.getElementById("btn-new").addEventListener("click", openNew);
+
+function openNew() {
+  editingSlug = null;
+  modalTitle.textContent = "New Product";
+  productForm.reset();
+  setField("f-sort", 0);
+  setCheck("f-active", true);
+  setCheck("f-in-stock", true);
+  setCheck("f-featured", false);
+  const slugField = document.getElementById("f-slug");
+  slugField.disabled = false;
+  delete slugField.dataset.userEdited;
+  openModal(modalBackdrop);
+}
+
+// Auto-populate slug from name for new products only
+document.getElementById("f-name").addEventListener("input", function () {
+  if (editingSlug) return; // don't touch slug when editing
+  const slugField = document.getElementById("f-slug");
+  if (slugField.dataset.userEdited) return; // user typed their own slug
+  slugField.value = this.value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+});
+document.getElementById("f-slug").addEventListener("input", function () {
+  if (editingSlug) return;
+  this.dataset.userEdited = this.value ? "1" : "";
+});
+
+// ── Edit Product ──────────────────────────────────────────────
+window.openEdit = function(slug) {
+  const p = allProducts.find(x => x.slug === slug);
+  if (!p) return;
+  editingSlug = slug;
+  modalTitle.textContent = "Edit Product";
+  productForm.reset();
+
+  setField("f-slug",         p.slug        || "");
+  setField("f-sku",          p.sku         || "");
+  setField("f-name",         p.name        || "");
+  setField("f-category",     p.category    || "");
+  setField("f-price",        p.price       != null ? p.price : "");
+  setField("f-compare-price",p.compare_at_price != null ? p.compare_at_price : "");
+  setField("f-sort",         p.sort_order  != null ? p.sort_order : 0);
+  setField("f-image",        p.image       || "");
+  setField("f-gallery",      Array.isArray(p.gallery_images) ? p.gallery_images.join("\n") : "");
+  setField("f-blurb",        p.blurb       || "");
+  setField("f-story",        p.story       || "");
+  setField("f-ingredients",  p.ingredients || "");
+  setField("f-tags",         Array.isArray(p.tags) ? p.tags.join(", ") : (p.tags || ""));
+  setField("f-square-link",  p.square_payment_link || "");
+  setField("f-inventory",    p.inventory_count != null ? p.inventory_count : 0);
+  setField("f-ecwid",        p.ecwid_product_id || "");
+
+  setCheck("f-active",   !!p.active);
+  setCheck("f-in-stock", p.in_stock !== false);
+  setCheck("f-featured", !!p.featured);
+
+  document.getElementById("f-slug").disabled = true; // slug is the key; don't rename
+  openModal(modalBackdrop);
+};
+
+// ── Save ──────────────────────────────────────────────────────
+productForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  btnSave.disabled = true;
+  setStatus("Saving…", "loading");
+
+  const f = productForm;
+  const product = {
+    slug:               f.slug.value.trim(),
+    sku:                f.sku.value.trim() || null,
+    name:               f.name.value.trim(),
+    category:           f.category.value || null,
+    price:              f.price.value !== "" ? f.price.value : null,
+    compare_at_price:   f.compare_at_price.value !== "" ? f.compare_at_price.value : null,
+    sort_order:         f.sort_order.value,
+    image:              f.image.value.trim() || null,
+    gallery_images:     f.gallery_images.value.trim(),
+    blurb:              f.blurb.value.trim() || null,
+    story:              f.story.value.trim() || null,
+    ingredients:        f.ingredients.value.trim() || null,
+    tags:               f.tags.value.trim(),
+    square_payment_link:f.square_payment_link.value.trim() || null,
+    inventory_count:    f.inventory_count.value,
+    ecwid_product_id:   f.ecwid_product_id.value || null,
+    active:             f.active.checked,
+    in_stock:           f.in_stock.checked,
+    featured:           f.featured.checked
+  };
+
+  const op = editingSlug ? "update" : "create";
+
+  try {
+    const res  = await apiFetch("POST", "/products-admin", { op, product });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Save failed");
+    await refreshProducts();
+    closeModal(modalBackdrop);
+    setStatus(op === "create" ? "Product created." : "Product updated.", "ok");
+  } catch (err) {
+    setStatus("Error: " + err.message, "err");
+    console.error(err);
+  } finally {
+    btnSave.disabled = false;
+  }
+});
+
+// ── Delete ────────────────────────────────────────────────────
+let pendingDeleteSlug = null;
+
+window.confirmDelete = function(slug, name) {
+  pendingDeleteSlug = slug;
+  document.getElementById("confirm-msg").textContent =
+    `"${name}" will be permanently removed from the catalog.`;
+  openModal(confirmBdrop);
+};
+
+document.getElementById("btn-confirm-delete").addEventListener("click", async () => {
+  if (!pendingDeleteSlug) return;
+  const slug = pendingDeleteSlug;
+  pendingDeleteSlug = null;
+  closeModal(confirmBdrop);
+  setStatus("Deleting…", "loading");
+  try {
+    const res = await apiFetch("DELETE", "/products-admin?slug=" + encodeURIComponent(slug));
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({}));
+      throw new Error(d.error || "Delete failed");
+    }
+    await refreshProducts();
+    setStatus("Product deleted.", "ok");
+  } catch (err) {
+    setStatus("Error: " + err.message, "err");
+  }
+});
+
+document.getElementById("btn-confirm-cancel").addEventListener("click", () => {
+  pendingDeleteSlug = null;
+  closeModal(confirmBdrop);
+});
+
+document.getElementById("btn-cancel").addEventListener("click", () => closeModal(modalBackdrop));
+modalBackdrop.addEventListener("click", e => { if (e.target === modalBackdrop) closeModal(modalBackdrop); });
+confirmBdrop.addEventListener("click",  e => { if (e.target === confirmBdrop)  closeModal(confirmBdrop); });
+
+// ── Refresh ───────────────────────────────────────────────────
+async function refreshProducts() {
+  const res  = await apiFetch("GET", "/products-admin");
+  const data = await res.json();
+  allProducts = data.products || [];
+  renderTable();
+}
+
+// ── API helper ────────────────────────────────────────────────
+async function apiFetch(method, path, body, secret) {
+  const headers = { "x-admin-secret": secret || adminSecret };
+  if (body) headers["Content-Type"] = "application/json";
+  return fetch(API + path, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined
+  });
+}
+
+// ── Modal helpers ─────────────────────────────────────────────
+function openModal(el)  { el.classList.add("open"); document.body.style.overflow = "hidden"; }
+function closeModal(el) { el.classList.remove("open"); document.body.style.overflow = ""; }
+
+// ── Status bar ────────────────────────────────────────────────
+let statusTimer = null;
+function setStatus(msg, type) {
+  statusBar.textContent = msg;
+  statusBar.className   = type;
+  statusBar.style.display = "block";
+  if (statusTimer) clearTimeout(statusTimer);
+  if (type !== "loading") statusTimer = setTimeout(() => { statusBar.style.display = "none"; }, 3500);
+}
+function clearStatus() {
+  if (statusTimer) clearTimeout(statusTimer);
+  statusBar.style.display = "none";
+}
+
+// ── DOM helpers ───────────────────────────────────────────────
+function setField(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = (val !== null && val !== undefined) ? val : "";
+}
+function setCheck(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.checked = !!val;
+}
+function esc(s) {
+  return String(s || "")
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+</script>
+</body>
+</html>

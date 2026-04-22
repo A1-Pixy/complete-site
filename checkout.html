@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout — Pixy Dust Seasoning</title>
+  <link rel="stylesheet" href="assets/css/pixy.css" />
+  <script src="assets/js/products.js" defer></script>
+  <script src="assets/js/pixy-cart.js" defer></script>
+</head>
+<body>
+
+  <!-- Minimal checkout header -->
+  <header class="topbar topbar--solid" style="position:sticky;">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
+        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+      </a>
+      <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);">Secure Checkout</span>
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(243,243,243,.35);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        SSL Encrypted
+      </div>
+    </div>
+  </header>
+
+  <div class="checkout-wrap">
+    <div class="checkout-inner">
+
+      <!-- ── LEFT: Order Summary ── -->
+      <aside class="checkout-summary">
+        <p class="checkout-section-title">Order Summary</p>
+        <div id="checkout-items">
+          <p class="muted" style="text-align:center;padding:20px 0;">Loading cart…</p>
+        </div>
+        <div class="checkout-totals" id="checkout-totals"></div>
+        <a href="shop.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);">
+          ← Continue Shopping
+        </a>
+      </aside>
+
+      <!-- ── RIGHT: Checkout Form ── -->
+      <div class="checkout-form-wrap">
+
+        <!-- Steps -->
+        <div class="checkout-steps">
+          <div class="checkout-step active" id="step-indicator-1">
+            <span class="checkout-step-num">1</span> Contact &amp; Shipping
+          </div>
+          <span class="checkout-step-sep">›</span>
+          <div class="checkout-step" id="step-indicator-2">
+            <span class="checkout-step-num">2</span> Payment
+          </div>
+        </div>
+
+        <div id="empty-cart-msg" style="display:none;text-align:center;padding:32px 0;">
+          <p class="muted">Your cart is empty.</p>
+          <a class="btn btn-primary" href="shop.html" style="margin-top:12px;">Shop Now</a>
+        </div>
+
+        <!-- Step 1: Contact + Shipping -->
+        <form id="step1-form" novalidate>
+          <p class="checkout-section-title">Contact Information</p>
+          <div class="form-row full">
+            <div class="form-group">
+              <label class="form-label-text" for="checkout-email">Email *</label>
+              <input type="email" id="checkout-email" name="email" placeholder="you@email.com"
+                autocomplete="email" required />
+            </div>
+          </div>
+
+          <p class="checkout-section-title" style="margin-top:22px;">Shipping Address</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label-text" for="checkout-firstname">First Name *</label>
+              <input type="text" id="checkout-firstname" name="firstName" placeholder="First"
+                autocomplete="given-name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label-text" for="checkout-lastname">Last Name *</label>
+              <input type="text" id="checkout-lastname" name="lastName" placeholder="Last"
+                autocomplete="family-name" required />
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="form-group">
+              <label class="form-label-text" for="checkout-address">Street Address *</label>
+              <input type="text" id="checkout-address" name="address" placeholder="123 Main St"
+                autocomplete="street-address" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label-text" for="checkout-city">City *</label>
+              <input type="text" id="checkout-city" name="city" placeholder="City"
+                autocomplete="address-level2" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label-text" for="checkout-state">State *</label>
+              <select id="checkout-state" name="state" required>
+                <option value="">— State —</option>
+                <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
+                <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
+                <option>FL</option><option>GA</option><option>HI</option><option>ID</option>
+                <option>IL</option><option>IN</option><option>IA</option><option>KS</option>
+                <option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+                <option>MA</option><option>MI</option><option>MN</option><option>MS</option>
+                <option>MO</option><option>MT</option><option>NE</option><option>NV</option>
+                <option>NH</option><option>NJ</option><option>NM</option><option>NY</option>
+                <option>NC</option><option>ND</option><option>OH</option><option>OK</option>
+                <option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+                <option>SD</option><option>TN</option><option>TX</option><option>UT</option>
+                <option>VT</option><option>VA</option><option>WA</option><option>WV</option>
+                <option>WI</option><option>WY</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label-text" for="checkout-zip">ZIP Code *</label>
+              <input type="text" id="checkout-zip" name="zip" placeholder="12345"
+                autocomplete="postal-code" pattern="[0-9]{5}" maxlength="10" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label-text" for="checkout-phone">Phone (optional)</label>
+              <input type="tel" id="checkout-phone" name="phone" placeholder="(555) 000-0000"
+                autocomplete="tel" />
+            </div>
+          </div>
+
+          <div id="step1-error" style="color:#f8a8a8;font-size:13px;margin-top:10px;display:none;"></div>
+
+          <button type="submit" class="btn btn-primary checkout-place-btn" id="step1-submit">
+            Continue to Payment →
+          </button>
+        </form>
+
+        <!-- Step 2: Payment -->
+        <div id="step2-panel" style="display:none;">
+          <p class="checkout-section-title">Payment</p>
+
+          <div class="payment-placeholder" id="payment-placeholder">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" style="margin-bottom:12px;">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+            <p style="font-size:14px;color:var(--text);margin:0 0 6px;">Square Payment Integration</p>
+            <p class="muted" style="font-size:12px;max-width:320px;margin:0 auto;">
+              Add your <strong>Square Application ID</strong> and <strong>Location ID</strong> to
+              <code style="color:var(--gold);font-size:11px;">checkout.html</code> to enable live card payments.
+            </p>
+            <p class="muted" style="font-size:11px;margin-top:10px;color:rgba(243,243,243,.35);">
+              Get keys at developer.squareup.com → Applications → Web Payments SDK
+            </p>
+          </div>
+
+          <!-- Square card element will mount here when keys are configured -->
+          <div id="card-container" style="margin-top:16px;display:none;"></div>
+
+          <div id="step2-error" style="color:#f8a8a8;font-size:13px;margin-top:10px;display:none;"></div>
+
+          <button type="button" class="btn btn-primary checkout-place-btn" id="place-order-btn" disabled>
+            Place Order
+          </button>
+
+          <div class="checkout-security">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            Secure checkout · SSL encrypted · We never store card data
+          </div>
+
+          <button type="button" class="btn btn-secondary" id="back-to-step1" style="width:100%;margin-top:12px;font-size:12px;">
+            ← Edit Shipping Info
+          </button>
+        </div>
+
+        <!-- Order processing overlay -->
+        <div id="processing-overlay" style="display:none;text-align:center;padding:40px 0;">
+          <div style="font-size:24px;color:var(--gold);margin-bottom:12px;">✦</div>
+          <p class="muted" style="letter-spacing:.12em;text-transform:uppercase;font-size:12px;">Processing your order…</p>
+        </div>
+
+      </div><!-- /.checkout-form-wrap -->
+    </div><!-- /.checkout-inner -->
+  </div><!-- /.checkout-wrap -->
+
+  <footer class="site-footer" role="contentinfo" style="margin-top:0;">
+    <div class="container footer-inner" style="justify-content:center;text-align:center;grid-template-columns:1fr;">
+      <div class="footer-left" style="text-align:center;">
+        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Questions? <a href="contact.html" style="color:var(--gold);">Contact us</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+
+    // ── Square Web Payments SDK Config ────────────────────────────
+    // To enable live payments, replace these with your Square keys:
+    //   applicationId: "sandbox-sq0idb-YOUR_ID" (test) or "sq0idp-YOUR_ID" (live)
+    //   locationId:    "YOUR_LOCATION_ID"
+    // Then set SQUARE_ENABLED = true
+    var SQUARE_ENABLED    = true;
+    var SQUARE_APP_ID     = "sandbox-sq0idb-lyY-HBO3EdI5Xt2vNGa25w";
+    var SQUARE_LOCATION   = "LYSZ9V893FBZF";
+    var SQUARE_SDK_URL    = "https://sandbox.web.squarecdn.com/v1/square.js"; // sandbox
+    // For production: "https://web.squarecdn.com/v1/square.js"
+
+    // ── State ─────────────────────────────────────────────────────
+    var _cart     = { items: [], subtotal: 0, count: 0 };
+    var _step     = 1;
+    var _payments = null;
+    var _card     = null;
+    var _shipping = {};
+
+    // ── Cart rendering ────────────────────────────────────────────
+    function renderCartSummary(cart) {
+      var itemsEl   = document.getElementById("checkout-items");
+      var totalsEl  = document.getElementById("checkout-totals");
+      var emptyMsg  = document.getElementById("empty-cart-msg");
+      var step1Form = document.getElementById("step1-form");
+
+      if (!cart.items || !cart.items.length) {
+        if (emptyMsg)  emptyMsg.style.display  = "";
+        if (step1Form) step1Form.style.display  = "none";
+        if (itemsEl)   itemsEl.innerHTML = "";
+        if (totalsEl)  totalsEl.innerHTML = "";
+        return;
+      }
+
+      var html = "";
+      for (var i = 0; i < cart.items.length; i++) {
+        var item = cart.items[i];
+        html +=
+          '<div class="checkout-item">' +
+            '<img src="' + esc(item.image || "assets/images/logo-circle.png") + '" alt="' + esc(item.title) + '"' +
+              ' onerror="this.src=\'assets/images/logo-circle.png\'">' +
+            '<div class="checkout-item-info">' +
+              '<p class="checkout-item-name">' + esc(item.title) + '</p>' +
+              '<p class="checkout-item-sub">Qty: ' + (item.qty || 1) + '</p>' +
+            '</div>' +
+            '<span class="checkout-item-price">$' + ((item.price || 0) * (item.qty || 1)).toFixed(2) + '</span>' +
+          '</div>';
+      }
+      if (itemsEl) itemsEl.innerHTML = html;
+
+      var shipping = cart.subtotal >= 37 ? 0 : 5.99;
+      var total    = cart.subtotal + shipping;
+
+      var totalsHtml =
+        '<div class="checkout-total-row"><span>Subtotal</span><span>$' + cart.subtotal.toFixed(2) + '</span></div>' +
+        '<div class="checkout-total-row"><span>Shipping</span><span>' + (shipping === 0 ? 'Free' : '$' + shipping.toFixed(2)) + '</span></div>' +
+        '<div class="checkout-total-row grand"><span>Total</span><span>$' + total.toFixed(2) + '</span></div>';
+      if (totalsEl) totalsEl.innerHTML = totalsHtml;
+    }
+
+    // ── Step 1: Shipping form ─────────────────────────────────────
+    var step1Form = document.getElementById("step1-form");
+    if (step1Form) {
+      step1Form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var errEl = document.getElementById("step1-error");
+        errEl.style.display = "none";
+
+        var email     = document.getElementById("checkout-email").value.trim();
+        var firstName = document.getElementById("checkout-firstname").value.trim();
+        var lastName  = document.getElementById("checkout-lastname").value.trim();
+        var address   = document.getElementById("checkout-address").value.trim();
+        var city      = document.getElementById("checkout-city").value.trim();
+        var state     = document.getElementById("checkout-state").value;
+        var zip       = document.getElementById("checkout-zip").value.trim();
+
+        if (!email || !firstName || !lastName || !address || !city || !state || !zip) {
+          errEl.textContent = "Please fill in all required fields.";
+          errEl.style.display = "";
+          return;
+        }
+
+        _shipping = { email: email, firstName: firstName, lastName: lastName,
+          address: address, city: city, state: state, zip: zip,
+          phone: document.getElementById("checkout-phone").value.trim() };
+
+        goToStep(2);
+      });
+    }
+
+    document.getElementById("back-to-step1").addEventListener("click", function () { goToStep(1); });
+
+    // ── Step navigation ───────────────────────────────────────────
+    function goToStep(n) {
+      _step = n;
+      document.getElementById("step1-form").style.display    = n === 1 ? "" : "none";
+      document.getElementById("step2-panel").style.display   = n === 2 ? "" : "none";
+
+      var s1 = document.getElementById("step-indicator-1");
+      var s2 = document.getElementById("step-indicator-2");
+      if (s1) s1.classList.toggle("active", n === 1);
+      if (s2) s2.classList.toggle("active", n === 2);
+
+      if (n === 2 && SQUARE_ENABLED) initSquare();
+    }
+
+    // ── Square integration ────────────────────────────────────────
+    function initSquare() {
+      if (_payments) return; // already init'd
+      if (!window.Square) {
+        loadScript(SQUARE_SDK_URL, function () { initSquarePayments(); });
+      } else {
+        initSquarePayments();
+      }
+    }
+
+    function loadScript(src, cb) {
+      var s = document.createElement("script");
+      s.src = src; s.onload = cb; document.head.appendChild(s);
+    }
+
+    async function initSquarePayments() {
+      try {
+        _payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION);
+        _card     = await _payments.card();
+        await _card.attach("#card-container");
+        document.getElementById("card-container").style.display = "";
+        document.getElementById("payment-placeholder").style.display = "none";
+        document.getElementById("place-order-btn").disabled = false;
+      } catch (err) {
+        console.error("[checkout] Square init error:", err);
+        // Square failed — fall back to placeholder so orders still go through
+        _card = null;
+        document.getElementById("place-order-btn").disabled = false;
+        showStep2Error("Card entry unavailable right now. Your order will be placed and we’ll contact you to arrange payment.");
+      }
+    }
+
+    // ── Place order ───────────────────────────────────────────────
+    // Local dev: Live Server (5500) can't reach Netlify functions — simulate success
+    var _isLocalDev = (window.location.port === "5500" || window.location.port === "5501");
+
+    function localDevOrder() {
+      var fakeId = "PD-" + Date.now().toString(36).toUpperCase() + "-DEV";
+      var _sc = _cart.subtotal >= 37 ? 0 : 5.99;
+      sessionStorage.setItem("pixy_last_order", JSON.stringify({ items: _cart.items, subtotal: _cart.subtotal + _sc }));
+      window.PIXY_CART && window.PIXY_CART.clear();
+      window.location.href = "thankyou.html?order=" + encodeURIComponent(fakeId);
+    }
+
+    document.getElementById("place-order-btn").addEventListener("click", async function () {
+      if (!_cart.items || !_cart.items.length) return;
+
+      // Local dev bypass — Netlify functions don't run on Live Server
+      if (_isLocalDev) { showProcessing(); setTimeout(localDevOrder, 800); return; }
+
+      // Placeholder mode (Square not configured, or Square init failed)
+      if (!SQUARE_ENABLED || !_card) {
+        showProcessing();
+        try {
+          var res = await fetch("/.netlify/functions/orders-create", {
+            method:  "POST",
+            headers: { "Content-Type": "application/json" },
+            body:    JSON.stringify({
+              items:    _cart.items,
+              shipping: _shipping,
+              subtotal: _cart.subtotal,
+              payment:  { status: "placeholder", token: null }
+            })
+          });
+          var data = await res.json();
+          if (data.ok && data.orderCode) {
+            var _sc = _cart.subtotal >= 37 ? 0 : 5.99;
+            sessionStorage.setItem("pixy_last_order", JSON.stringify({ items: _cart.items, subtotal: _cart.subtotal + _sc }));
+            window.PIXY_CART && window.PIXY_CART.clear();
+            window.location.href = "thankyou.html?order=" + encodeURIComponent(data.orderCode);
+          } else {
+            throw new Error(data.error || "Order failed");
+          }
+        } catch (err) {
+          hideProcessing();
+          showStep2Error("Order could not be placed: " + err.message);
+        }
+        return;
+      }
+
+      // Square tokenize + charge
+      showProcessing();
+      try {
+        var result = await _card.tokenize();
+        if (result.status !== "OK") throw new Error(result.errors[0].message);
+
+        var res = await fetch("/.netlify/functions/orders-create", {
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body:    JSON.stringify({
+            items:    _cart.items,
+            shipping: _shipping,
+            subtotal: _cart.subtotal,
+            payment:  { status: "square", token: result.token }
+          })
+        });
+
+        var data = await res.json();
+        if (!data.ok) throw new Error(data.error || "Order failed");
+
+        var _sc2 = _cart.subtotal >= 37 ? 0 : 5.99;
+        sessionStorage.setItem("pixy_last_order", JSON.stringify({ items: _cart.items, subtotal: _cart.subtotal + _sc2 }));
+        window.PIXY_CART && window.PIXY_CART.clear();
+        window.location.href = "thankyou.html?order=" + encodeURIComponent(data.orderCode);
+      } catch (err) {
+        hideProcessing();
+        showStep2Error(err.message || "Payment failed. Please try again.");
+      }
+    });
+
+    function showProcessing() {
+      document.getElementById("step2-panel").style.display     = "none";
+      document.getElementById("processing-overlay").style.display = "";
+    }
+    function hideProcessing() {
+      document.getElementById("step2-panel").style.display     = "";
+      document.getElementById("processing-overlay").style.display = "none";
+    }
+    function showStep2Error(msg) {
+      var el = document.getElementById("step2-error");
+      if (el) { el.textContent = msg; el.style.display = ""; }
+    }
+
+    // ── Escape helper ─────────────────────────────────────────────
+    function esc(s) {
+      return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
+    // ── Boot ──────────────────────────────────────────────────────
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Load cart — always resolve loading state, never stay stuck
+      try {
+        if (window.PIXY_CART) {
+          _cart = window.PIXY_CART.getCart();
+        } else {
+          // pixy-cart.js didn't load — read localStorage directly
+          var raw = localStorage.getItem("pixy_cart_v2");
+          var items = raw ? JSON.parse(raw) : [];
+          var sub = items.reduce(function(s, i) { return s + (i.price||0)*(i.qty||1); }, 0);
+          _cart = { items: items, subtotal: sub, count: items.length };
+          console.warn("[checkout] PIXY_CART not ready, read localStorage directly");
+        }
+      } catch (e) {
+        console.error("[checkout] Cart load error:", e);
+        _cart = { items: [], subtotal: 0, count: 0 };
+      }
+      renderCartSummary(_cart);
+
+      document.addEventListener("pixy:cart:change", function (e) {
+        if (e.detail) { _cart = e.detail; renderCartSummary(_cart); }
+      });
+    });
+
+  })();
+  </script>
+
+</body>
+</html>

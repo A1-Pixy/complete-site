@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juniors — Pixy Dust Seasoning</title>
+  <meta name="description" content="Pixy Dust Juniors — cooking kits, flavor education, and books for kids. Junior Chef Collection $50, Junior Chef Kit $20. Raise a chef." />
+  <meta property="og:title" content="Juniors — Pixy Dust Seasoning" />
+  <meta property="og:description" content="Playful, premium cooking kits and books for kids. Raise the next generation of chefs with Pixy Dust Juniors." />
+  <meta property="og:image" content="assets/images/signature-collection-badge.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/css/pixy.css" />
+  <style>
+    .mini-media-img { width:100%; height:auto; display:block; }
+    .jr-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .jr-media { background-position:center; background-size:contain; background-repeat:no-repeat; }
+    .jr-media.fallback {
+      background-image: radial-gradient(circle at 30% 30%, rgba(216,179,90,.18), rgba(0,0,0,0) 55%),
+                        radial-gradient(circle at 70% 70%, rgba(216,179,90,.12), rgba(0,0,0,0) 58%);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .jr-media.fallback img { width:72px; height:auto; opacity:.55; filter:drop-shadow(0 10px 16px rgba(0,0,0,.55)); }
+  </style>
+  <script src="assets/js/cms.js" defer></script>
+  <script src="assets/js/chatbot.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/pixy-cart.js" defer></script>
+  <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/agents.js" defer></script>
+  <script src="assets/js/shop.js" defer></script>
+</head>
+<body>
+  <div class="flash-sale" role="banner" aria-label="Promotion">
+    <div class="container">
+      <div class="flash-sale-inner">
+        <span><strong>Free Shipping</strong> on all Gift Sets — no minimum required</span>
+        <a class="btn btn-secondary" href="gifting.html" style="font-size:.75rem;padding:5px 14px;letter-spacing:.08em;">Shop Gift Sets</a>
+      </div>
+    </div>
+  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar topbar--solid">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
+        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+        <a href="shop.html">Shop</a>
+        <a href="gifting.html">Gifting</a>
+        <a href="about.html">About</a>
+      </nav>
+
+      <div class="header-right">
+        <a class="nav-icon-btn" href="shop.html" aria-label="Search products">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </a>
+        <button class="nav-icon-btn" id="openCartBtn" type="button" aria-label="Open cart">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-badge" data-cart-badge hidden></span>
+        </button>
+        <a class="btn btn-gold btn-sm" href="checkout.html">Buy Now</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="container">
+
+      <!-- CTA Hero -->
+      <section class="pg-hero" aria-label="Juniors hero">
+        <div class="pg-hero-inner">
+          <div>
+            <p class="kicker">Juniors by Pixy Dust</p>
+            <h1>Raise a Chef.</h1>
+            <p class="subcopy" style="margin-top:10px;">A playful, premium space for kids and families. Cooking confidence, flavor education, and fun — from your kitchen to theirs.</p>
+            <a class="btn btn-primary" href="#juniors-line" style="margin-top:16px;">Explore the Line</a>
+          </div>
+          <aside aria-label="Kids cooking with Pixy Dust" style="border-radius:18px;overflow:hidden;border:1px solid rgba(217,185,108,.14);box-shadow:0 18px 60px rgba(0,0,0,.38);">
+            <img src="assets/images/Books/juniors-scene.png" alt="Kids cooking at the market with Pixy Dust"
+              style="width:100%;height:100%;object-fit:cover;display:block;min-height:260px;" loading="eager" />
+          </aside>
+        </div>
+      </section>
+
+      <!-- Products -->
+      <section id="juniors-line" class="juniors-hero" aria-label="Juniors products" style="padding-top:44px;">
+        <div class="grid two">
+
+          <div class="card">
+            <h2 class="section-title">Classic Bottles</h2>
+            <p class="muted">Heritage flavor in classic sizes. Perfect starting blends for curious cooks.</p>
+            <div class="jr-carousel-wrap" data-jr-carousel data-jr-type="mini">
+              <div class="jr-carousel-controls">
+                <div class="left">
+                  <button class="jr-carousel-btn" type="button" aria-label="Previous" data-jr-prev>‹</button>
+                  <button class="jr-carousel-btn" type="button" aria-label="Next" data-jr-next>›</button>
+                </div>
+                <div class="right">
+                  <button class="jr-viewall-btn" type="button" data-jr-viewall>View all</button>
+                </div>
+              </div>
+              <div class="jr-carousel-track" data-jr-track aria-label="Classic bottles carousel">
+                <article class="mini-card" data-product-key="bottle-all-purpose">
+                  <div class="bottle-placeholder" data-media></div>
+                  <div class="mini-title" data-title></div>
+                  <a class="mini-cta" data-cta href="product.html?key=bottle-all-purpose">View Details</a>
+                </article>
+                <article class="mini-card" data-product-key="bottle-jerk">
+                  <div class="bottle-placeholder" data-media></div>
+                  <div class="mini-title" data-title></div>
+                  <a class="mini-cta" data-cta href="product.html?key=bottle-jerk">View Details</a>
+                </article>
+                <article class="mini-card" data-product-key="bottle-sugar-free-all-purpose">
+                  <div class="bottle-placeholder" data-media></div>
+                  <div class="mini-title" data-title></div>
+                  <a class="mini-cta" data-cta href="product.html?key=bottle-sugar-free-all-purpose">View Details</a>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 class="section-title">Books</h2>
+            <p class="muted">Stories that build culinary curiosity.</p>
+            <div class="grid two">
+              <article class="mini-card" data-product-key="book-zen-pearl-market">
+                <div class="book-placeholder" data-media></div>
+                <div class="mini-title" data-title></div>
+                <a class="mini-cta" data-cta href="product.html?key=book-zen-pearl-market">View Details</a>
+              </article>
+              <article class="mini-card" data-product-key="book-coming-soon">
+                <div class="book-placeholder" data-media></div>
+                <div class="mini-title" data-title></div>
+                <div id="notifyMeWrap">
+                  <form id="notifyMeForm" name="juniors-notify" method="post" data-netlify="true" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                    <input type="hidden" name="form-name" value="juniors-notify" />
+                    <input id="notifyEmail" name="email" type="email" inputmode="email" autocomplete="email"
+                      placeholder="Your email" required
+                      style="flex:1;min-width:0;padding:8px 12px;border-radius:8px;border:1px solid rgba(217,185,108,.3);background:rgba(0,0,0,.3);color:#fff;font-size:.9rem;" />
+                    <button type="submit" class="btn btn-secondary" style="white-space:nowrap;">Notify Me</button>
+                  </form>
+                  <p id="notifyNote" aria-live="polite" style="display:none;font-size:.85rem;margin-top:6px;color:#d9b96c;"></p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="card">
+          <h2 class="section-title">Juniors Kits</h2>
+          <p class="muted">A starter kit for family cooking nights. Tap for full details.</p>
+          <div class="jr-carousel-wrap" data-jr-carousel data-jr-type="full" data-jr-category="Bundles">
+            <div class="jr-carousel-controls">
+              <div class="left">
+                <button class="jr-carousel-btn" type="button" aria-label="Previous" data-jr-prev>‹</button>
+                <button class="jr-carousel-btn" type="button" aria-label="Next" data-jr-next>›</button>
+              </div>
+              <div class="right">
+                <button class="jr-viewall-btn" type="button" data-jr-viewall>View all</button>
+              </div>
+            </div>
+            <div class="jr-carousel-track" data-jr-track aria-label="Bundles carousel"></div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <button class="chat-fab" type="button" aria-label="Open Pixy Assistant" data-chat-open>
+    <span class="chat-fab-glow" aria-hidden="true"></span>
+    <span class="chat-fab-icon" aria-hidden="true">✦</span>
+  </button>
+  <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
+    <header class="chat-head">
+      <div class="chat-brand">
+        <span class="chat-spark" aria-hidden="true"></span>
+        <div>
+          <div class="chat-title">Pixy Assistant</div>
+          <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
+        </div>
+      </div>
+      <button class="chat-close" type="button" aria-label="Close chat" data-chat-close>×</button>
+    </header>
+    <div class="chat-body" data-chat-body aria-live="polite"></div>
+    <form class="chat-input" data-chat-form>
+      <label class="sr-only" for="chatTextJuniors">Message</label>
+      <input id="chatTextJuniors" name="message" type="text" placeholder="Ask about flavors, ingredients, pairings" autocomplete="off" required />
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </section>
+
+  <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
+
+  <script src="assets/js/products.js" defer></script>
+
+  <script>
+    (function () {
+      "use strict";
+
+      function products(){
+        return (window.PIXY_PRODUCTS && Array.isArray(window.PIXY_PRODUCTS)) ? window.PIXY_PRODUCTS : [];
+      }
+
+      function findByKey(key){
+        var all = products();
+        for (var i=0;i<all.length;i++){
+          if (all[i] && all[i].key === key) return all[i];
+        }
+        return null;
+      }
+
+      function encodeKey(key){ return encodeURIComponent(String(key || "")); }
+
+      function addToCartByKey(key){
+        if (!key) return;
+        if (window.PIXY_CART && typeof window.PIXY_CART.addByKey === "function") {
+          window.PIXY_CART.addByKey(key);
+        } else {
+          window.location.href = "product.html?key=" + encodeKey(key);
+        }
+      }
+
+      function wireCarousel(wrap){
+        if (!wrap) return;
+        var track = wrap.querySelector("[data-jr-track]");
+        var prev = wrap.querySelector("[data-jr-prev]");
+        var next = wrap.querySelector("[data-jr-next]");
+        var viewAll = wrap.querySelector("[data-jr-viewall]");
+        if (!track) return;
+
+        function updateBtns(){
+          if (!prev || !next) return;
+          prev.disabled = track.scrollLeft <= 2;
+          next.disabled = (track.scrollLeft + track.clientWidth) >= (track.scrollWidth - 2);
+        }
+
+        function step(dir){
+          var first = track.querySelector(".card, .mini-card");
+          var gap = 16;
+          var amount = first ? (first.offsetWidth + gap) : Math.max(240, Math.floor((track.clientWidth || 0) * 0.85));
+          track.scrollBy({ left: dir * amount, behavior: "smooth" });
+          window.setTimeout(updateBtns, 260);
+        }
+
+        if (prev) prev.addEventListener("click", function(){ step(-1); });
+        if (next) next.addEventListener("click", function(){ step(1); });
+
+        if (viewAll){
+          viewAll.addEventListener("click", function(){
+            wrap.classList.toggle("view-all");
+            viewAll.textContent = wrap.classList.contains("view-all") ? "Collapse" : "View all";
+          });
+        }
+
+        var startX=0,startY=0,tracking=false,moved=false;
+
+        function threshold(){ return Math.max(45, Math.floor((track.clientWidth || 0) * 0.10)); }
+        function ignore(t){ return !!(t && t.closest && t.closest("a,button,input,textarea,select,label")); }
+
+        track.addEventListener("touchstart", function(e){
+          if (ignore(e.target)) return;
+          if (!e.touches || e.touches.length !== 1) return;
+          tracking = true; moved = false;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        }, { passive:true });
+
+        track.addEventListener("touchmove", function(e){
+          if (!tracking) return;
+          var t = e.touches && e.touches[0];
+          if (!t) return;
+          var dx = t.clientX - startX;
+          var dy = t.clientY - startY;
+          if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) moved = true;
+        }, { passive:true });
+
+        track.addEventListener("touchend", function(e){
+          if (!tracking) return;
+          tracking = false;
+          if (!moved) return;
+          var t = e.changedTouches && e.changedTouches[0];
+          if (!t) return;
+          var dx = t.clientX - startX;
+          var dy = t.clientY - startY;
+          if (Math.abs(dy) > 90) return;
+          if (Math.abs(dx) < threshold()) return;
+          if (dx < 0) step(1);
+          else step(-1);
+        }, { passive:true });
+
+        track.addEventListener("scroll", updateBtns, { passive:true });
+        window.addEventListener("resize", updateBtns);
+        updateBtns();
+      }
+
+      function renderKeyedCards(){
+        var nodes = document.querySelectorAll("[data-product-key]");
+        for (var i=0;i<nodes.length;i++){
+          var card = nodes[i];
+          var key = card.getAttribute("data-product-key");
+          var p = findByKey(key);
+          if (!p) continue;
+
+          var t = card.querySelector("[data-title]");
+          var m = card.querySelector("[data-media]");
+          var c = card.querySelector("[data-cta]");
+
+          if (t) t.textContent = p.title || "";
+          if (c && p.key) c.href = "product.html?key=" + encodeKey(p.key);
+
+          if (m && p.image){
+            var img = document.createElement("img");
+            img.src = p.image;
+            img.alt = p.title || "";
+            img.className = "mini-media-img";
+            img.loading = "lazy";
+            m.innerHTML = "";
+            m.appendChild(img);
+          }
+        }
+      }
+
+      function buildBundleCard(p){
+        var art = document.createElement("article");
+        art.className = "card product";
+        art.setAttribute("data-product-key", p.key);
+
+        var href = "product.html?key=" + encodeKey(p.key);
+
+        var a = document.createElement("a");
+        a.className = "product-link";
+        a.href = href;
+
+        var media = document.createElement("div");
+        media.className = "jr-media" + (p.image ? "" : " fallback");
+        if (p.image) {
+          media.style.backgroundImage = "url(" + JSON.stringify(p.image) + ")";
+          media.style.minHeight = "170px";
+          media.style.borderRadius = "18px";
+        } else {
+          media.style.minHeight = "170px";
+          media.style.borderRadius = "18px";
+          var img = document.createElement("img");
+          img.src = "assets/images/logo-circle.png";
+          img.alt = "";
+          img.loading = "lazy";
+          media.appendChild(img);
+        }
+
+        var h3 = document.createElement("h3");
+        h3.className = "card-title";
+        h3.textContent = p.title || "";
+
+        a.appendChild(media);
+        a.appendChild(h3);
+
+        var bl = document.createElement("p");
+        bl.className = "muted";
+        bl.textContent = p.blurb || "";
+
+        var actions = document.createElement("div");
+        actions.className = "jr-actions";
+
+        var details = document.createElement("a");
+        details.className = "btn btn-secondary";
+        details.href = href;
+        details.textContent = "View Details";
+
+        var buy = document.createElement("button");
+        buy.className = "btn btn-primary";
+        buy.type = "button";
+
+        if (p.key) {
+          buy.textContent = "Add to Cart";
+          buy.addEventListener("click", function(e){
+            e.preventDefault();
+            addToCartByKey(p.key);
+          });
+        } else {
+          buy.textContent = "Coming soon";
+          buy.disabled = true;
+          buy.setAttribute("aria-disabled", "true");
+        }
+
+        actions.appendChild(details);
+        actions.appendChild(buy);
+
+        art.appendChild(a);
+        art.appendChild(bl);
+        art.appendChild(actions);
+
+        return art;
+      }
+
+      function renderBundlesCarousel(){
+        var wrap = document.querySelector('[data-jr-carousel][data-jr-category="Bundles"]');
+        if (!wrap) return;
+        var track = wrap.querySelector("[data-jr-track]");
+        if (!track) return;
+
+        var list = products().filter(function(p){ return p && p.category === "Bundles"; });
+        track.innerHTML = "";
+        for (var i=0;i<list.length;i++){
+          track.appendChild(buildBundleCard(list[i]));
+        }
+        wireCarousel(wrap);
+      }
+
+      document.addEventListener("DOMContentLoaded", function(){
+        renderKeyedCards();
+        renderBundlesCarousel();
+
+        var miniWrap = document.querySelector('[data-jr-carousel][data-jr-type="mini"]');
+        wireCarousel(miniWrap);
+
+        var notifyForm = document.getElementById("notifyMeForm");
+        var notifyNote = document.getElementById("notifyNote");
+        if (notifyForm) {
+          notifyForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            var invalid = notifyForm.querySelector(":invalid");
+            if (invalid) { invalid.focus(); return; }
+            var btn = notifyForm.querySelector("button[type=submit]");
+            if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+            fetch("/", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams(new FormData(notifyForm)).toString()
+            }).then(function(r) {
+              notifyForm.style.display = "none";
+              notifyNote.textContent = r.ok
+                ? "You\u2019re on the list. We\u2019ll let you know when it drops."
+                : "Something went wrong. Email us at support@pixydustseasoning.com";
+              notifyNote.style.color = r.ok ? "#d9b96c" : "#e07070";
+              notifyNote.style.display = "";
+            }).catch(function() {
+              notifyNote.textContent = "Something went wrong. Email us at support@pixydustseasoning.com";
+              notifyNote.style.color = "#e07070";
+              notifyNote.style.display = "";
+              if (btn) { btn.disabled = false; btn.textContent = "Notify Me"; }
+            });
+          });
+        }
+      });
+    })();
+  </script>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Luxury gourmet blends. Let's sprinkle a little magic.</div>
+      </div>
+      <div class="footer-mid">
+        <a href="about.html">About Pixy Dust</a>
+        <a href="recipes.html">Recipes</a>
+        <a href="faq.html">FAQ</a>
+        <a href="shipping.html">Shipping</a>
+        <a href="returns.html">Returns</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-right">
+        <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
+        <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

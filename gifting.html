@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gifting — Pixy Dust Seasoning</title>
+  <meta name="description" content="Premium seasoning gift sets from Pixy Dust. 3-blend ($37), 6-blend ($55), and full 9-blend collection ($75) — all with free shipping." />
+  <meta property="og:title" content="Luxury Seasoning Gift Sets — Pixy Dust" />
+  <meta property="og:description" content="For the food lover who has everything. Beautifully packaged seasoning sets with free shipping." />
+  <meta property="og:image" content="assets/images/gifts/6.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/css/pixy.css" />
+  <script src="assets/js/products.js" defer></script>
+  <script src="assets/js/cms.js" defer></script>
+  <script src="assets/js/chatbot.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/pixy-cart.js" defer></script>
+  <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/shop.js" defer></script>
+  <script src="assets/js/agents.js" defer></script>
+
+  <style>
+    .gift-set-shot {
+      width:100%; height:180px; border-radius:18px;
+      border:1px solid rgba(217,185,108,.22);
+      background-repeat:no-repeat; background-position:center; background-size:contain;
+      box-shadow:0 18px 60px rgba(217,185,108,.10);
+    }
+    @media (max-width:720px){ .gift-set-shot{ height:140px; } }
+    #subscriptions .pouch-placeholder {
+      height:170px; max-height:170px; width:100%;
+      background-position:center; background-repeat:no-repeat; background-size:contain;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="flash-sale" role="banner" aria-label="Promotion">
+    <div class="container">
+      <div class="flash-sale-inner">
+        <span><strong>Free Shipping</strong> on all Gift Sets — no minimum required</span>
+        <a class="btn btn-secondary" href="gifting.html" style="font-size:.75rem;padding:5px 14px;letter-spacing:.08em;">Shop Gift Sets</a>
+      </div>
+    </div>
+  </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar topbar--solid">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
+        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+        <a href="shop.html">Shop</a>
+        <a href="gifting.html" data-active="true">Gifting</a>
+        <a href="about.html">About</a>
+      </nav>
+
+      <div class="header-right">
+        <a class="nav-icon-btn" href="shop.html" aria-label="Search products">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </a>
+        <button class="nav-icon-btn" id="openCartBtn" type="button" aria-label="Open cart">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-badge" data-cart-badge hidden></span>
+        </button>
+        <a class="btn btn-gold btn-sm" href="checkout.html">Buy Now</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="container">
+
+      <!-- CTA Hero -->
+      <section class="pg-hero" aria-label="Gifting hero">
+        <div class="pg-hero-inner">
+          <div>
+            <p class="kicker">Luxury Gifting</p>
+            <h1>Give the Gift<br>of Flavor.</h1>
+            <p class="subcopy" style="margin-top:10px;">Premium seasoning sets, beautifully packaged. For the food lover who has everything.</p>
+            <a class="btn btn-primary" href="#gift-sets" style="margin-top:16px;">Shop Gift Sets</a>
+          </div>
+          <aside aria-label="Gift set preview" style="display:flex;align-items:center;justify-content:center;">
+            <img src="assets/images/gifts/3.png" alt="6-Blend Signature Collection"
+              style="width:100%;max-width:300px;height:auto;filter:drop-shadow(0 28px 60px rgba(217,185,108,.30));" loading="eager" />
+          </aside>
+        </div>
+      </section>
+
+      <!-- Gift Set Cards -->
+      <section id="gift-sets" aria-label="Gift sets" style="padding-top:44px;">
+        <div class="grid three" data-cms-section="gifting-cards">
+
+          <article class="card" data-cms-card data-product-key="gift-3">
+            <div class="gift-set-shot" style="background-image:url('assets/images/gifts/3.png')" role="img" aria-label="3-Blend Gift Box"></div>
+            <h3 class="card-title" data-cms-text>3-Blend Signature Gift Box</h3>
+            <p class="muted" data-cms-text>Three signature pouches in a premium presentation.</p>
+            <p class="card-price">$37.00<span class="card-free-ship"> — Free Shipping</span></p>
+            <div class="cta-row">
+              <a class="btn btn-primary" data-cta href="product.html?key=gift-3">View Details</a>
+              <button class="btn btn-secondary" type="button" data-add-to-cart>+ Cart</button>
+            </div>
+          </article>
+
+          <article class="card" data-cms-card data-product-key="gift-6">
+            <div class="gift-set-shot" style="background-image:url('assets/images/gifts/6.png')" role="img" aria-label="6-Blend Collection"></div>
+            <h3 class="card-title" data-cms-text>6-Blend Signature Collection</h3>
+            <p class="muted" data-cms-text>Curated coverage for elevated cooking across cuisines.</p>
+            <p class="card-price">$55.00<span class="card-free-ship"> — Free Shipping</span></p>
+            <div class="cta-row">
+              <a class="btn btn-primary" data-cta href="product.html?key=gift-6">View Details</a>
+              <button class="btn btn-secondary" type="button" data-add-to-cart>+ Cart</button>
+            </div>
+          </article>
+
+          <article class="card" data-cms-card data-product-key="gift-9">
+            <div class="gift-set-shot" style="background-image:url('assets/images/gifts/9.png')" role="img" aria-label="Full Collection"></div>
+            <h3 class="card-title" data-cms-text>Full Signature Collection</h3>
+            <p class="muted" data-cms-text>All signature pouches in a complete luxury set.</p>
+            <p class="card-price">$75.00<span class="card-free-ship"> — Free Shipping</span></p>
+            <div class="cta-row">
+              <a class="btn btn-primary" data-cta href="product.html?key=gift-9">View Details</a>
+              <button class="btn btn-secondary" type="button" data-add-to-cart>+ Cart</button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Subscriptions (secondary) -->
+      <section id="subscriptions" data-view-section="Subscriptions" aria-label="Subscriptions">
+        <div class="card">
+          <h2 class="section-title">Subscriptions</h2>
+          <p class="muted">Luxury delivery on your schedule. Tap for full details.</p>
+          <div class="carousel-wrap" data-carousel="subs" data-category="Subscriptions">
+            <div class="carousel-controls">
+              <div class="left">
+                <button class="carousel-btn" type="button" aria-label="Previous" data-carousel-prev>‹</button>
+                <button class="carousel-btn" type="button" aria-label="Next" data-carousel-next>›</button>
+              </div>
+              <div class="right">
+                <button class="viewall-btn" type="button" data-carousel-viewall>View all</button>
+              </div>
+            </div>
+            <div class="carousel-track products" data-carousel-track aria-label="Subscriptions carousel"></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <button class="chat-fab" type="button" aria-label="Open Pixy Assistant" data-chat-open>
+    <span class="chat-fab-glow" aria-hidden="true"></span>
+    <span class="chat-fab-icon" aria-hidden="true">✦</span>
+  </button>
+  <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
+    <header class="chat-head">
+      <div class="chat-brand">
+        <span class="chat-spark" aria-hidden="true"></span>
+        <div>
+          <div class="chat-title">Pixy Assistant</div>
+          <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
+        </div>
+      </div>
+      <button class="chat-close" type="button" aria-label="Close chat" data-chat-close>×</button>
+    </header>
+    <div class="chat-body" data-chat-body aria-live="polite"></div>
+    <form class="chat-input" data-chat-form>
+      <label class="sr-only" for="chatTextGift">Message</label>
+      <input id="chatTextGift" name="message" type="text" placeholder="Ask about flavors, ingredients, pairings" autocomplete="off" required />
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </section>
+
+  <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Luxury gourmet blends. Let's sprinkle a little magic.</div>
+      </div>
+      <div class="footer-mid">
+        <a href="about.html">About Pixy Dust</a>
+        <a href="recipes.html">Recipes</a>
+        <a href="faq.html">FAQ</a>
+        <a href="shipping.html">Shipping</a>
+        <a href="returns.html">Returns</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-right">
+        <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
+        <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
