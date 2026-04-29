@@ -33,7 +33,6 @@
   "use strict";
 
   // ── Constants ──────────────────────────────────────────────────
-  var ECWID_STORE_ID  = 62406545;
   var LS_CHAT_OPEN    = "pixy_chat_open_v1";
   var LS_CHAT_POS     = "pixy_chat_pos_v1";
 
@@ -104,131 +103,20 @@
   }
 
   // ================================================================
-  // 2. ECWID CART
+  // 2. CART — PIXY_CART only (Ecwid removed)
   // ================================================================
-  var _ecwidBootPromise = null;
-
-  function ecwidCartOpenReady() {
-    return !!(
-      (window.xProductBrowser && typeof window.xProductBrowser.showShoppingCart === "function") ||
-      (window.Ecwid && typeof window.Ecwid.openPage === "function")
-    );
-  }
-
-  function ecwidAddReady() {
-    return !!(
-      window.Ecwid &&
-      window.Ecwid.Cart &&
-      typeof window.Ecwid.Cart.addProduct === "function"
-    );
-  }
-
-  function ensureEcwidLoaded(mode) {
-    mode = mode || "cart";
-    var isReady = mode === "add" ? ecwidAddReady : ecwidCartOpenReady;
-    if (isReady()) return Promise.resolve(true);
-
-    if (_ecwidBootPromise) {
-      return _ecwidBootPromise.then(function () { return waitForEcwidMode(mode); });
-    }
-
-    _ecwidBootPromise = new Promise(function (resolve, reject) {
-      var settled = false;
-      function done() { if (!settled) { settled = true; resolve(true); } }
-      function fail(e) { if (!settled) { settled = true; reject(e || new Error("Ecwid failed")); } }
-
-      function afterScript() {
-        try {
-          window.ec = window.ec || {};
-          window.ec.storefront = window.ec.storefront || {};
-          window.ec.storefront.enable_catalog = false;
-        } catch (_) {}
-
-        var hooked = false;
-        try {
-          if (window.Ecwid && window.Ecwid.OnAPILoaded && typeof window.Ecwid.OnAPILoaded.add === "function") {
-            hooked = true;
-            window.Ecwid.OnAPILoaded.add(function () {
-              try { if (window.Ecwid && typeof window.Ecwid.init === "function") window.Ecwid.init(); } catch (_) {}
-              done();
-            });
-          }
-        } catch (_) {}
-
-        var tries = 0;
-        var t = setInterval(function () {
-          tries++;
-          try { if (window.Ecwid && typeof window.Ecwid.init === "function") window.Ecwid.init(); } catch (_) {}
-          if (ecwidCartOpenReady() || ecwidAddReady()) { clearInterval(t); done(); return; }
-          if (hooked && tries < 100) return;
-          if (tries >= 100) { clearInterval(t); fail(new Error("Ecwid timeout")); }
-        }, 120);
-      }
-
-      var existing =
-        document.querySelector('script[data-ecwid="true"]') ||
-        document.querySelector('script[src*="app.ecwid.com/script.js?' + ECWID_STORE_ID + '"]');
-
-      if (!existing) {
-        window.ec = window.ec || {};
-        window.ec.storefront = window.ec.storefront || {};
-        window.ec.storefront.enable_catalog = false;
-
-        var s = document.createElement("script");
-        s.src = "https://app.ecwid.com/script.js?" + ECWID_STORE_ID + "&data_platform=code&data_date=2026-01-01";
-        s.async = true;
-        s.charset = "utf-8";
-        s.setAttribute("data-ecwid", "true");
-        s.onload = afterScript;
-        s.onerror = function () { fail(new Error("Ecwid script failed")); };
-        document.head.appendChild(s);
-      } else {
-        afterScript();
-      }
-    });
-
-    return _ecwidBootPromise.then(function () { return waitForEcwidMode(mode); });
-  }
-
-  function waitForEcwidMode(mode) {
-    var isReady = mode === "add" ? ecwidAddReady : ecwidCartOpenReady;
-    if (isReady()) return Promise.resolve(true);
-
-    return new Promise(function (resolve, reject) {
-      var tries = 0;
-      var t = setInterval(function () {
-        tries++;
-        try { if (window.Ecwid && typeof window.Ecwid.init === "function") window.Ecwid.init(); } catch (_) {}
-        if (isReady())   { clearInterval(t); resolve(true); return; }
-        if (tries >= 80) { clearInterval(t); reject(new Error("Ecwid mode timeout")); }
-      }, 120);
-    });
-  }
 
   function openEcwidCart() {
-    // Custom luxury cart drawer takes priority when registered by cart.js
     if (window.PIXY_CART && typeof window.PIXY_CART.open === "function") {
       window.PIXY_CART.open();
-      return Promise.resolve(true);
     }
-    return ensureEcwidLoaded("cart").then(function () {
-      try { if (window.Ecwid && typeof window.Ecwid.init === "function") window.Ecwid.init(); } catch (_) {}
-      if (window.xProductBrowser && typeof window.xProductBrowser.showShoppingCart === "function") {
-        window.xProductBrowser.showShoppingCart(); return true;
-      }
-      if (window.Ecwid && typeof window.Ecwid.openPage === "function") {
-        window.Ecwid.openPage("cart"); return true;
-      }
-      return false;
-    }).catch(function () { return false; });
+    return Promise.resolve(true);
   }
 
   function addToCart(ecwidProductId, qty) {
     qty = qty || 1;
     var id = Number(ecwidProductId);
     if (!id || !isFinite(id)) return Promise.resolve(false);
-
-    // Prefer pixy-cart (localStorage) over Ecwid
     if (window.PIXY_CART && typeof window.PIXY_CART.addByEcwidId === "function") {
       var result = window.PIXY_CART.addByEcwidId(id, qty);
       if (result !== null) {
@@ -236,24 +124,10 @@
         return Promise.resolve(true);
       }
     }
-
-    return ensureEcwidLoaded("add").then(function () {
-      return new Promise(function (resolve) {
-        try {
-          window.Ecwid.Cart.addProduct({
-            id: id,
-            quantity: qty,
-            callback: function () {
-              openEcwidCart().then(function () { resolve(true); }).catch(function () { resolve(true); });
-            }
-          });
-          setTimeout(function () {
-            openEcwidCart().then(function () { resolve(true); }).catch(function () { resolve(true); });
-          }, 350);
-        } catch (e) { resolve(false); }
-      });
-    }).catch(function () { return false; });
+    return Promise.resolve(false);
   }
+
+  function ensureEcwidLoaded() { return Promise.resolve(false); }
 
   // ================================================================
   // 3. CART BUTTONS
@@ -297,7 +171,6 @@
     ensureProductsLoaded: ensureProductsLoaded,
     rememberListingPage:  rememberListingPage,
     decorateProductLink:  decorateProductLink,
-    ensureEcwidLoaded:    ensureEcwidLoaded,
     openEcwidCart:        openEcwidCart,
     addToCart:            addToCart
   };
@@ -318,8 +191,10 @@
     btn.setAttribute("data-wired", "1");
     btn.addEventListener("click", function (e) {
       e.preventDefault();
-      if (p.ecwidProductId == null) return;
-      addToCart(p.ecwidProductId, 1);
+      if (window.PIXY_CART && typeof window.PIXY_CART.addByKey === "function") {
+        window.PIXY_CART.addByKey(p.key, 1);
+        if (typeof window.PIXY_CART.open === "function") window.PIXY_CART.open();
+      }
     });
   }
 
@@ -568,11 +443,16 @@
 
       var addCartBtn = document.getElementById("heroAddCart");
       if (addCartBtn) {
-        if (p && p.ecwidProductId) {
+        if (p && p.key) {
           addCartBtn.style.display = "";
-          (function (pid) {
-            addCartBtn.onclick = function () { addToCart(pid, 1); };
-          })(p.ecwidProductId);
+          (function (pkey) {
+            addCartBtn.onclick = function () {
+              if (window.PIXY_CART && typeof window.PIXY_CART.addByKey === "function") {
+                window.PIXY_CART.addByKey(pkey, 1);
+                if (typeof window.PIXY_CART.open === "function") window.PIXY_CART.open();
+              }
+            };
+          })(p.key);
         } else {
           addCartBtn.style.display = "none";
         }
@@ -811,7 +691,65 @@
   }
 
   // ================================================================
-  // 13. SUBSCRIBE FORM
+  // 13. MORE DROPDOWN & FOOTER FOLLOW DROPDOWN
+  // ================================================================
+  function setupNavMoreDropdown() {
+    var container = document.querySelector("[data-nav-more]");
+    var btn       = document.querySelector("[data-nav-more-toggle]");
+    var menu      = document.querySelector("[data-nav-more-menu]");
+    if (!container || !btn || !menu) return;
+
+    function openMenu()  { menu.classList.add("open");    btn.setAttribute("aria-expanded", "true");  }
+    function closeMenu() { menu.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); }
+
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (menu.classList.contains("open")) { closeMenu(); } else { openMenu(); }
+    });
+
+    var links = menu.querySelectorAll("a");
+    for (var i = 0; i < links.length; i++) {
+      links[i].addEventListener("click", closeMenu);
+    }
+
+    document.addEventListener("click", function (e) {
+      if (!menu.classList.contains("open")) return;
+      if (container.contains(e.target)) return;
+      closeMenu();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && menu.classList.contains("open")) closeMenu();
+    });
+  }
+
+  function setupFooterFollowDropdown() {
+    var container = document.querySelector("[data-footer-follow]");
+    var btn       = document.querySelector("[data-footer-follow-toggle]");
+    var menu      = document.querySelector("[data-footer-follow-menu]");
+    if (!container || !btn || !menu) return;
+
+    function openMenu()  { menu.classList.add("open");    btn.setAttribute("aria-expanded", "true");  }
+    function closeMenu() { menu.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); }
+
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (menu.classList.contains("open")) { closeMenu(); } else { openMenu(); }
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!menu.classList.contains("open")) return;
+      if (container.contains(e.target)) return;
+      closeMenu();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && menu.classList.contains("open")) closeMenu();
+    });
+  }
+
+  // ================================================================
+  // 14. SUBSCRIBE FORM
   // ================================================================
   function setupSubscribeForm() {
     var form = document.querySelector("[data-subscribe-form]");
@@ -847,7 +785,7 @@
             if (btn) { btn.disabled = false; btn.textContent = "Subscribe"; }
           } else {
             if (note) {
-              note.textContent = "Something went wrong. Please try again.";
+              note.textContent = "Something went wrong. Please try again or email support@pixydustseasoning.com";
               note.style.color = "#e07070";
               note.style.display = "";
             }
@@ -856,7 +794,7 @@
         })
         .catch(function () {
           if (note) {
-            note.textContent = "Something went wrong. Please try again.";
+            note.textContent = "Something went wrong. Please try again or email support@pixydustseasoning.com";
             note.style.color = "#e07070";
             note.style.display = "";
           }
@@ -873,11 +811,10 @@
     setupOpenCartButtons();
     setupChatShell();
     setupMobileNav();
+    setupNavMoreDropdown();
+    setupFooterFollowDropdown();
     setupSubscribeForm();
     setupScrollToDelegate();
-
-    // Preload Ecwid so cart opens instantly
-    ensureEcwidLoaded("cart").catch(function () {});
 
     ensureProductsLoaded().then(function () {
       wireProductAddToCart();

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -14,19 +14,14 @@
   <script src="assets/js/pixy-cart.js" defer></script>
   <script src="assets/js/cms.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/search.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/shop.js" defer></script>
   <script src="assets/js/chatbot.js" defer></script>
+  <script src="assets/js/vip-capture.js" defer></script>
 </head>
 <body>
-  <div class="flash-sale" role="banner" aria-label="Promotion">
-    <div class="container">
-      <div class="flash-sale-inner">
-        <span><strong>Free Shipping</strong> on all Gift Sets — no minimum required</span>
-        <a class="btn btn-secondary" href="gifting.html" style="font-size:.75rem;padding:5px 14px;letter-spacing:.08em;">Shop Gift Sets</a>
-      </div>
-    </div>
-  </div>
+
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="topbar topbar--solid">
@@ -39,25 +34,34 @@
         <span></span><span></span><span></span>
       </button>
 
-      <nav id="mainNav" class="nav main-nav" aria-label="Primary">
-        <a href="shop.html" data-active="true">Shop</a>
+            <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+        <a href="shop.html">Shop</a>
         <a href="gifting.html">Gifting</a>
-        <a href="about.html">About</a>
+        <a href="kitchen-table.html">Kitchen Table</a>
+        <a href="contact.html">Contact Us</a>
+        <div class="nav-more" data-nav-more>
+          <button class="nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" data-nav-more-toggle>More <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="nav-more-menu" data-nav-more-menu>
+            <a href="about.html">About</a>
+            <a href="juniors.html">Juniors</a>
+            <a href="wholesale.html">Wholesale</a>
+            <a href="recipes.html">Recipes</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+        </div>
+        <a class="nav-mobile-only" href="cart.html">Cart</a>
       </nav>
 
       <div class="header-right">
-        <a class="nav-icon-btn" href="shop.html" aria-label="Search products">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </a>
-        <button class="nav-icon-btn" id="openCartBtn" type="button" aria-label="Open cart">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
-          </svg>
+        <button class="nav-icon-btn" id="openSearchBtn" type="button" aria-label="Search site">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="cart-btn" id="openCartBtn" type="button" aria-label="Open cart">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Cart
           <span class="cart-badge" data-cart-badge hidden></span>
         </button>
-        <a class="btn btn-gold btn-sm" href="checkout.html">Buy Now</a>
       </div>
     </div>
   </header>
@@ -154,21 +158,315 @@
 
     <section class="section collection" id="Grills" data-view-section="Grills">
       <div class="container">
-        <div class="card">
-          <h2 class="section-title">Open Flame — Lion Premium Grills</h2>
-          <div class="carousel-wrap" data-carousel="grills" data-category="Grills">
-            <div class="carousel-controls">
-              <div class="left">
-                <button class="carousel-btn" type="button" aria-label="Previous" data-carousel-prev>‹</button>
-                <button class="carousel-btn" type="button" aria-label="Next" data-carousel-next>›</button>
-              </div>
-              <div class="right">
-                <button class="viewall-btn" type="button" data-carousel-viewall>View all</button>
-              </div>
-            </div>
-            <div class="carousel-track products" data-carousel-track aria-label="Grills carousel"></div>
+
+        <!-- Hero: clean product image, HTML text only, no button -->
+        <!-- Swap src to your clean lifestyle photo when ready -->
+        <div class="gr-hero">
+          <img src="assets/images/lion-grills/outdoorkitchen.png" alt="Lion Premium built-in grill for outdoor kitchens" loading="eager" />
+          <div class="gr-hero-fade" aria-hidden="true"></div>
+          <div class="gr-hero-text">
+            <span class="gr-hero-eyebrow">Authorized Dealer of Lion Premium Grills</span>
+            <h2 class="gr-hero-title">Grills &amp; Outdoor Kitchen</h2>
+            <p class="gr-hero-desc">Premium grills, outdoor kitchen essentials, and Pixy Dust flavor pairings.</p>
           </div>
         </div>
+
+        <!-- Category cards -->
+        <div class="gr-cats" id="grillsAccordion">
+
+          <!-- 1. Lion Premium Grills -->
+          <div class="gr-cat">
+            <button class="gr-cat-btn" type="button" aria-expanded="false" aria-controls="gc-grills">
+              <span class="gr-cat-name">Lion Premium Grills</span>
+              <svg class="gr-cat-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="gr-cat-body" id="gc-grills">
+              <div class="gr-cat-inner">
+                <div class="gr-cat-products">
+                  <div class="kc-grid">
+                    <div class="kc-card">
+                      <div class="kc-img"><img src="assets/images/lion-grills/lion-l6000.png" alt="Lion L60000 Built-In BBQ" loading="lazy" /></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Built-In · L60000</span>
+                        <h3 class="kc-name">Lion L60000 Built-In BBQ</h3>
+                        <p class="kc-desc">L60000 LP Built-In BBQ with grill cover.</p>
+                        <div class="kc-foot"><span class="kc-price">$1,799.00</span><a class="btn btn-primary kc-cta" href="product.html?key=lion-l60000">View Product</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img"><img src="assets/images/lion-grills/lion-l75000.png" alt="Lion L75000 Built-In BBQ" loading="lazy" /></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Built-In · L75000</span>
+                        <h3 class="kc-name">Lion L75000 Built-In BBQ</h3>
+                        <p class="kc-desc">L75000 Built-In BBQ LP.</p>
+                        <div class="kc-foot"><span class="kc-price">$2,149.00</span><a class="btn btn-primary kc-cta" href="product.html?key=lion-l75000">View Product</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img"><img src="assets/images/lion-grills/lion-l75000-cart.png" alt="Lion L75000 Cart Only" loading="lazy" /></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Cart · L75000</span>
+                        <h3 class="kc-name">Lion L75000 Cart Only</h3>
+                        <p class="kc-desc">L75000 BBQ Grill Cart Only.</p>
+                        <div class="kc-foot"><span class="kc-price">$1,299.00</span><a class="btn btn-primary kc-cta" href="product.html?key=lion-l75000-cart">View Product</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img"><img src="assets/images/lion-grills/lion-l90000.png" alt="Lion L90000 Built-In BBQ" loading="lazy" /></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Built-In · L90000</span>
+                        <h3 class="kc-name">Lion L90000 Built-In BBQ</h3>
+                        <p class="kc-desc">L90000 Built-In BBQ LP.</p>
+                        <div class="kc-foot"><span class="kc-price">$2,599.00</span><a class="btn btn-primary kc-cta" href="product.html?key=lion-l90000">View Product</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img"><img src="assets/images/lion-grills/Lion-cart.png" alt="Lion L90000 Cart Only" loading="lazy" /></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Cart · L90000</span>
+                        <h3 class="kc-name">Lion L90000 Cart Only</h3>
+                        <p class="kc-desc">L90000 Cart Only.</p>
+                        <div class="kc-foot"><span class="kc-price">$3,299.00</span><a class="btn btn-primary kc-cta" href="product.html?key=lion-l90000-alt">View Product</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Outdoor Kitchen Packages -->
+          <div class="gr-cat">
+            <button class="gr-cat-btn" type="button" aria-expanded="false" aria-controls="gc-packages">
+              <span class="gr-cat-name">Outdoor Kitchen Packages</span>
+              <svg class="gr-cat-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="gr-cat-body" id="gc-packages">
+              <div class="gr-cat-inner">
+                <div class="gr-cat-products">
+                  <div class="kc-grid">
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Package</span>
+                        <h3 class="kc-name">Starter Setup</h3>
+                        <p class="kc-desc">Entry-level outdoor kitchen — built-in grill, access door, and essential accessories.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Package</span>
+                        <h3 class="kc-name">Premium Setup</h3>
+                        <p class="kc-desc">Elevated outdoor kitchen with built-in grill, storage, side burner, and refrigerator.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Package</span>
+                        <h3 class="kc-name">Luxury Backyard Setup</h3>
+                        <p class="kc-desc">The full Pixy Dust outdoor experience — L90000 grill, complete storage, cooling, and rotisserie.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Storage -->
+          <div class="gr-cat">
+            <button class="gr-cat-btn" type="button" aria-expanded="false" aria-controls="gc-storage">
+              <span class="gr-cat-name">Storage</span>
+              <svg class="gr-cat-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="gr-cat-body" id="gc-storage">
+              <div class="gr-cat-inner">
+                <div class="gr-cat-products">
+                  <div class="kc-grid">
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="9" x2="12" y2="21"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Storage</span>
+                        <h3 class="kc-name">Single Access Door</h3>
+                        <p class="kc-desc">Stainless steel single-door access panel for outdoor kitchen storage cabinets.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Storage</span>
+                        <h3 class="kc-name">Double Access Door</h3>
+                        <p class="kc-desc">Two-door access panel providing wider access to your outdoor kitchen storage space.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="2" y1="15" x2="22" y2="15"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Storage</span>
+                        <h3 class="kc-name">Drawer Unit</h3>
+                        <p class="kc-desc">Multi-drawer storage unit for utensils, tools, and grilling accessories.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="9" x2="12" y2="21"/><line x1="2" y1="15" x2="12" y2="15"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Storage</span>
+                        <h3 class="kc-name">Door / Drawer Combo</h3>
+                        <p class="kc-desc">Combined access door and drawer unit — maximizes storage in a single footprint.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Cooling -->
+          <div class="gr-cat">
+            <button class="gr-cat-btn" type="button" aria-expanded="false" aria-controls="gc-cooling">
+              <span class="gr-cat-name">Cooling</span>
+              <svg class="gr-cat-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="gr-cat-body" id="gc-cooling">
+              <div class="gr-cat-inner">
+                <div class="gr-cat-products">
+                  <div class="kc-grid">
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="5" y1="10" x2="19" y2="10"/><line x1="10" y1="6" x2="10" y2="8"/><line x1="10" y1="14" x2="10" y2="18"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Cooling</span>
+                        <h3 class="kc-name">Outdoor Refrigerator</h3>
+                        <p class="kc-desc">Weather-rated outdoor refrigerator designed to integrate flush with your outdoor kitchen island.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Cooking Add-ons -->
+          <div class="gr-cat">
+            <button class="gr-cat-btn" type="button" aria-expanded="false" aria-controls="gc-addons">
+              <span class="gr-cat-name">Cooking Add-ons</span>
+              <svg class="gr-cat-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="gr-cat-body" id="gc-addons">
+              <div class="gr-cat-inner">
+                <div class="gr-cat-products">
+                  <div class="kc-grid">
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c-1.5 2-2 4-1 6s3 3 2 6c-1 3-3 4-3 4"/><path d="M18 2c-1.5 2-2 4-1 6s3 3 2 6c-1 3-3 4-3 4"/><path d="M6 2c-1.5 2-2 4-1 6s3 3 2 6c-1 3-3 4-3 4"/><line x1="2" y1="20" x2="22" y2="20"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Add-on</span>
+                        <h3 class="kc-name">Side Burner</h3>
+                        <p class="kc-desc">Single side burner for sauces, sautés, and side dishes — keeps the grill grate free.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Accessories -->
+          <div class="gr-cat">
+            <button class="gr-cat-btn" type="button" aria-expanded="false" aria-controls="gc-accessories">
+              <span class="gr-cat-name">Accessories</span>
+              <svg class="gr-cat-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="gr-cat-body" id="gc-accessories">
+              <div class="gr-cat-inner">
+                <div class="gr-cat-products">
+                  <div class="kc-grid">
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6c0-1.1 3.6-2 8-2s8 .9 8 2v4c0 1.1-3.6 2-8 2s-8-.9-8-2V6z"/><path d="M4 10c0 1.1 3.6 2 8 2s8-.9 8-2v6c0 1.1-3.6 2-8 2s-8-.9-8-2v-6z"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Accessory</span>
+                        <h3 class="kc-name">Grill Cover</h3>
+                        <p class="kc-desc">Heavy-duty weatherproof cover sized for Lion Premium Grills. Year-round protection.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img kc-img--ph"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="2" y1="12" x2="22" y2="12"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M7 4l1.5 2.5M15.5 17.5L17 20M4 7l2.5 1.5M17.5 15.5L20 17M2 12h3M19 12h3M4 17l2.5-1.5M17.5 8.5L20 7M7 20l1.5-2.5M15.5 6.5L17 4"/></svg></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Accessory</span>
+                        <h3 class="kc-name">Rotisserie Kit</h3>
+                        <p class="kc-desc">Full rotisserie kit for Lion grills — whole chicken, roasts, and leg of lamb over live fire.</p>
+                        <div class="kc-foot"><span class="kc-price-tbd">Contact for pricing</span><a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. Built for Flavor -->
+          <div class="gr-cat">
+            <button class="gr-cat-btn" type="button" aria-expanded="false" aria-controls="gc-flavor">
+              <span class="gr-cat-name">Built for Flavor</span>
+              <svg class="gr-cat-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="gr-cat-body" id="gc-flavor">
+              <div class="gr-cat-inner">
+                <div class="gr-cat-products">
+                  <div class="kc-grid">
+                    <div class="kc-card">
+                      <div class="kc-img"><img src="assets/images/pouches/chophouse.png" alt="Chop House Steak Seasoning" loading="lazy" /></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Steak</span>
+                        <h3 class="kc-name">Chop House</h3>
+                        <p class="kc-desc">Steakhouse profile for ribeye, strip, burgers, and roast beef.</p>
+                        <div class="kc-foot"><span class="kc-price">$13.00</span><a class="btn btn-primary kc-cta" href="product.html?key=chophouse-steak-rub">Shop Now</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img"><img src="assets/images/pouches/seafood.png" alt="Deep Blue Seafood Seasoning" loading="lazy" /></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Seafood</span>
+                        <h3 class="kc-name">Deep Blue</h3>
+                        <p class="kc-desc">Ocean-forward seasoning for grilled fish, shrimp, and butter sauces.</p>
+                        <div class="kc-foot"><span class="kc-price">$13.00</span><a class="btn btn-primary kc-cta" href="product.html?key=deep-blue-seafood">Shop Now</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img"><img src="assets/images/pouches/jerk.png" alt="Jerk Seasoning" loading="lazy" /></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Chicken</span>
+                        <h3 class="kc-name">Jerk BBQ</h3>
+                        <p class="kc-desc">Aromatic island spice for chicken, pork, and grilled vegetables.</p>
+                        <div class="kc-foot"><span class="kc-price">$13.00</span><a class="btn btn-primary kc-cta" href="product.html?key=jerk">Shop Now</a></div>
+                      </div>
+                    </div>
+                    <div class="kc-card">
+                      <div class="kc-img"><img src="assets/images/pouches/smoke.png" alt="Smoke BBQ Seasoning" loading="lazy" /></div>
+                      <div class="kc-body">
+                        <span class="kc-badge">Ribs</span>
+                        <h3 class="kc-name">Smoke BBQ</h3>
+                        <p class="kc-desc">Competition-style smoke depth for brisket, ribs, and slow-cooked chicken.</p>
+                        <div class="kc-foot"><span class="kc-price">$13.00</span><a class="btn btn-primary kc-cta" href="product.html?key=smoke-bbq">Shop Now</a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /gr-cats -->
       </div>
     </section>
 
@@ -177,7 +475,7 @@
   <script>
     (function () {
       "use strict";
-      var BEST_SELLER_KEYS = ["all-purpose", "garlic-pepper", "smoke-bbq", "jerk", "deep-blue-seafood", "chophouse-steak-rub"];
+      var BEST_SELLER_KEYS = ["all-purpose", "garlic-pepper", "smoke-bbq"];
       var allSections  = null;
       var filterBtns   = null;
 
@@ -191,7 +489,7 @@
       }
 
       function activate(target) {
-        var bsSection = document.getElementById("best-sellers-section");
+        var bsSection    = document.getElementById("best-sellers-section");
         var pouchSection = document.getElementById("pouches-section");
         var isBestSellers = target === "BestSellers";
 
@@ -201,8 +499,8 @@
           s.style.display = (match || isBestSellers) ? "" : "none";
         });
 
-        if (bsSection)   bsSection.style.display   = isBestSellers ? "" : "none";
-        if (pouchSection) pouchSection.style.display = isBestSellers ? "none" : "";
+        if (bsSection)    bsSection.style.display    = isBestSellers ? "" : "none";
+        if (pouchSection) pouchSection.style.display  = isBestSellers ? "none" : "";
 
         getBtns().forEach(function (b) {
           b.classList.toggle("active", b.getAttribute("data-filter-target") === target);
@@ -216,6 +514,7 @@
             }
           });
         }
+
       }
 
       function renderBestSellers() {
@@ -254,12 +553,15 @@
       }
 
       document.addEventListener("DOMContentLoaded", function () {
+
+        // ── Category tab buttons ───────────────────────────────
         getBtns().forEach(function (btn) {
           btn.addEventListener("click", function () {
             activate(btn.getAttribute("data-filter-target"));
           });
         });
 
+        // ── URL param (e.g. shop.html?view=Grills) ────────────
         var params = new URLSearchParams(window.location.search);
         var view   = params.get("view");
         if (view) {
@@ -268,6 +570,7 @@
           activate("Pouches");
         }
 
+        // ── Best sellers ───────────────────────────────────────
         if (window.PIXY_PRODUCTS) { renderBestSellers(); }
         else {
           var t = setInterval(function () {
@@ -275,6 +578,35 @@
           }, 100);
           setTimeout(function () { clearInterval(t); }, 6000);
         }
+
+        // ── Grills category accordion ──────────────────────────
+        var grillsAcc = document.getElementById("grillsAccordion");
+        if (grillsAcc) {
+          var cats = grillsAcc.querySelectorAll(".gr-cat");
+          cats.forEach(function (cat) {
+            var btn  = cat.querySelector(".gr-cat-btn");
+            var body = cat.querySelector(".gr-cat-body");
+            if (!btn || !body) return;
+            btn.addEventListener("click", function () {
+              var isOpen = cat.classList.contains("is-open");
+              // Close all
+              cats.forEach(function (other) {
+                other.classList.remove("is-open");
+                var b = other.querySelector(".gr-cat-body");
+                var t = other.querySelector(".gr-cat-btn");
+                if (b) b.classList.remove("is-open");
+                if (t) t.setAttribute("aria-expanded", "false");
+              });
+              // Toggle open if it was closed
+              if (!isOpen) {
+                cat.classList.add("is-open");
+                body.classList.add("is-open");
+                btn.setAttribute("aria-expanded", "true");
+              }
+            });
+          });
+        }
+
       });
     })();
   </script>
@@ -286,7 +618,7 @@
   <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
     <header class="chat-head">
       <div class="chat-brand">
-        <span class="chat-spark" aria-hidden="true"></span>
+        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true"></div>
         <div>
           <div class="chat-title">Pixy Assistant</div>
           <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
@@ -304,24 +636,26 @@
 
   <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
 
-  <footer class="site-footer" role="contentinfo">
+    <footer class="site-footer" role="contentinfo">
     <div class="container footer-inner">
       <div class="footer-left">
-        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
-        <div class="footer-tag">Luxury gourmet blends. Let's sprinkle a little magic.</div>
+        <div class="footer-line">&copy; <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Luxury gourmet blends. Let&#39;s sprinkle a little magic.</div>
       </div>
-      <div class="footer-mid">
-        <a href="about.html">About Pixy Dust</a>
-        <a href="recipes.html">Kitchen Table</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="juniors.html">Juniors</a>
-        <a href="wholesale.html">Wholesale</a>
-        <a href="contact.html">Contact</a>
-      </div>
+
       <div class="footer-right">
-        <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
-        <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
-        <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+        <div class="footer-follow" data-footer-follow>
+          <button class="footer-follow-btn" type="button" aria-haspopup="true" aria-expanded="false" data-footer-follow-toggle>Follow us <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="footer-follow-menu" data-footer-follow-menu>
+            <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
+            <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://www.tiktok.com/@pixydustseasoning" target="_blank" rel="noreferrer">TikTok</a>
+            <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+          </div>
+        </div>
+        <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="cookies.html">Cookie Policy</a>
       </div>
     </div>
   </footer>

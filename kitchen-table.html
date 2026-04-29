@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 File name: kitchen-table.html
 Purpose:
 - Kitchen Table section landing page for dips, spreads, small-format servings
@@ -14,21 +14,16 @@ Purpose:
   <link rel="stylesheet" href="assets/css/pixy.css" />
   <script src="assets/js/cms.js" defer></script>
   <script src="assets/js/chatbot.js" defer></script>
+  <script src="assets/js/vip-capture.js" defer></script>
   <script src="assets/js/products.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/search.js" defer></script>
   <script src="assets/js/pixy-cart.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
 </head>
 
 <body>
-  <div class="flash-sale" role="banner" aria-label="Promotion">
-    <div class="container">
-      <div class="flash-sale-inner">
-        <span><strong>Free Shipping</strong> on all Gift Sets — no minimum required</span>
-        <a class="btn btn-secondary" href="gifting.html" style="font-size:.75rem;padding:5px 14px;letter-spacing:.08em;">Shop Gift Sets</a>
-      </div>
-    </div>
-  </div>
+
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="topbar topbar--solid">
@@ -39,25 +34,34 @@ Purpose:
       <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
-      <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+            <nav id="mainNav" class="nav main-nav" aria-label="Primary">
         <a href="shop.html">Shop</a>
         <a href="gifting.html">Gifting</a>
-        <a href="about.html">About</a>
+        <a href="kitchen-table.html">Kitchen Table</a>
+        <a href="contact.html">Contact Us</a>
+        <div class="nav-more" data-nav-more>
+          <button class="nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" data-nav-more-toggle>More <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="nav-more-menu" data-nav-more-menu>
+            <a href="about.html">About</a>
+            <a href="juniors.html">Juniors</a>
+            <a href="wholesale.html">Wholesale</a>
+            <a href="recipes.html">Recipes</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+        </div>
+        <a class="nav-mobile-only" href="cart.html">Cart</a>
       </nav>
 
       <div class="header-right">
-        <a class="nav-icon-btn" href="shop.html" aria-label="Search products">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </a>
-        <button class="nav-icon-btn" id="openCartBtn" type="button" aria-label="Open cart">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
-          </svg>
+        <button class="nav-icon-btn" id="openSearchBtn" type="button" aria-label="Search site">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="cart-btn" id="openCartBtn" type="button" aria-label="Open cart">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Cart
           <span class="cart-badge" data-cart-badge hidden></span>
         </button>
-        <a class="btn btn-gold btn-sm" href="checkout.html">Buy Now</a>
       </div>
     </div>
   </header>
@@ -121,8 +125,434 @@ Purpose:
         </div>
       </section>
 
-    </div>
+    </div><!-- /container -->
   </main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       KITCHEN COLLECTION — Accordion
+  ══════════════════════════════════════════════════════════ -->
+  <section class="kc-section" aria-label="Kitchen Collection">
+    <div class="container">
+
+      <div class="section-head">
+        <p class="kicker">Kitchen Collection</p>
+        <h2 class="section-title">Outdoor Kitchen, Built Right.</h2>
+        <p class="section-sub" style="max-width:560px;margin:10px auto 0;">Premium grills, outdoor kitchen components, and the Pixy Dust flavor pairings that make every cook legendary.</p>
+      </div>
+
+      <div class="accordion" id="kitchenAccordion">
+
+        <!-- ── 1. Grills ───────────────────────────────────── -->
+        <div class="accordion-item">
+          <button class="accordion-header" type="button" aria-expanded="false" aria-controls="acc-grills" id="acc-grills-hd">
+            <span class="accordion-title">Grills</span>
+            <span class="accordion-meta">5 models</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-content" id="acc-grills" role="region" aria-labelledby="acc-grills-hd">
+            <div class="accordion-inner">
+              <div class="accordion-body">
+                <div class="kc-grid">
+
+                  <div class="kc-card">
+                    <div class="kc-img"><img src="assets/images/lion-grills/lion-l6000.png" alt="Lion L60000 Built-In BBQ" loading="lazy" /></div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Built-In · L60000</span>
+                      <h3 class="kc-name">Lion L60000 Built-In BBQ</h3>
+                      <p class="kc-desc">L60000 LP Built-In BBQ with grill cover. Lion Premium Grills.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price">$1,799.00</span>
+                        <a class="btn btn-primary kc-cta" href="shop.html?view=Grills">View Product</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img"><img src="assets/images/lion-grills/lion-l75000.png" alt="Lion L75000 Built-In BBQ" loading="lazy" /></div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Built-In · L75000</span>
+                      <h3 class="kc-name">Lion L75000 Built-In BBQ</h3>
+                      <p class="kc-desc">L75000 Built-In BBQ LP. Lion Premium Grills.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price">$2,149.00</span>
+                        <a class="btn btn-primary kc-cta" href="shop.html?view=Grills">View Product</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img"><img src="assets/images/lion-grills/lion-l75000-cart.png" alt="Lion L75000 Cart Only" loading="lazy" /></div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Cart · L75000</span>
+                      <h3 class="kc-name">Lion L75000 Cart Only</h3>
+                      <p class="kc-desc">L75000 BBQ Grill Cart Only. Lion Premium Grills.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price">$1,299.00</span>
+                        <a class="btn btn-primary kc-cta" href="shop.html?view=Grills">View Product</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img"><img src="assets/images/lion-grills/lion-l90000.png" alt="Lion L90000 Built-In BBQ" loading="lazy" /></div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Built-In · L90000</span>
+                      <h3 class="kc-name">Lion L90000 Built-In BBQ</h3>
+                      <p class="kc-desc">L90000 Built-In BBQ LP. Lion Premium Grills.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price">$2,599.00</span>
+                        <a class="btn btn-primary kc-cta" href="shop.html?view=Grills">View Product</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img"><img src="assets/images/lion-grills/Lion-cart.png" alt="Lion L90000 Cart Only" loading="lazy" /></div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Cart · L90000</span>
+                      <h3 class="kc-name">Lion L90000 Cart Only</h3>
+                      <p class="kc-desc">L90000 Cart Only. Lion Premium Grills.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price">$3,299.00</span>
+                        <a class="btn btn-primary kc-cta" href="shop.html?view=Grills">View Product</a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 2. Outdoor Kitchen Packages ────────────────── -->
+        <div class="accordion-item">
+          <button class="accordion-header" type="button" aria-expanded="false" aria-controls="acc-packages" id="acc-packages-hd">
+            <span class="accordion-title">Outdoor Kitchen Packages</span>
+            <span class="accordion-meta">3 packages</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-content" id="acc-packages" role="region" aria-labelledby="acc-packages-hd">
+            <div class="accordion-inner">
+              <div class="accordion-body">
+                <div class="kc-grid">
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Package</span>
+                      <h3 class="kc-name">Starter Setup</h3>
+                      <p class="kc-desc">Entry-level outdoor kitchen — built-in grill, access door, and essential accessories to get you cooking outside.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Package</span>
+                      <h3 class="kc-name">Premium Setup</h3>
+                      <p class="kc-desc">Elevated outdoor kitchen with built-in grill, storage, side burner, and refrigerator for a full cooking station.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Package</span>
+                      <h3 class="kc-name">Luxury Backyard Setup</h3>
+                      <p class="kc-desc">The full Pixy Dust outdoor experience — L90000 grill, complete storage suite, cooling, rotisserie, and all accessories.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 3. Storage ─────────────────────────────────── -->
+        <div class="accordion-item">
+          <button class="accordion-header" type="button" aria-expanded="false" aria-controls="acc-storage" id="acc-storage-hd">
+            <span class="accordion-title">Storage</span>
+            <span class="accordion-meta">4 products</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-content" id="acc-storage" role="region" aria-labelledby="acc-storage-hd">
+            <div class="accordion-inner">
+              <div class="accordion-body">
+                <div class="kc-grid">
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="9" x2="12" y2="21"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Storage</span>
+                      <h3 class="kc-name">Single Access Door</h3>
+                      <p class="kc-desc">Stainless steel single-door access panel for outdoor kitchen storage cabinets.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Storage</span>
+                      <h3 class="kc-name">Double Access Door</h3>
+                      <p class="kc-desc">Two-door access panel providing wider access to your outdoor kitchen storage space.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="2" y1="15" x2="22" y2="15"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Storage</span>
+                      <h3 class="kc-name">Drawer Unit</h3>
+                      <p class="kc-desc">Multi-drawer storage unit for utensils, tools, and grilling accessories — built for outdoor use.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="9" x2="12" y2="21"/><line x1="2" y1="15" x2="12" y2="15"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Storage</span>
+                      <h3 class="kc-name">Door / Drawer Combo</h3>
+                      <p class="kc-desc">Combined access door and drawer unit — maximizes outdoor kitchen storage in a single footprint.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 4. Cooling ─────────────────────────────────── -->
+        <div class="accordion-item">
+          <button class="accordion-header" type="button" aria-expanded="false" aria-controls="acc-cooling" id="acc-cooling-hd">
+            <span class="accordion-title">Cooling</span>
+            <span class="accordion-meta">1 product</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-content" id="acc-cooling" role="region" aria-labelledby="acc-cooling-hd">
+            <div class="accordion-inner">
+              <div class="accordion-body">
+                <div class="kc-grid">
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="5" y1="10" x2="19" y2="10"/><line x1="10" y1="6" x2="10" y2="8"/><line x1="10" y1="14" x2="10" y2="18"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Cooling</span>
+                      <h3 class="kc-name">Outdoor Refrigerator</h3>
+                      <p class="kc-desc">Weather-rated outdoor refrigerator designed to integrate flush with your outdoor kitchen island.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 5. Cooking Add-ons ──────────────────────────── -->
+        <div class="accordion-item">
+          <button class="accordion-header" type="button" aria-expanded="false" aria-controls="acc-addons" id="acc-addons-hd">
+            <span class="accordion-title">Cooking Add-ons</span>
+            <span class="accordion-meta">1 product</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-content" id="acc-addons" role="region" aria-labelledby="acc-addons-hd">
+            <div class="accordion-inner">
+              <div class="accordion-body">
+                <div class="kc-grid">
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c-1.5 2-2 4-1 6s3 3 2 6c-1 3-3 4-3 4"/><path d="M18 2c-1.5 2-2 4-1 6s3 3 2 6c-1 3-3 4-3 4"/><path d="M6 2c-1.5 2-2 4-1 6s3 3 2 6c-1 3-3 4-3 4"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Add-on</span>
+                      <h3 class="kc-name">Side Burner</h3>
+                      <p class="kc-desc">Single side burner add-on for sauces, sautés, and side dishes — keeps the grill grate free for mains.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 6. Accessories ─────────────────────────────── -->
+        <div class="accordion-item">
+          <button class="accordion-header" type="button" aria-expanded="false" aria-controls="acc-accessories" id="acc-accessories-hd">
+            <span class="accordion-title">Accessories</span>
+            <span class="accordion-meta">2 products</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-content" id="acc-accessories" role="region" aria-labelledby="acc-accessories-hd">
+            <div class="accordion-inner">
+              <div class="accordion-body">
+                <div class="kc-grid">
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6c0-1.1 3.6-2 8-2s8 .9 8 2v4c0 1.1-3.6 2-8 2s-8-.9-8-2V6z"/><path d="M4 10c0 1.1 3.6 2 8 2s8-.9 8-2v6c0 1.1-3.6 2-8 2s-8-.9-8-2v-6z"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Accessory</span>
+                      <h3 class="kc-name">Grill Cover</h3>
+                      <p class="kc-desc">Heavy-duty weatherproof grill cover. Sized to fit Lion Premium Grills — keeps your investment protected year-round.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img kc-img--ph">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(217,185,108,.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="2" y1="12" x2="22" y2="12"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M7 4l1.5 2.5M15.5 17.5L17 20M4 7l2.5 1.5M17.5 15.5L20 17M2 12h3M19 12h3M4 17l2.5-1.5M17.5 8.5L20 7M7 20l1.5-2.5M15.5 6.5L17 4"/></svg>
+                    </div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Accessory</span>
+                      <h3 class="kc-name">Rotisserie Kit</h3>
+                      <p class="kc-desc">Full rotisserie kit for Lion grills — slow-rotate whole chicken, roasts, and leg of lamb over live fire.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price-tbd">Contact for pricing</span>
+                        <a class="btn btn-secondary kc-cta" href="contact.html">Request a Quote</a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 7. Built for Flavor ────────────────────────── -->
+        <div class="accordion-item">
+          <button class="accordion-header" type="button" aria-expanded="false" aria-controls="acc-flavor" id="acc-flavor-hd">
+            <span class="accordion-title">Built for Flavor</span>
+            <span class="accordion-meta">4 blends</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-content" id="acc-flavor" role="region" aria-labelledby="acc-flavor-hd">
+            <div class="accordion-inner">
+              <div class="accordion-body">
+                <div class="kc-grid">
+
+                  <div class="kc-card">
+                    <div class="kc-img"><img src="assets/images/pouches/chophouse.png" alt="Chop House Steak Seasoning" loading="lazy" /></div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Steak</span>
+                      <h3 class="kc-name">Chop House</h3>
+                      <p class="kc-desc">Steakhouse profile for ribeye, strip, burgers, and roast beef. The grill's best friend.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price">$13.00</span>
+                        <a class="btn btn-primary kc-cta" href="shop.html?view=Pouches">Shop Now</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img"><img src="assets/images/pouches/seafood.png" alt="Deep Blue Seafood Seasoning" loading="lazy" /></div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Seafood</span>
+                      <h3 class="kc-name">Deep Blue</h3>
+                      <p class="kc-desc">Ocean-forward seasoning for grilled fish, shrimp, butter sauces, and clean finishes.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price">$13.00</span>
+                        <a class="btn btn-primary kc-cta" href="shop.html?view=Pouches">Shop Now</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img"><img src="assets/images/pouches/jerk.png" alt="Jerk Seasoning" loading="lazy" /></div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Chicken</span>
+                      <h3 class="kc-name">Jerk BBQ</h3>
+                      <p class="kc-desc">Aromatic island spice inspired by Jamaica. Ideal for chicken, pork, and grilled vegetables.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price">$13.00</span>
+                        <a class="btn btn-primary kc-cta" href="shop.html?view=Pouches">Shop Now</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="kc-card">
+                    <div class="kc-img"><img src="assets/images/pouches/smoke.png" alt="Smoke BBQ Seasoning" loading="lazy" /></div>
+                    <div class="kc-body">
+                      <span class="kc-badge">Ribs</span>
+                      <h3 class="kc-name">Smoke BBQ</h3>
+                      <p class="kc-desc">Competition-style smoke depth for brisket, ribs, and slow-cooked chicken.</p>
+                      <div class="kc-foot">
+                        <span class="kc-price">$13.00</span>
+                        <a class="btn btn-primary kc-cta" href="shop.html?view=Pouches">Shop Now</a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /accordion -->
+    </div><!-- /container -->
+  </section>
 
   <button class="chat-fab" type="button" aria-label="Open Pixy Assistant" data-chat-open>
     <span class="chat-fab-glow" aria-hidden="true"></span>
@@ -131,7 +561,7 @@ Purpose:
   <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
     <header class="chat-head">
       <div class="chat-brand">
-        <span class="chat-spark" aria-hidden="true"></span>
+        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true"></div>
         <div>
           <div class="chat-title">Pixy Assistant</div>
           <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
@@ -149,24 +579,67 @@ Purpose:
 
   <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
 
-  <footer class="site-footer" role="contentinfo">
+    <footer class="site-footer" role="contentinfo">
     <div class="container footer-inner">
       <div class="footer-left">
-        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
-        <div class="footer-tag">Luxury gourmet blends. Let's sprinkle a little magic.</div>
+        <div class="footer-line">&copy; <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Luxury gourmet blends. Let&#39;s sprinkle a little magic.</div>
       </div>
-      <div class="footer-mid">
-        <a href="about.html">About Pixy Dust</a>
-        <a href="recipes.html">Recipes</a>
-        <a href="contact.html">Contact</a>
-      </div>
+
       <div class="footer-right">
-        <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
-        <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
-        <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+        <div class="footer-follow" data-footer-follow>
+          <button class="footer-follow-btn" type="button" aria-haspopup="true" aria-expanded="false" data-footer-follow-toggle>Follow us <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="footer-follow-menu" data-footer-follow-menu>
+            <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
+            <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://www.tiktok.com/@pixydustseasoning" target="_blank" rel="noreferrer">TikTok</a>
+            <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+          </div>
+        </div>
+        <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="cookies.html">Cookie Policy</a>
       </div>
     </div>
   </footer>
 
+  <script>
+  (function () {
+    "use strict";
+    var acc = document.getElementById("kitchenAccordion");
+    if (!acc) return;
+    var items = acc.querySelectorAll(".accordion-item");
+
+    items.forEach(function (item) {
+      var btn     = item.querySelector(".accordion-header");
+      var content = item.querySelector(".accordion-content");
+      if (!btn || !content) return;
+
+      btn.addEventListener("click", function () {
+        var isOpen = item.classList.contains("is-open");
+
+        // Close all panels
+        items.forEach(function (other) {
+          other.classList.remove("is-open");
+          var c = other.querySelector(".accordion-content");
+          var b = other.querySelector(".accordion-header");
+          if (c) c.classList.remove("is-open");
+          if (b) b.setAttribute("aria-expanded", "false");
+        });
+
+        // Open clicked panel if it was closed
+        if (!isOpen) {
+          item.classList.add("is-open");
+          content.classList.add("is-open");
+          btn.setAttribute("aria-expanded", "true");
+          // Keep header in view on mobile after open
+          setTimeout(function () {
+            btn.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }, 60);
+        }
+      });
+    });
+  }());
+  </script>
 </body>
 </html>

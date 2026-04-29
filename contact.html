@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -12,20 +12,15 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="assets/css/pixy.css" /><script src="assets/js/cms.js" defer></script>
   <script src="assets/js/chatbot.js" defer></script>
+  <script src="assets/js/vip-capture.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/search.js" defer></script>
   <script src="assets/js/pixy-cart.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/agents.js" defer></script>
 </head>
 <body>
-  <div class="flash-sale" role="banner" aria-label="Promotion">
-    <div class="container">
-      <div class="flash-sale-inner">
-        <span><strong>Free Shipping</strong> on all Gift Sets — no minimum required</span>
-        <a class="btn btn-secondary" href="gifting.html" style="font-size:.75rem;padding:5px 14px;letter-spacing:.08em;">Shop Gift Sets</a>
-      </div>
-    </div>
-  </div>
+
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="topbar topbar--solid">
@@ -38,25 +33,34 @@
         <span></span><span></span><span></span>
       </button>
 
-      <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+            <nav id="mainNav" class="nav main-nav" aria-label="Primary">
         <a href="shop.html">Shop</a>
         <a href="gifting.html">Gifting</a>
-        <a href="about.html">About</a>
+        <a href="kitchen-table.html">Kitchen Table</a>
+        <a href="contact.html">Contact Us</a>
+        <div class="nav-more" data-nav-more>
+          <button class="nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" data-nav-more-toggle>More <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="nav-more-menu" data-nav-more-menu>
+            <a href="about.html">About</a>
+            <a href="juniors.html">Juniors</a>
+            <a href="wholesale.html">Wholesale</a>
+            <a href="recipes.html">Recipes</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+        </div>
+        <a class="nav-mobile-only" href="cart.html">Cart</a>
       </nav>
 
       <div class="header-right">
-        <a class="nav-icon-btn" href="shop.html" aria-label="Search products">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </a>
-        <button class="nav-icon-btn" id="openCartBtn" type="button" aria-label="Open cart">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
-          </svg>
+        <button class="nav-icon-btn" id="openSearchBtn" type="button" aria-label="Search site">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="cart-btn" id="openCartBtn" type="button" aria-label="Open cart">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Cart
           <span class="cart-badge" data-cart-badge hidden></span>
         </button>
-        <a class="btn btn-gold btn-sm" href="checkout.html">Buy Now</a>
       </div>
     </div>
   </header>
@@ -114,14 +118,14 @@
                         note.textContent = 'Message sent. We\'ll be in touch shortly.';
                         note.style.color = 'var(--gold)';
                       } else {
-                        note.textContent = 'Something went wrong. Please try again or email us directly.';
+                        note.textContent = 'Something went wrong. Please try again or email support@pixydustseasoning.com';
                         note.style.color = '#e07070';
                         btn.disabled = false; btn.textContent = 'Send Message';
                       }
                       note.style.display = '';
                     })
                     .catch(function(){
-                      note.textContent = 'Something went wrong. Please try again or email us directly.';
+                      note.textContent = 'Something went wrong. Please try again or email support@pixydustseasoning.com';
                       note.style.color = '#e07070';
                       note.style.display = '';
                       btn.disabled = false; btn.textContent = 'Send Message';
@@ -133,7 +137,10 @@
 
           <div class="card">
             <h2 class="section-title">Where to Find Us</h2>
-            <p class="muted" style="margin-bottom:20px;">Pixy Dust is carried in select retail and culinary locations.</p>
+            <p class="muted" style="margin-bottom:16px;">Pixy Dust is carried in select retail and culinary locations.</p>
+
+            <h3 class="card-title" style="margin-bottom:8px;">Email Us Directly</h3>
+            <p class="muted" style="margin-bottom:20px;"><a href="mailto:support@pixydustseasoning.com" style="color:var(--gold);">support@pixydustseasoning.com</a> — We respond within 1 business day.</p>
 
             <h3 class="card-title" style="margin-bottom:12px;">Retail Partners</h3>
             <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
@@ -171,7 +178,7 @@
   <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
     <header class="chat-head">
       <div class="chat-brand">
-        <span class="chat-spark" aria-hidden="true"></span>
+        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true"></div>
         <div>
           <div class="chat-title">Pixy Assistant</div>
           <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
@@ -189,24 +196,26 @@
 
   <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
 
-  <footer class="site-footer" role="contentinfo">
+    <footer class="site-footer" role="contentinfo">
     <div class="container footer-inner">
       <div class="footer-left">
-        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
-        <div class="footer-tag">Luxury gourmet blends. Let’s sprinkle a little magic.</div>
+        <div class="footer-line">&copy; <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Luxury gourmet blends. Let&#39;s sprinkle a little magic.</div>
       </div>
-      <div class="footer-mid">
-        <a href="about.html">About Pixy Dust</a>
-        <a href="recipes.html">Recipes</a>
-        <a href="faq.html">FAQ</a>
-        <a href="shipping.html">Shipping</a>
-        <a href="returns.html">Returns</a>
-        <a href="contact.html">Contact</a>
-      </div>
+
       <div class="footer-right">
-        <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
-        <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
-        <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+        <div class="footer-follow" data-footer-follow>
+          <button class="footer-follow-btn" type="button" aria-haspopup="true" aria-expanded="false" data-footer-follow-toggle>Follow us <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="footer-follow-menu" data-footer-follow-menu>
+            <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
+            <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://www.tiktok.com/@pixydustseasoning" target="_blank" rel="noreferrer">TikTok</a>
+            <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+          </div>
+        </div>
+        <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="cookies.html">Cookie Policy</a>
       </div>
     </div>
   </footer>

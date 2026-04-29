@@ -28,7 +28,7 @@ window.PIXY_PRODUCT_CATALOG = [
     id: "sugar-free-all-purpose",
     name: "Sugar Free All Purpose",
     category: "Seasoning Blend",
-    bestFor: ["chicken", "beef", "vegetables", "keto", "vegan", "diabetic", "low carb", "eggs", "fish", "potatoes"],
+    bestFor: ["chicken", "beef", "vegetables", "keto", "vegan", "sugar-conscious", "low carb", "eggs", "fish", "potatoes"],
     flavor: "all-purpose flavor without any added sugar, sweetened with monk fruit",
     size: "4 oz pouch",
     image: "assets/images/pouches/sugarfree.png",
@@ -37,7 +37,7 @@ window.PIXY_PRODUCT_CATALOG = [
     description: "Same great All Purpose flavor, reformulated for keto and vegan lifestyles. No sugar, naturally sweetened with monk fruit.",
     usage: "Use 1–2 teaspoons per pound.",
     ingredients: "Sea Salt, Black Pepper, Garlic, Turmeric, Onion, Paprika, Mustard, Celery Seed, Monk Fruit, Chili Powder, Cumin and Herbs",
-    tags: ["keto", "vegan", "sugar-free", "low-carb", "diabetic", "monk fruit", "plant-based"]
+    tags: ["keto", "vegan", "sugar-free", "low-carb", "sugar-conscious", "monk fruit", "plant-based"]
   },
   {
     id: "chophouse-steak-rub",

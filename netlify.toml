@@ -35,6 +35,23 @@ NODE_VERSION = "18"
 #
 #   ADMIN_SECRET         — Any strong password you choose (protects /admin/products.html)
 #                          Required for /.netlify/functions/products-admin
+#
+# ── VIP / Mailchimp sync ────────────────────────────────────────────────────
+#
+#   MAILCHIMP_API_KEY        — Mailchimp API key
+#                              Found in: Mailchimp → Account → Extras → API keys
+#                              Required for /.netlify/functions/mailchimp-sync
+#
+#   MAILCHIMP_SERVER_PREFIX  — Mailchimp data center prefix (e.g. "us21")
+#                              Found at the end of your Mailchimp API endpoint URL
+#                              Required for /.netlify/functions/mailchimp-sync
+#
+#   MAILCHIMP_AUDIENCE_ID    — Mailchimp list/audience ID
+#                              Found in: Mailchimp → Audience → Settings → Audience name and defaults
+#                              Required for /.netlify/functions/mailchimp-sync
+#
+#   SUPABASE_SERVICE_ROLE_KEY — Also used by mailchimp-sync to insert leads
+#                               (already documented above as SUPABASE_SERVICE_KEY)
 # ─────────────────────────────────────────────────────────────────────────────
 
 [[headers]]

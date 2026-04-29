@@ -24,6 +24,10 @@
   var MAX_HISTORY     = 20;
   var API_HISTORY     = 10;
 
+  // State for the email capture flow — null when inactive.
+  // { tag: "VIP"|"Wholesale"|"Newsletter" }
+  var pendingCapture = null;
+
   // ─────────────────────────────────────────────────────────────────
   // SESSION RESET — clear transcript once per browser tab.
   // ─────────────────────────────────────────────────────────────────
@@ -120,6 +124,42 @@
   }
 
   // ─────────────────────────────────────────────────────────────────
+  // LEAD CAPTURE — intent detection and email collection flow
+  // ─────────────────────────────────────────────────────────────────
+
+  function detectLeadIntent(message) {
+    var t = (message || "").toLowerCase();
+    if (/\bvip\b|exclusive|early.?access|private.?access|join.*vip|vip.*list/.test(t))
+      return { tag: "VIP" };
+    if (/apply.*wholesale|wholesale.*apply|wholesale.*interest|interest.*wholesale|wholesale.*inquiry|wholesale.*email/.test(t))
+      return { tag: "Wholesale" };
+    if (/\bnewsletter\b|mailing.?list|sign.*me.*up|keep.*updated|stay.*updated/.test(t))
+      return { tag: "Newsletter" };
+    return null;
+  }
+
+  function isValidEmail(str) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((str || "").trim());
+  }
+
+  function handleLeadEmail(email, capture) {
+    var vip = window.PIXY_VIP;
+    if (vip && typeof vip.submitLead === "function") {
+      vip.submitLead(email.trim(), "", capture.tag, "chatbot");
+    }
+    var confirm;
+    if (capture.tag === "VIP") {
+      confirm = "You’re on the VIP list! Expect exclusive access and early drops at " + email.trim() + ". Welcome.";
+    } else if (capture.tag === "Wholesale") {
+      confirm = "Got it — we’ll reach out to " + email.trim() + " about wholesale options within 1 business day.";
+    } else {
+      confirm = "You’re subscribed! We’ll keep you updated at " + email.trim() + ".";
+    }
+    pendingCapture = null;
+    return confirm;
+  }
+
+  // ─────────────────────────────────────────────────────────────────
   // INIT
   // ─────────────────────────────────────────────────────────────────
   document.addEventListener("DOMContentLoaded", function () {
@@ -139,7 +179,8 @@
     if (!transcript.length) {
       transcript.push({
         role: "bot",
-        text: "Pixy Assistant ready. Ask about a blend, what you\u2019re cooking, or gift ideas."
+        text: "Pixy Assistant ready. Ask about a blend, what you\u2019re cooking, or gift ideas.",
+        quickReplies: ["Shop Blends", "Best for Chicken", "Best for Seafood", "Gift Ideas", "Wholesale", "Shipping & Returns", "Contact Us"]
       });
       saveTranscript(transcript);
     }
@@ -159,6 +200,47 @@
       renderAll(bodyEl, transcript);
 
       var loadingId = showLoading(bodyEl);
+
+      // ── Lead capture state machine ──────────────────────────────
+      if (pendingCapture) {
+        removeLoading(bodyEl, loadingId);
+        var replyText;
+        if (isValidEmail(msg)) {
+          replyText = handleLeadEmail(msg, pendingCapture);
+        } else {
+          replyText = “That doesn’t look like a valid email address. Please enter your email to continue, or type ‘cancel’ to go back.”;
+          if (/^cancel$/i.test(msg.trim())) {
+            pendingCapture = null;
+            replyText = "No problem — feel free to ask me anything else!";
+          }
+        }
+        transcript = loadTranscript();
+        transcript.push({ role: "bot", text: replyText });
+        saveTranscript(transcript);
+        renderAll(bodyEl, transcript);
+        setInputDisabled(input, form, false);
+        input.focus();
+        return;
+      }
+
+      var captureIntent = detectLeadIntent(msg);
+      if (captureIntent) {
+        pendingCapture = captureIntent;
+        removeLoading(bodyEl, loadingId);
+        var askText = captureIntent.tag === "VIP"
+          ? "I’d love to add you to the VIP list — you’ll get exclusive blends and early releases. What’s your email address?"
+          : captureIntent.tag === "Wholesale"
+            ? "Wholesale inquiries are welcome! Share your email and our team will follow up within 1 business day."
+            : "Happy to add you to our list. What’s your email address?";
+        transcript = loadTranscript();
+        transcript.push({ role: "bot", text: askText });
+        saveTranscript(transcript);
+        renderAll(bodyEl, transcript);
+        setInputDisabled(input, form, false);
+        input.focus();
+        return;
+      }
+      // ── End lead capture ────────────────────────────────────────
 
       ensureCatalog()
         .then(function () {
@@ -226,43 +308,84 @@
         ". Full label on the product page.";
     }
     if (blend) {
-      return blend.name + ": " + blend.best + " Tap View & Order on the Shop page.";
+      return blend.name + ": " + blend.best + " Visit the Shop page to order.";
     }
 
-    if (/steak|ribeye|sirloin|strip|filet|burger/.test(t))
-      return "Try Chop House Steak or Garlic Pepper for beef. Pat dry, season generously, sear hot, rest 5 min before slicing.";
-    if (/chicken|wing|wings|drum|thigh/.test(t))
-      return "Try Universal All Purpose, Jerk, or Asian Stir Fry on chicken. Season well and cook to 165\u00b0F.";
-    if (/pork|rib|ribs|bacon|belly|tenderloin|chop/.test(t))
-      return "Try Smoke BBQ for ribs and pulled pork. Try Jerk for chops and tenderloin.";
-    if (/fish|salmon|tilapia|shrimp|scallop|crab|seafood/.test(t))
-      return "Try Deep Blue Seafood. Season lightly and cook fast over high heat for shrimp and scallops.";
-    if (/vegetable|veggies|broccoli|asparagus|potato|mushroom|zucchini|cauliflower/.test(t))
-      return "Try Universal All Purpose or Garlic Pepper. Oil lightly, season, roast at 425\u00b0F until browned.";
-    if (/egg|eggs|breakfast|scramble|omelette/.test(t))
-      return "Universal All Purpose works great on eggs. A little Garlic Pepper is excellent on scrambles.";
-    if (/pasta|noodle|rice/.test(t))
-      return "Try Asian Stir Fry in noodle dishes or garlic-forward pasta. Add to cooking water or toss at the end.";
-    if (/keto|sugar.?free|no sugar|vegan|plant.?based|low.?carb/.test(t))
-      return "Sugar Free All Purpose is our keto and vegan blend \u2014 same great flavor, no sugar, naturally sweetened with monk fruit.";
-    if (/gluten|celiac/.test(t))
-      return "Most of our blends are gluten-free, but always check the label on the product page for the most current info.";
-    if (/sodium|salt|low.?sodium/.test(t))
-      return "Our blends are seasoned to enhance flavor without over-salting. For a lighter hand, start with half the amount and adjust to taste.";
-    if (/gift|present|birthday|holiday|mother|father|christmas|hanukkah/.test(t))
-      return "Check our Gifting page for 3-blend, 6-blend, and full collection gift boxes. Perfect for food lovers and home cooks.";
-    if (/beginner|new|start|first|recommend|which one|what to get|where to start/.test(t))
-      return "Start with Universal All Purpose \u2014 it works on proteins, vegetables, eggs, and sides. Most versatile blend in the collection.";
-    if (/cart|checkout|shipping|tax/.test(t))
-      return "Use the Cart button to review and checkout. Shipping and tax are calculated at checkout.";
-    if (/order|refund|return|support|help/.test(t))
-      return "For order questions, visit the Contact page and we\u2019ll get back to you promptly.";
-    if (/wholesale|bulk|restaurant|retailer/.test(t))
-      return "Wholesale and restaurant partnerships are available. Visit the Wholesale page to submit an application.";
-    if (/subscription|subscribe|monthly/.test(t))
-      return "Subscriptions are available in 1-, 3-, and 6-month options on the Gifting page.";
+    // \u2500\u2500 Quick-button topics \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    if (/^shop blends?$/i.test(message) || /^browse|^shop$/i.test(message.trim()))
+      return "We have 9 signature seasoning blends in pouches ($13 each) and bottles ($7.95), plus gift sets, subscriptions, individual spices, grills, and kids bundles. Visit the Shop page to see the full collection.";
 
-    return "Ask me about a specific blend, what you\u2019re cooking tonight, or gift ideas for a food lover.";
+    if (/^best for chicken$/i.test(message))
+      return "Top picks for chicken: Universal All Purpose (everyday versatility), Jerk (island depth, great on wings and thighs), Asian Stir Fry (umami wok flavor), and Fajita (Mexican-inspired grill). Season generously and cook to 165\u00b0F.";
+
+    if (/^best for seafood$/i.test(message))
+      return "Deep Blue Seafood is our dedicated ocean blend \u2014 built for fish, shrimp, scallops, crab, and butter sauces. Season just before cooking. Asian Stir Fry also works beautifully on shrimp and wok-seared fish.";
+
+    if (/^gift ideas?$/i.test(message))
+      return "Our gift sets are perfect for food lovers: the 3-Blend Set ($37), 6-Blend Set ($55), and full 9-Blend Signature Collection ($75). All gift sets ship free. We also have Junior Chef kits for kids and subscription boxes. Visit the Gifting page for everything.";
+
+    if (/^wholesale$/i.test(message))
+      return "We work with restaurants, retailers, and hospitality programs. Shelf-ready luxury packaging, bulk options (1 lb and 5 lb), and private label are available. Visit the Wholesale page to submit an application.";
+
+    if (/^shipping\s*(&|and)\s*returns$/i.test(message))
+      return "Shipping: standard 5\u20137 business days, expedited 2\u20133 days. All gift sets ship free; orders over $75 also ship free. Returns: we accept unopened items within 30 days. Damaged orders are replaced at no charge. Email support@pixydustseasoning.com to start a return.";
+
+    if (/^contact us?$/i.test(message))
+      return "Reach us at support@pixydustseasoning.com \u2014 we respond within 1 business day. You can also use the Contact page to send a message directly.";
+
+    // \u2500\u2500 Food types \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    if (/steak|ribeye|sirloin|strip|filet|burger|beef|brisket/.test(t))
+      return "Try Chop House Steak for premium cuts \u2014 bold steakhouse flavor. Garlic Pepper is great for everyday beef and finishing. Smoke BBQ works on brisket and burgers. Pat dry, season generously, sear hot.";
+    if (/chicken|wing|wings|drum|thigh|breast|poultry/.test(t))
+      return "Top chicken blends: Universal All Purpose (everyday), Jerk (island marinade or dry rub), Asian Stir Fry (wok), Fajita (grilled or skillet). Season well and cook to 165\u00b0F.";
+    if (/pork|rib|ribs|bacon|belly|tenderloin|chop|pulled pork/.test(t))
+      return "Smoke BBQ is the go-to for ribs, pulled pork, and smoked cuts. Jerk works beautifully on chops and tenderloin. Apply 30 min before cooking for best bark on ribs.";
+    if (/fish|salmon|tilapia|shrimp|scallop|crab|seafood|lobster|catfish|halibut|cod/.test(t))
+      return "Deep Blue Seafood is built for it \u2014 lemon peel, white pepper, and herbs keep it bright. Season just before cooking. For wok-seared shrimp, Asian Stir Fry is equally excellent.";
+    if (/vegetable|veggies|broccoli|asparagus|potato|mushroom|zucchini|cauliflower|roasted/.test(t))
+      return "Universal All Purpose or Garlic Pepper on roasted vegetables. Oil lightly, season well, roast at 400\u2013425\u00b0F until the edges caramelize. Sugar Free All Purpose is ideal for plant-based eating.";
+    if (/egg|eggs|breakfast|scramble|omelette|frittata/.test(t))
+      return "Universal All Purpose works great on eggs and breakfast dishes. A pinch of Garlic Pepper is excellent in scrambles. Both add depth without overpowering.";
+    if (/pasta|noodle|noodles|rice|fried rice|lo mein/.test(t))
+      return "Asian Stir Fry brings restaurant-style umami to noodles and fried rice. Add to cooking water or toss at the end over high heat. Garlic Pepper also works in garlic pasta and butter-based dishes.";
+    if (/taco|tacos|mexican|fajita|burrito|quesadilla|nachos/.test(t))
+      return "The Fajita blend was inspired by Mexico \u2014 smoked paprika, cumin, lime, and chili. Use on skirt steak, chicken, or shrimp. Great as a dry rub or mixed with oil and lime as a marinade.";
+
+    // \u2500\u2500 Dietary \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    if (/keto|sugar.?free|no sugar|vegan|plant.?based|low.?carb|monk fruit/.test(t))
+      return "Sugar Free All Purpose is made without added sugar and naturally sweetened with monk fruit \u2014 same great All Purpose flavor, no sugar. Great for keto and low-carb cooking.";
+    if (/gluten|celiac/.test(t))
+      return "Most Pixy Dust blends are naturally gluten-free. Check the ingredient list on each product page for the most current information.";
+    if (/sodium|salt|low.?sodium/.test(t))
+      return "Our blends are designed to enhance flavor without over-salting. Start with half the suggested amount and adjust to taste if you're watching sodium.";
+
+    // \u2500\u2500 Shopping / policies \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    if (/gift|present|birthday|holiday|mother|father|christmas|hanukkah|thanksgiving/.test(t))
+      return "Our gift sets are beautifully packaged and all ship free: 3-Blend ($37), 6-Blend ($55), full 9-Blend Collection ($75). We also have Junior Chef kits for kids. Visit the Gifting page.";
+    if (/beginner|new|start|first|recommend|which one|what to get|where to start/.test(t))
+      return "Start with Universal All Purpose \u2014 it works on every protein, vegetables, eggs, and sides. Most versatile blend in the collection. Available in pouches ($13) and bottles ($7.95).";
+    if (/ship|shipping|deliver|delivery|how long|tracking|free ship/.test(t))
+      return "Standard shipping is 5\u20137 business days. Expedited is 2\u20133 days. All gift sets ship free. Orders over $75 also ship free. You\u2019ll receive a tracking email once your order ships.";
+    if (/return|refund|exchange|money back|damaged|broken/.test(t))
+      return "We accept returns within 30 days on unopened items. Damaged orders are replaced at no charge. Email support@pixydustseasoning.com with your order number to start.";
+    if (/wholesale|bulk|restaurant|retailer|b2b|hospitality|private label/.test(t))
+      return "Wholesale and restaurant partnerships are available. We offer shelf-ready luxury packaging, 1 lb and 5 lb bulk options, and private label. Visit the Wholesale page to apply.";
+    if (/subscription|subscribe|monthly|recurring/.test(t))
+      return "Subscriptions are available in monthly, 3-month, and 6-month options on the Gifting page. Perfect as a recurring gift or a way to keep exploring new blends.";
+    if (/kids|children|juniors|family|book|storybook|young chef/.test(t))
+      return "Pixy Dust Juniors features kid-friendly seasoning kits, the \u201cZen in the Pearl Market\u201d storybook, and Junior Chef bundles that pair books with blends. Perfect for families who cook together. Visit the Juniors page.";
+    if (/cart|checkout|bag|order|buy/.test(t))
+      return "Use the Cart button in the top-right corner to review your items and check out. Shipping and any applicable tax are calculated at checkout.";
+    if (/contact|email|support|help|reach|phone/.test(t))
+      return "Reach us at support@pixydustseasoning.com \u2014 we respond within 1 business day. Or visit the Contact page and send a message directly.";
+    if (/shop|browse|products|collection|lineup|what do you have|what do you sell/.test(t))
+      return "We carry 9 signature blends (pouches and bottles), gift sets, subscriptions, individual spices, Lion Premium grills, and Junior Chef kits. Visit the Shop page to see the full collection.";
+    if (/who|about|brand|story|founder|pixy dust|origin|history/.test(t))
+      return "Pixy Dust Seasoning creates luxury gourmet blends inspired by global travels and Caribbean roots. The collection spans 9 signature blends engineered for specific flavor profiles. Visit the About page to learn more.";
+    if (/price|cost|how much/.test(t))
+      return "Pouches are $13 each. Bottles start at $7.95. Gift sets are $37, $55, and $75 \u2014 all with free shipping. Individual spices vary. Visit the Shop page for the full price list.";
+
+    return "I don\u2019t have enough information to answer that. Please contact us at support@pixydustseasoning.com and we\u2019ll be happy to help.";
   }
 
   var BLENDS = [
@@ -361,13 +484,13 @@
     for (var i = 0; i < transcript.length; i++) {
       var m = transcript[i];
       if (m && m.role && typeof m.text === "string") {
-        addBubble(bodyEl, m.role, m.text, m.products);
+        addBubble(bodyEl, m.role, m.text, m.products, m.quickReplies);
       }
     }
     bodyEl.scrollTop = bodyEl.scrollHeight;
   }
 
-  function addBubble(bodyEl, role, text, products) {
+  function addBubble(bodyEl, role, text, products, quickReplies) {
     var row = document.createElement("div");
     row.className = "chat-row " + (role === "user" ? "is-user" : "is-bot");
 
@@ -377,7 +500,13 @@
 
     row.appendChild(bubble);
 
-    // Render product CTA buttons for bot messages only
+    // Quick-reply buttons (only on bot messages that carry them)
+    if (role === "bot" && Array.isArray(quickReplies) && quickReplies.length) {
+      var qrEl = renderQuickReplies(quickReplies);
+      if (qrEl) row.appendChild(qrEl);
+    }
+
+    // Product CTA buttons for bot messages
     if (role === "bot" && Array.isArray(products) && products.length) {
       var ctaEl = renderProductButtons(products);
       if (ctaEl) row.appendChild(ctaEl);
@@ -385,6 +514,33 @@
 
     bodyEl.appendChild(row);
     return row;
+  }
+
+  function renderQuickReplies(buttons) {
+    if (!buttons || !buttons.length) return null;
+    var div = document.createElement("div");
+    div.className = "chat-quick-replies";
+    for (var i = 0; i < buttons.length; i++) {
+      (function (label) {
+        var btn = document.createElement("button");
+        btn.className = "chat-quick-btn";
+        btn.type = "button";
+        btn.textContent = label;
+        btn.addEventListener("click", function () {
+          var chat   = document.querySelector("[data-chat]");
+          if (!chat) return;
+          var formEl  = chat.querySelector("[data-chat-form]");
+          var inputEl = chat.querySelector('input[type="text"], input[name="message"]');
+          if (!inputEl || !formEl || inputEl.disabled) return;
+          inputEl.value = label;
+          var evt = document.createEvent ? document.createEvent("Event") : new Event("submit");
+          if (evt.initEvent) evt.initEvent("submit", true, true);
+          formEl.dispatchEvent(evt);
+        });
+        div.appendChild(btn);
+      }(buttons[i]));
+    }
+    return div;
   }
 
   function renderProductButtons(products) {

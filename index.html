@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -14,14 +14,7 @@
 </head>
 
 <body>
-  <div class="flash-sale" role="banner" aria-label="Promotion">
-    <div class="container">
-      <div class="flash-sale-inner">
-        <span><strong>Free Shipping</strong> on all Gift Sets — no minimum required</span>
-        <a class="btn btn-secondary" href="gifting.html" style="font-size:.75rem;padding:5px 14px;letter-spacing:.08em;">Shop Gift Sets</a>
-      </div>
-    </div>
-  </div>
+
 
   <header class="topbar" id="siteHeader">
     <div class="wrap">
@@ -33,25 +26,34 @@
         <span></span><span></span><span></span>
       </button>
 
-      <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+            <nav id="mainNav" class="nav main-nav" aria-label="Primary">
         <a href="shop.html">Shop</a>
         <a href="gifting.html">Gifting</a>
-        <a href="about.html">About</a>
+        <a href="kitchen-table.html">Kitchen Table</a>
+        <a href="contact.html">Contact Us</a>
+        <div class="nav-more" data-nav-more>
+          <button class="nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" data-nav-more-toggle>More <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="nav-more-menu" data-nav-more-menu>
+            <a href="about.html">About</a>
+            <a href="juniors.html">Juniors</a>
+            <a href="wholesale.html">Wholesale</a>
+            <a href="recipes.html">Recipes</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+        </div>
+        <a class="nav-mobile-only" href="cart.html">Cart</a>
       </nav>
 
       <div class="header-right">
-        <a class="nav-icon-btn" href="shop.html" aria-label="Search products">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </a>
-        <button class="nav-icon-btn" id="openCartBtn" type="button" aria-label="Open cart">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
-          </svg>
+        <button class="nav-icon-btn" id="openSearchBtn" type="button" aria-label="Search site">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="cart-btn" id="openCartBtn" type="button" aria-label="Open cart">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Cart
           <span class="cart-badge" data-cart-badge hidden></span>
         </button>
-        <a class="btn btn-gold btn-sm" href="shop.html">Buy Now</a>
       </div>
     </div>
   </header>
@@ -152,88 +154,7 @@
       </div>
     </section>
 
-    <!-- ── 5. CHOOSE YOUR BLEND (replaces "Where do you want to start?") ── -->
-    <section class="section" id="start-here" data-cms-section="start-here">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title" data-cms-text="start-title">Choose Your First Blend</h2>
-          <p class="section-sub" data-cms-text="start-sub">Three ways in. All roads lead to flavor.</p>
-        </div>
-        <div class="grid three">
-          <a class="card decision-card" href="#best-sellers" data-scroll-to="best-sellers" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;">
-            <div class="decision-label">Popular</div>
-            <h3 class="card-title">Shop Best Sellers</h3>
-            <p class="muted">Start with what our customers love most. Proven flavor, reordered constantly.</p>
-            <span class="btn btn-secondary" style="align-self:flex-start;margin-top:auto;">View Best Sellers</span>
-          </a>
-          <a class="card decision-card" href="shop.html?view=Pouches" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;">
-            <div class="decision-label">Collection</div>
-            <h3 class="card-title">Shop Signature Collection</h3>
-            <p class="muted">Browse all nine signature blends. Find the flavor profile that fits your kitchen.</p>
-            <span class="btn btn-secondary" style="align-self:flex-start;margin-top:auto;">View Collection</span>
-          </a>
-          <a class="card decision-card" href="gifting.html" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;">
-            <div class="decision-label">Gift</div>
-            <h3 class="card-title">Shop Gift Sets</h3>
-            <p class="muted">Luxury seasoning sets for food lovers. 3-blend, 6-blend, or the full collection.</p>
-            <span class="btn btn-secondary" style="align-self:flex-start;margin-top:auto;">Shop Gift Sets</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── 6. BRAND STORY (SHORT) ── -->
-    <section class="section" data-cms-section="brand-story">
-      <div class="container">
-        <div class="card" style="display:flex;gap:36px;align-items:center;flex-wrap:wrap;padding:40px;">
-          <div style="flex:1;min-width:220px;">
-            <p class="kicker">The Story</p>
-            <h2 class="section-title" style="margin-bottom:12px;">Crafted From Journeys</h2>
-            <p class="muted" style="max-width:500px;margin-bottom:20px;">Every blend in the Pixy Dust collection was born from a real journey — Jamaica, Mexico, West Africa, coastal kitchens, and championship BBQ pits. These aren't random spice combinations. They're recipes distilled from memory and obsession.</p>
-            <a class="btn btn-secondary" href="about.html">About Pixy Dust</a>
-          </div>
-          <div style="flex:0 0 180px;text-align:center;">
-            <img src="assets/images/PD blk.png" alt="Pixy Dust" style="width:140px;opacity:.75;filter:drop-shadow(0 10px 30px rgba(217,185,108,.2));" loading="lazy" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── 7. TESTIMONIALS ── -->
-    <section class="section" data-cms-section="testimonials">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">What People Are Saying</h2>
-        </div>
-        <div class="grid three">
-          <div class="card" style="display:flex;flex-direction:column;gap:12px;">
-            <p class="muted" style="font-style:italic;line-height:1.7;">"I used the Jerk blend on chicken thighs and my whole family asked me what restaurant it was from. That's all I need to say."</p>
-            <div style="font-size:.82rem;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-top:auto;">— Home Cook, Chicago</div>
-          </div>
-          <div class="card" style="display:flex;flex-direction:column;gap:12px;">
-            <p class="muted" style="font-style:italic;line-height:1.7;">"We carry Pixy Dust at Fresh Thyme and it moves. Customers come back specifically asking for it."</p>
-            <div style="font-size:.82rem;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-top:auto;">— Retail Partner</div>
-          </div>
-          <div class="card" style="display:flex;flex-direction:column;gap:12px;">
-            <p class="muted" style="font-style:italic;line-height:1.7;">"The Chop House rub changed how I grill. Nothing comes close to this for a steakhouse-quality finish at home."</p>
-            <div style="font-size:.82rem;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-top:auto;">— Backyard Chef, Michigan</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── 8. WATCH & COOK ── -->
-    <section class="section" data-cms-section="videos" id="videos">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title" data-cms-text="videos-title">Watch &amp; Cook</h2>
-          <p class="section-sub" data-cms-text="videos-sub">Recipes, cook-offs, and the Pixy Dust story — on screen.</p>
-        </div>
-        <div data-video-zone="home"></div>
-      </div>
-    </section>
-
-    <!-- ── 9. VIP SIGNUP ── -->
+    <!-- ── 5. VIP SIGNUP ── -->
     <section class="section" data-cms-section="email">
       <div class="container">
         <div class="callout">
@@ -261,7 +182,7 @@
   <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
     <header class="chat-head">
       <div class="chat-brand">
-        <span class="chat-spark" aria-hidden="true"></span>
+        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true"></div>
         <div>
           <div class="chat-title">Pixy Assistant</div>
           <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
@@ -279,30 +200,26 @@
 
   <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
 
-  <footer class="site-footer" role="contentinfo">
+    <footer class="site-footer" role="contentinfo">
     <div class="container footer-inner">
       <div class="footer-left">
-        <div class="footer-line">© <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
-        <div class="footer-tag">Luxury gourmet blends. Let's sprinkle a little magic.</div>
+        <div class="footer-line">&copy; <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Luxury gourmet blends. Let&#39;s sprinkle a little magic.</div>
       </div>
-      <div class="footer-mid">
-        <a href="about.html">About Pixy Dust</a>
-        <a href="recipes.html">Kitchen Table</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="juniors.html">Juniors</a>
-        <a href="wholesale.html">Wholesale</a>
-        <a href="contact.html">Contact</a>
-      </div>
-      <div class="footer-mid">
-        <a href="faq.html">FAQ</a>
-        <a href="shipping.html">Shipping</a>
-        <a href="returns.html">Returns</a>
-        <a href="recipes.html">Recipes</a>
-      </div>
+
       <div class="footer-right">
-        <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
-        <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
-        <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+        <div class="footer-follow" data-footer-follow>
+          <button class="footer-follow-btn" type="button" aria-haspopup="true" aria-expanded="false" data-footer-follow-toggle>Follow us <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="footer-follow-menu" data-footer-follow-menu>
+            <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
+            <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://www.tiktok.com/@pixydustseasoning" target="_blank" rel="noreferrer">TikTok</a>
+            <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+          </div>
+        </div>
+        <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="cookies.html">Cookie Policy</a>
       </div>
     </div>
   </footer>
@@ -311,17 +228,19 @@
   <script src="assets/js/pixy-cart.js" defer></script>
   <script src="assets/js/cms.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/search.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/agents.js" defer></script>
   <script src="assets/js/shop.js" defer></script>
   <script src="assets/js/video.js" defer></script>
   <script src="assets/js/chatbot.js" defer></script>
+  <script src="assets/js/vip-capture.js" defer></script>
 
   <script>
     // Best Sellers — populated from products.js
     (function () {
       "use strict";
-      var BEST_SELLER_KEYS = ["all-purpose", "garlic-pepper", "smoke-bbq", "jerk"];
+      var BEST_SELLER_KEYS = ["all-purpose", "garlic-pepper", "smoke-bbq"];
 
       function renderBestSellers() {
         var grid = document.getElementById("best-sellers-grid");

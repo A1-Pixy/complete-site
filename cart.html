@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart — Pixy Dust Seasoning</title>
+  <meta name="description" content="Your Pixy Dust Seasoning cart — review your order and proceed to checkout." />
+  <meta property="og:title" content="Cart — Pixy Dust Seasoning" />
+  <meta property="og:description" content="Review your cart and check out." />
+  <meta property="og:image" content="assets/images/signature-collection-badge.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="assets/css/pixy.css" />
+  <script src="assets/js/products.js" defer></script>
+  <script src="assets/js/pixy-cart.js" defer></script>
+  <script src="assets/js/cms.js" defer></script>
+  <script src="assets/js/chatbot.js" defer></script>
+  <script src="assets/js/vip-capture.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/search.js" defer></script>
+  <script src="assets/js/cart.js" defer></script>
+  <style>
+    .cart-page-empty { text-align:center; padding:64px 24px; }
+    .cart-page-empty p { color:var(--muted); margin-bottom:24px; }
+    .cart-page-items { display:flex; flex-direction:column; gap:16px; margin-bottom:32px; }
+    .cart-page-row {
+      display:flex; align-items:center; gap:16px;
+      background:var(--bg2); border:1px solid var(--stroke);
+      border-radius:var(--r); padding:16px;
+    }
+    .cart-page-img {
+      width:64px; height:64px; border-radius:12px;
+      object-fit:contain; background:rgba(0,0,0,.3); flex-shrink:0;
+    }
+    .cart-page-info { flex:1; min-width:0; }
+    .cart-page-name { font-weight:600; color:var(--text); font-size:.95rem; margin:0 0 4px; }
+    .cart-page-price { color:var(--gold); font-size:.9rem; }
+    .cart-qty-ctrl { display:flex; align-items:center; gap:8px; }
+    .cart-qty-btn {
+      width:34px; height:34px; border-radius:10px;
+      border:1px solid var(--stroke); background:rgba(0,0,0,.25);
+      color:var(--text); font-size:1.1rem; cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center;
+      transition:border-color .2s, background .2s;
+    }
+    .cart-qty-btn:hover { border-color:var(--gold); background:rgba(217,185,108,.08); }
+    .cart-qty-num { min-width:28px; text-align:center; color:var(--text); font-size:.95rem; }
+    .cart-page-remove { color:var(--muted2); font-size:.8rem; cursor:pointer; background:none; border:none; padding:4px; transition:color .2s; }
+    .cart-page-remove:hover { color:#e07070; }
+    .cart-page-summary {
+      background:var(--bg2); border:1px solid var(--stroke);
+      border-radius:var(--r); padding:24px; max-width:400px;
+    }
+    .cart-page-subtotal { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+    .cart-page-subtotal-label { color:var(--muted); font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; }
+    .cart-page-subtotal-val { color:var(--gold); font-size:1.2rem; font-weight:700; }
+    .cart-page-note { font-size:.82rem; color:var(--muted2); margin-bottom:20px; line-height:1.55; }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar topbar--solid">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
+        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+            <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+        <a href="shop.html">Shop</a>
+        <a href="gifting.html">Gifting</a>
+        <a href="kitchen-table.html">Kitchen Table</a>
+        <a href="contact.html">Contact Us</a>
+        <div class="nav-more" data-nav-more>
+          <button class="nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" data-nav-more-toggle>More <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="nav-more-menu" data-nav-more-menu>
+            <a href="about.html">About</a>
+            <a href="juniors.html">Juniors</a>
+            <a href="wholesale.html">Wholesale</a>
+            <a href="recipes.html">Recipes</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+        </div>
+        <a class="nav-mobile-only" href="cart.html">Cart</a>
+      </nav>
+
+      <div class="header-right">
+        <button class="nav-icon-btn" id="openSearchBtn" type="button" aria-label="Search site">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="cart-btn" id="openCartBtn" type="button" aria-label="Open cart">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Cart
+          <span class="cart-badge" data-cart-badge hidden></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h1 class="page-title">Your Cart</h1>
+        </div>
+
+        <div id="cartPageContent">
+          <div class="cart-page-empty" id="cartEmpty">
+            <p>Your cart is empty.</p>
+            <a class="btn btn-primary" href="shop.html">Shop Now</a>
+          </div>
+          <div id="cartFilled" hidden>
+            <div class="cart-page-items" id="cartItems"></div>
+            <div class="cart-page-summary">
+              <div class="cart-page-subtotal">
+                <span class="cart-page-subtotal-label">Subtotal</span>
+                <span class="cart-page-subtotal-val" id="cartSubtotal">$0.00</span>
+              </div>
+              <p class="cart-page-note">Shipping calculated at checkout. Free shipping on all gift sets and orders over $75.</p>
+              <a class="btn btn-primary" href="checkout.html" style="width:100%;justify-content:center;" id="checkoutBtn">Proceed to Checkout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="chat-fab" type="button" aria-label="Open Pixy Assistant" data-chat-open>
+    <span class="chat-fab-glow" aria-hidden="true"></span>
+    <span class="chat-fab-icon" aria-hidden="true">✦</span>
+  </button>
+  <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
+    <header class="chat-head">
+      <div class="chat-brand">
+        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true"></div>
+        <div>
+          <div class="chat-title">Pixy Assistant</div>
+          <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
+        </div>
+      </div>
+      <button class="chat-close" type="button" aria-label="Close chat" data-chat-close>×</button>
+    </header>
+    <div class="chat-body" data-chat-body aria-live="polite"></div>
+    <form class="chat-input" data-chat-form>
+      <label class="sr-only" for="chatTextCart">Message</label>
+      <input id="chatTextCart" name="message" type="text" placeholder="Ask about flavors, ingredients, pairings" autocomplete="off" required />
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </section>
+
+  <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <div class="footer-line">&copy; <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
+        <div class="footer-tag">Luxury gourmet blends. Let&#39;s sprinkle a little magic.</div>
+      </div>
+
+      <div class="footer-right">
+        <div class="footer-follow" data-footer-follow>
+          <button class="footer-follow-btn" type="button" aria-haspopup="true" aria-expanded="false" data-footer-follow-toggle>Follow us <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
+          <div class="footer-follow-menu" data-footer-follow-menu>
+            <a href="https://www.facebook.com/PixyDustSeasoning" target="_blank" rel="noreferrer">Facebook</a>
+            <a href="https://www.instagram.com/pixydustseasoning" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://www.tiktok.com/@pixydustseasoning" target="_blank" rel="noreferrer">TikTok</a>
+            <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
+          </div>
+        </div>
+        <a href="faq.html">FAQ</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="cookies.html">Cookie Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      function fmt(n) { return "$" + (n / 100).toFixed(2); }
+
+      function render() {
+        if (!window.PIXY_CART) { setTimeout(render, 80); return; }
+        var cart    = window.PIXY_CART.getCart();
+        var empty   = document.getElementById("cartEmpty");
+        var filled  = document.getElementById("cartFilled");
+        var itemsEl = document.getElementById("cartItems");
+        var subEl   = document.getElementById("cartSubtotal");
+
+        if (!cart.items.length) {
+          if (empty)  empty.hidden  = false;
+          if (filled) filled.hidden = true;
+          return;
+        }
+
+        if (empty)  empty.hidden  = true;
+        if (filled) filled.hidden = false;
+
+        itemsEl.innerHTML = "";
+        for (var i = 0; i < cart.items.length; i++) {
+          var it = cart.items[i];
+          var row = document.createElement("div");
+          row.className = "cart-page-row";
+          row.innerHTML =
+            '<img class="cart-page-img" src="' + (it.image || "assets/images/PD blk.png") + '" alt="' + (it.name || "") + '" />' +
+            '<div class="cart-page-info">' +
+              '<p class="cart-page-name">' + (it.name || it.key) + '</p>' +
+              '<p class="cart-page-price">$' + ((it.price || 0)).toFixed(2) + ' each</p>' +
+            '</div>' +
+            '<div class="cart-qty-ctrl">' +
+              '<button class="cart-qty-btn" data-qty-dec data-key="' + it.key + '" aria-label="Decrease quantity">&#8722;</button>' +
+              '<span class="cart-qty-num">' + it.qty + '</span>' +
+              '<button class="cart-qty-btn" data-qty-inc data-key="' + it.key + '" aria-label="Increase quantity">&#43;</button>' +
+            '</div>' +
+            '<button class="cart-page-remove" data-remove data-key="' + it.key + '" aria-label="Remove item">Remove</button>';
+          itemsEl.appendChild(row);
+        }
+
+        subEl.textContent = "$" + (cart.subtotal).toFixed(2);
+
+        itemsEl.querySelectorAll("[data-qty-dec]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var key = btn.getAttribute("data-key");
+            var item = cart.items.filter(function (x) { return x.key === key; })[0];
+            if (item) window.PIXY_CART.setQty(key, Math.max(0, item.qty - 1));
+            render();
+          });
+        });
+        itemsEl.querySelectorAll("[data-qty-inc]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var key = btn.getAttribute("data-key");
+            var item = cart.items.filter(function (x) { return x.key === key; })[0];
+            if (item) window.PIXY_CART.setQty(key, item.qty + 1);
+            render();
+          });
+        });
+        itemsEl.querySelectorAll("[data-remove]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            window.PIXY_CART.remove(btn.getAttribute("data-key"));
+            render();
+          });
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        render();
+        document.addEventListener("pixy:cart:change", render);
+      });
+    })();
+  </script>
+
+</body>
+</html>
