@@ -17,7 +17,7 @@
 (function () {
   "use strict";
 
-  var GEMINI_ENDPOINT = "/.netlify/functions/gemini";
+  var CHAT_ENDPOINT   = "/.netlify/functions/chat";
   var CATALOG_SRC     = "assets/data/product-catalog.js";
   var LS_KEY          = "pixy_chat_v3";
   var SS_KEY          = "pixy_chat_session_v3";
@@ -273,15 +273,20 @@
   // AI BACKEND CALL
   // ─────────────────────────────────────────────────────────────────
   function sendToAI(message, transcript, matchedProducts) {
-    var payload = {
-      message: message,
-      matchedProducts: matchedProducts || []
-    };
+    // Build history for chat.mjs from previous messages (exclude current user msg)
+    var history = [];
+    var prev = transcript.slice(0, -1).slice(-API_HISTORY);
+    for (var i = 0; i < prev.length; i++) {
+      var m = prev[i];
+      if (m && (m.role === "user" || m.role === "bot") && typeof m.text === "string") {
+        history.push({ role: m.role === "user" ? "user" : "assistant", content: m.text });
+      }
+    }
 
-    return fetch(GEMINI_ENDPOINT, {
+    return fetch(CHAT_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({ message: message, history: history })
     })
     .then(function (r) {
       if (!r.ok) return Promise.reject(new Error("HTTP " + r.status));
