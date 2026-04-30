@@ -173,6 +173,10 @@
     var input = form.querySelector('input[type="text"], input[name="message"], textarea');
     if (!input) return;
 
+    // Change send button to type="button" — clicking it fires only "click", not "submit"
+    var sendBtn = form.querySelector('button[type="submit"], button');
+    if (sendBtn) sendBtn.setAttribute("type", "button");
+
     injectStyles();
 
     var transcript = loadTranscript();
@@ -186,10 +190,9 @@
     }
     renderAll(bodyEl, transcript);
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+    function handleSend() {
       var msg = (input.value || "").trim();
-      if (!msg) return;
+      if (!msg || input.disabled) return;
 
       input.value = "";
       setInputDisabled(input, form, true);
@@ -256,17 +259,53 @@
         })
         .catch(function () {
           removeLoading(bodyEl, loadingId);
-          var fallback = ruleBasedResponse(msg);
-          transcript = loadTranscript();
-          transcript.push({ role: "bot", text: fallback, products: [] });
-          saveTranscript(transcript);
-          renderAll(bodyEl, transcript);
+          try {
+            var fallback = ruleBasedResponse(msg);
+            transcript = loadTranscript();
+            transcript.push({ role: "bot", text: fallback, products: [] });
+            saveTranscript(transcript);
+            renderAll(bodyEl, transcript);
+          } catch (e2) {
+            try {
+              var errRow = document.createElement("div");
+              errRow.className = "chat-row is-bot";
+              var errBubble = document.createElement("div");
+              errBubble.className = "chat-bubble";
+              errBubble.textContent = "Chat temporarily unavailable. Please contact support@pixydustseasoning.com.";
+              errRow.appendChild(errBubble);
+              bodyEl.appendChild(errRow);
+            } catch (e3) {}
+          }
         })
         .then(function () {
           setInputDisabled(input, form, false);
           input.focus();
         });
+    }
+
+    // Safety net — block any native form submit that reaches the browser
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      handleSend();
     });
+
+    // Enter key inside the text input
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSend();
+      }
+    });
+
+    // Send button click
+    if (sendBtn) {
+      sendBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        handleSend();
+      });
+    }
   });
 
   // ─────────────────────────────────────────────────────────────────
