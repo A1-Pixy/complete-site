@@ -3,3 +3,9 @@
 .git/
 *.md
 node_modules/
+.env
+*.env
+*.zip
+scripts/
+db/
+I-NEED-FROM-YOU.md

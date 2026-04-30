@@ -1,0 +1,18 @@
+{
+  "name": "pdseasoning",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pixy Dust Seasoning — luxury gourmet blends. Static site with Netlify Functions.",
+  "scripts": {
+    "dev": "netlify dev",
+    "check": "node --check assets/js/main.js assets/js/shop.js assets/js/chatbot.js assets/js/cart.js assets/js/pixy-cart.js assets/js/vip-capture.js",
+    "check:functions": "node --check functions/gemini.js functions/mailchimp-sync.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

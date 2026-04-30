@@ -183,7 +183,7 @@
 
   <script>
     (function () {
-      function fmt(n) { return "$" + (n / 100).toFixed(2); }
+      function fmt(n) { return "$" + Number(n || 0).toFixed(2); }
 
       function render() {
         if (!window.PIXY_CART) { setTimeout(render, 80); return; }

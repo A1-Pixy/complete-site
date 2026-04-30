@@ -76,7 +76,7 @@
 
           <!-- Left: product image -->
           <div class="product-media">
-            <img id="productImage" src="" alt="" decoding="async" loading="eager" />
+            <img id="productImage" src="assets/images/logo-pixy-gold.png" alt="" decoding="async" loading="eager" />
           </div>
 
           <!-- Right: product details -->
@@ -266,9 +266,9 @@
         setText("productKicker", collectionLabel(String(product.category || "").trim()));
 
         var img = byId("productImage");
-        img.src = product.image || "";
+        img.src = product.image || "assets/images/logo-pixy-gold.png";
         img.alt = product.title || "Product";
-        img.onerror = function () { this.onerror = null; this.src = "assets/images/logo-circle.png"; };
+        img.onerror = function () { this.onerror = null; this.src = "assets/images/logo-pixy-gold.png"; };
 
         var price = byId("productPrice");
         if (product.price != null && product.price !== "") {

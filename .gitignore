@@ -1,4 +1,8 @@
 .env
+*.env
 node_modules/
 .netlify/
 .claude/
+*.zip
+dist/
+build/

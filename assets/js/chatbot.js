@@ -663,7 +663,7 @@
   // ─────────────────────────────────────────────────────────────────
   function setInputDisabled(input, form, disabled) {
     input.disabled = disabled;
-    var btn = form.querySelector('button[type="submit"]');
+    var btn = form.querySelector('button[type="button"], button[type="submit"]');
     if (btn) btn.disabled = disabled;
   }
 

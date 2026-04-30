@@ -64,7 +64,7 @@
         </div>
 
         <!-- Step 1: Contact + Shipping -->
-        <form id="step1-form" novalidate>
+        <form id="step1-form" novalidate style="display:none;">
           <p class="checkout-section-title">Contact Information</p>
           <div class="form-row full">
             <div class="form-group">
@@ -227,6 +227,9 @@
         if (totalsEl)  totalsEl.innerHTML = "";
         return;
       }
+
+      if (emptyMsg)  emptyMsg.style.display  = "none";
+      if (step1Form) step1Form.style.display  = "";
 
       var html = "";
       for (var i = 0; i < cart.items.length; i++) {
@@ -406,7 +409,11 @@
         window.location.href = "thankyou.html?order=" + encodeURIComponent(data.orderCode);
       } catch (err) {
         hideProcessing();
-        showStep2Error(err.message || "Payment failed. Please try again.");
+        var msg = err.message || "Payment failed. Please try again.";
+        if (msg.toLowerCase().indexOf("unavailable") !== -1 || msg.toLowerCase().indexOf("service") !== -1) {
+          msg = "Payment service temporarily unavailable. Your cart is saved — please email support@pixydustseasoning.com to complete your order.";
+        }
+        showStep2Error(msg);
       }
     });
 
