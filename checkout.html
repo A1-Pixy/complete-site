@@ -145,17 +145,10 @@
           <p class="checkout-section-title">Payment</p>
 
           <div class="payment-placeholder" id="payment-placeholder">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" style="margin-bottom:12px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" style="margin-bottom:12px;opacity:.7;">
               <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
             </svg>
-            <p style="font-size:14px;color:var(--text);margin:0 0 6px;">Square Payment Integration</p>
-            <p class="muted" style="font-size:12px;max-width:320px;margin:0 auto;">
-              Add your <strong>Square Application ID</strong> and <strong>Location ID</strong> to
-              <code style="color:var(--gold);font-size:11px;">checkout.html</code> to enable live card payments.
-            </p>
-            <p class="muted" style="font-size:11px;margin-top:10px;color:rgba(243,243,243,.35);">
-              Get keys at developer.squareup.com → Applications → Web Payments SDK
-            </p>
+            <p style="font-size:14px;color:var(--muted);margin:0;letter-spacing:.06em;">Setting up secure payment form…</p>
           </div>
 
           <!-- Square card element will mount here when keys are configured -->
@@ -332,8 +325,8 @@
         document.getElementById("place-order-btn").disabled = false;
       } catch (err) {
         console.error("[checkout] Square init error:", err);
-        // Square failed — fall back to placeholder so orders still go through
         _card = null;
+        document.getElementById("payment-placeholder").style.display = "none";
         document.getElementById("place-order-btn").disabled = false;
         showStep2Error("Card entry unavailable right now. Your order will be placed and we’ll contact you to arrange payment.");
       }

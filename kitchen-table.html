@@ -128,6 +128,57 @@ Purpose:
         </div>
       </section>
 
+      <!-- Email Capture -->
+      <section style="margin-top:20px;padding:28px 24px;background:var(--bg2);border:1px solid var(--stroke);border-radius:var(--r);max-width:540px;" aria-label="Get notified when Kitchen Table launches">
+        <p class="kicker" style="margin:0 0 6px;">Coming Soon</p>
+        <h2 style="font-size:1.15rem;margin:0 0 8px;color:var(--text);">Be first to know when Kitchen Table drops.</h2>
+        <p style="font-size:.88rem;color:var(--muted);margin:0 0 18px;">Dips, spreads, and small-format servings. Join the list for early access and exclusive blends.</p>
+        <form id="ktEmailForm" style="display:flex;gap:10px;flex-wrap:wrap;" novalidate>
+          <input id="ktEmail" type="email" name="email" placeholder="Your email address" autocomplete="email" required
+            style="flex:1;min-width:200px;background:var(--bg1);border:1px solid var(--stroke);border-radius:999px;color:var(--text);padding:11px 18px;font-size:.88rem;outline:none;transition:border-color .15s;" />
+          <button type="submit" class="btn btn-primary" id="ktSubmit" style="white-space:nowrap;">Notify Me</button>
+        </form>
+        <p id="ktMsg" style="font-size:.82rem;color:var(--gold);margin:10px 0 0;min-height:16px;" aria-live="polite"></p>
+      </section>
+
+      <script>
+      (function () {
+        var form   = document.getElementById("ktEmailForm");
+        var input  = document.getElementById("ktEmail");
+        var btn    = document.getElementById("ktSubmit");
+        var msg    = document.getElementById("ktMsg");
+        if (!form) return;
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var email = (input.value || "").trim();
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            msg.textContent = "Please enter a valid email address.";
+            return;
+          }
+          btn.disabled = true;
+          btn.textContent = "Sending…";
+          msg.textContent = "";
+          fetch("/.netlify/functions/mailchimp-sync", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, name: "", tag: "Kitchen Table", source: "kitchen-table-page" })
+          })
+          .then(function () {
+            btn.textContent = "Notify Me";
+            input.value = "";
+            msg.textContent = "You're on the list! We'll let you know when Kitchen Table launches.";
+          })
+          .catch(function () {
+            btn.disabled = false;
+            btn.textContent = "Notify Me";
+            msg.textContent = "Something went wrong. Please email us at support@pixydustseasoning.com";
+          });
+        });
+        input.addEventListener("focus", function () { input.style.borderColor = "var(--gold)"; });
+        input.addEventListener("blur",  function () { input.style.borderColor = ""; });
+      })();
+      </script>
+
     </div><!-- /container -->
   </main>
 
@@ -158,7 +209,7 @@ Purpose:
                 <div class="kc-grid">
 
                   <div class="kc-card">
-                    <div class="kc-img"><img src="assets/images/lion-grills/lion-l6000.png" alt="Lion L60000 Built-In BBQ" loading="lazy" /></div>
+                    <div class="kc-img"><picture><source srcset="assets/images/lion-grills/lion-l6000.webp" type="image/webp" /><img src="assets/images/lion-grills/lion-l6000.png" alt="Lion L60000 Built-In BBQ" loading="lazy" /></picture></div>
                     <div class="kc-body">
                       <span class="kc-badge">Built-In · L60000</span>
                       <h3 class="kc-name">Lion L60000 Built-In BBQ</h3>
@@ -171,7 +222,7 @@ Purpose:
                   </div>
 
                   <div class="kc-card">
-                    <div class="kc-img"><img src="assets/images/lion-grills/lion-l75000.png" alt="Lion L75000 Built-In BBQ" loading="lazy" /></div>
+                    <div class="kc-img"><picture><source srcset="assets/images/lion-grills/lion-l75000.webp" type="image/webp" /><img src="assets/images/lion-grills/lion-l75000.png" alt="Lion L75000 Built-In BBQ" loading="lazy" /></picture></div>
                     <div class="kc-body">
                       <span class="kc-badge">Built-In · L75000</span>
                       <h3 class="kc-name">Lion L75000 Built-In BBQ</h3>
@@ -184,7 +235,7 @@ Purpose:
                   </div>
 
                   <div class="kc-card">
-                    <div class="kc-img"><img src="assets/images/lion-grills/lion-l75000-cart.png" alt="Lion L75000 Cart Only" loading="lazy" /></div>
+                    <div class="kc-img"><picture><source srcset="assets/images/lion-grills/lion-l75000-cart.webp" type="image/webp" /><img src="assets/images/lion-grills/lion-l75000-cart.png" alt="Lion L75000 Cart Only" loading="lazy" /></picture></div>
                     <div class="kc-body">
                       <span class="kc-badge">Cart · L75000</span>
                       <h3 class="kc-name">Lion L75000 Cart Only</h3>
@@ -197,7 +248,7 @@ Purpose:
                   </div>
 
                   <div class="kc-card">
-                    <div class="kc-img"><img src="assets/images/lion-grills/lion-l90000.png" alt="Lion L90000 Built-In BBQ" loading="lazy" /></div>
+                    <div class="kc-img"><picture><source srcset="assets/images/lion-grills/lion-l90000.webp" type="image/webp" /><img src="assets/images/lion-grills/lion-l90000.png" alt="Lion L90000 Built-In BBQ" loading="lazy" /></picture></div>
                     <div class="kc-body">
                       <span class="kc-badge">Built-In · L90000</span>
                       <h3 class="kc-name">Lion L90000 Built-In BBQ</h3>
@@ -210,7 +261,7 @@ Purpose:
                   </div>
 
                   <div class="kc-card">
-                    <div class="kc-img"><img src="assets/images/lion-grills/Lion-cart.png" alt="Lion L90000 Cart Only" loading="lazy" /></div>
+                    <div class="kc-img"><picture><source srcset="assets/images/lion-grills/Lion-cart.webp" type="image/webp" /><img src="assets/images/lion-grills/Lion-cart.png" alt="Lion L90000 Cart Only" loading="lazy" /></picture></div>
                     <div class="kc-body">
                       <span class="kc-badge">Cart · L90000</span>
                       <h3 class="kc-name">Lion L90000 Cart Only</h3>
@@ -496,7 +547,7 @@ Purpose:
                 <div class="kc-grid">
 
                   <div class="kc-card">
-                    <div class="kc-img"><img src="assets/images/pouches/chophouse.png" alt="Chop House Steak Seasoning" loading="lazy" /></div>
+                    <div class="kc-img"><picture><source srcset="assets/images/pouches/chophouse.webp" type="image/webp" /><img src="assets/images/pouches/chophouse.png" alt="Chop House Steak Seasoning" loading="lazy" /></picture></div>
                     <div class="kc-body">
                       <span class="kc-badge">Steak</span>
                       <h3 class="kc-name">Chop House</h3>
@@ -509,7 +560,7 @@ Purpose:
                   </div>
 
                   <div class="kc-card">
-                    <div class="kc-img"><img src="assets/images/pouches/seafood.png" alt="Deep Blue Seafood Seasoning" loading="lazy" /></div>
+                    <div class="kc-img"><picture><source srcset="assets/images/pouches/seafood.webp" type="image/webp" /><img src="assets/images/pouches/seafood.png" alt="Deep Blue Seafood Seasoning" loading="lazy" /></picture></div>
                     <div class="kc-body">
                       <span class="kc-badge">Seafood</span>
                       <h3 class="kc-name">Deep Blue</h3>
@@ -522,7 +573,7 @@ Purpose:
                   </div>
 
                   <div class="kc-card">
-                    <div class="kc-img"><img src="assets/images/pouches/jerk.png" alt="Jerk Seasoning" loading="lazy" /></div>
+                    <div class="kc-img"><picture><source srcset="assets/images/pouches/jerk.webp" type="image/webp" /><img src="assets/images/pouches/jerk.png" alt="Jerk Seasoning" loading="lazy" /></picture></div>
                     <div class="kc-body">
                       <span class="kc-badge">Chicken</span>
                       <h3 class="kc-name">Jerk BBQ</h3>
@@ -535,7 +586,7 @@ Purpose:
                   </div>
 
                   <div class="kc-card">
-                    <div class="kc-img"><img src="assets/images/pouches/smoke.png" alt="Smoke BBQ Seasoning" loading="lazy" /></div>
+                    <div class="kc-img"><picture><source srcset="assets/images/pouches/smoke.webp" type="image/webp" /><img src="assets/images/pouches/smoke.png" alt="Smoke BBQ Seasoning" loading="lazy" /></picture></div>
                     <div class="kc-body">
                       <span class="kc-badge">Ribs</span>
                       <h3 class="kc-name">Smoke BBQ</h3>
