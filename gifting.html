@@ -44,7 +44,10 @@
   <header class="topbar topbar--solid">
     <div class="wrap">
       <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
-        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+        <picture>
+          <source srcset="assets/images/PD blk.webp" type="image/webp" />
+          <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" fetchpriority="high" />
+        </picture>
       </a>
       <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -94,8 +97,11 @@
             <a class="btn btn-primary" href="#gift-sets" style="margin-top:16px;">Shop Gift Sets</a>
           </div>
           <aside aria-label="Gift set preview" style="display:flex;align-items:center;justify-content:center;">
-            <img src="assets/images/gifts/3.png" alt="6-Blend Signature Collection"
-              style="width:100%;max-width:300px;height:auto;filter:drop-shadow(0 28px 60px rgba(217,185,108,.30));" loading="eager" />
+            <picture>
+              <source srcset="assets/images/gifts/3.webp" type="image/webp" />
+              <img src="assets/images/gifts/3.png" alt="6-Blend Signature Collection"
+                style="width:100%;max-width:300px;height:auto;filter:drop-shadow(0 28px 60px rgba(217,185,108,.30));" loading="eager" fetchpriority="high" width="1080" height="785" decoding="async" />
+            </picture>
           </aside>
         </div>
       </section>
@@ -172,7 +178,7 @@
   <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
     <header class="chat-head">
       <div class="chat-brand">
-        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true"></div>
+        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true" loading="lazy" width="40" height="40"></div>
         <div>
           <div class="chat-title">Pixy Assistant</div>
           <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>

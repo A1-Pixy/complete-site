@@ -26,7 +26,10 @@
   <header class="topbar topbar--solid">
     <div class="wrap">
       <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
-        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+        <picture>
+          <source srcset="assets/images/PD blk.webp" type="image/webp" />
+          <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" fetchpriority="high" />
+        </picture>
       </a>
 
       <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
@@ -178,7 +181,7 @@
   <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
     <header class="chat-head">
       <div class="chat-brand">
-        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true"></div>
+        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true" loading="lazy" width="40" height="40"></div>
         <div>
           <div class="chat-title">Pixy Assistant</div>
           <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>

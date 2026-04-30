@@ -643,7 +643,7 @@ p {
   align-items:stretch;
   isolation:isolate;
   /* Real background image as the base scene — no substitution */
-  background-image:url("../images/hero-bg-clean.jpg");
+  background-image:url("../images/hero-bg-clean.webp");
   background-size:cover;
   background-position:center;
   overflow:hidden;

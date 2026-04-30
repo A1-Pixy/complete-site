@@ -39,7 +39,10 @@
   <header class="topbar topbar--solid">
     <div class="wrap">
       <a class="brand" href="index.html" aria-label="Pixy Dust Seasoning">
-        <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" />
+        <picture>
+          <source srcset="assets/images/PD blk.webp" type="image/webp" />
+          <img src="assets/images/PD blk.png" alt="Pixy Dust Seasoning" width="120" height="40" decoding="async" fetchpriority="high" />
+        </picture>
       </a>
       <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -89,8 +92,11 @@
             <a class="btn btn-primary" href="#juniors-line" style="margin-top:16px;">Explore the Line</a>
           </div>
           <aside aria-label="Kids cooking with Pixy Dust" style="border-radius:18px;overflow:hidden;border:1px solid rgba(217,185,108,.14);box-shadow:0 18px 60px rgba(0,0,0,.38);">
-            <img src="assets/images/Books/juniors-scene.png" alt="Kids cooking at the market with Pixy Dust"
-              style="width:100%;height:100%;object-fit:cover;display:block;min-height:260px;" loading="eager" />
+            <picture>
+              <source srcset="assets/images/Books/juniors-scene.webp" type="image/webp" />
+              <img src="assets/images/Books/juniors-scene.png" alt="Kids cooking at the market with Pixy Dust"
+                style="width:100%;height:100%;object-fit:cover;display:block;min-height:260px;" loading="eager" fetchpriority="high" width="1536" height="1024" decoding="async" />
+            </picture>
           </aside>
         </div>
       </section>
@@ -191,7 +197,7 @@
   <section class="chat" role="dialog" aria-label="Pixy Assistant" aria-modal="true" hidden data-chat>
     <header class="chat-head">
       <div class="chat-brand">
-        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true"></div>
+        <div class="chat-avatar"><img class="chat-logo" src="assets/images/PD.png" alt="" aria-hidden="true" loading="lazy" width="40" height="40"></div>
         <div>
           <div class="chat-title">Pixy Assistant</div>
           <div class="chat-sub">Flavors · Pairings · Cooking Tips</div>
