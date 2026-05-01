@@ -1,9 +1,11 @@
 /*!
- * chatbot.js -- Pixy Assistant
+ * chatbot.js -- Pixy Assistant v20260430-4
  * Product-aware AI assistant for Pixy Dust Seasoning.
  */
 (function () {
   "use strict";
+
+  console.log("[chatbot] v20260430-4 loaded");
 
   var CHAT_ENDPOINT   = "/.netlify/functions/chat";
   var CATALOG_SRC     = "assets/data/product-catalog.js";
@@ -230,12 +232,16 @@
       }
       // -- End lead capture ----------------------------------------------
 
+      console.log("[chatbot] sending message:", msg.slice(0, 80));
+
       ensureCatalog()
         .then(function () {
           var matched = findMatchingProducts(msg);
+          console.log("[chatbot] catalog matched:", matched.length, "products");
           return sendToAI(msg, transcript, matched);
         })
         .then(function (result) {
+          console.log("[chatbot] AI result:", JSON.stringify(result).slice(0, 120));
           removeLoading(bodyEl, loadingId);
           var botReply =
             result.reply ||
@@ -243,16 +249,21 @@
             result.text ||
             result.answer ||
             "Chat temporarily unavailable. Please contact support@pixydustseasoning.com.";
+          console.log("[chatbot] rendering reply:", botReply.slice(0, 80));
           transcript = loadTranscript();
           transcript.push({ role: "bot", text: botReply, products: result.products || [] });
           saveTranscript(transcript);
           renderAll(bodyEl, transcript);
         })
-        .catch(function () {
+        .catch(function (err) {
+          console.error("[chatbot] fetch/render error:", err && (err.message || err));
           removeLoading(bodyEl, loadingId);
           var errText;
-          try { errText = ruleBasedResponse(msg); } catch (e2) {}
+          try { errText = ruleBasedResponse(msg); } catch (e2) {
+            console.error("[chatbot] ruleBasedResponse threw:", e2);
+          }
           if (!errText) errText = "Chat temporarily unavailable. Please contact support@pixydustseasoning.com.";
+          console.log("[chatbot] showing fallback:", errText.slice(0, 80));
           transcript = loadTranscript();
           transcript.push({ role: "bot", text: errText, products: [] });
           saveTranscript(transcript);
@@ -261,6 +272,11 @@
         .then(function () {
           setInputDisabled(input, form, false);
           input.focus();
+        })
+        .catch(function (finalErr) {
+          console.error("[chatbot] final safety catch:", finalErr && (finalErr.message || finalErr));
+          try { setInputDisabled(input, form, false); } catch (e) {}
+          try { input.focus(); } catch (e) {}
         });
     }
 
@@ -297,19 +313,22 @@
       }
     }
 
+    console.log("[chatbot] POST", CHAT_ENDPOINT);
     return fetch(CHAT_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: message, history: history })
     })
     .then(function (r) {
+      console.log("[chatbot] response status:", r.status, r.ok ? "ok" : "NOT OK");
       if (!r.ok) return Promise.reject(new Error("HTTP " + r.status));
       return r.json();
     })
     .then(function (data) {
+      console.log("[chatbot] parsed JSON:", JSON.stringify(data).slice(0, 150));
       if (!data) return Promise.reject(new Error("empty response"));
       var reply = data.reply || data.message || data.text || data.answer || "";
-      if (!reply && data.ok === false) return Promise.reject(new Error(data.error));
+      if (!reply && data.ok === false) return Promise.reject(new Error(data.error || "no reply"));
       return {
         reply:    String(reply),
         products: Array.isArray(data.products) ? data.products : []

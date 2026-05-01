@@ -44,10 +44,16 @@ function error200(message) {
   };
 }
 
-// ── Handler (Netlify Functions v1 / ESM) ────────────────────────────────────
-export const handler = async (event) => {
+// ── Handler ──────────────────────────────────────────────────────────────────
+// export default is the correct ESM form Netlify recognises for .mjs functions.
+// We use a hybrid request reader so it works whether Netlify invokes the handler
+// in v1 style (event.httpMethod / event.body) or v2 style (req.method / req.json()).
+export default async function handler(req) {
+  // Hybrid method detection
+  const method = (req.httpMethod || req.method || "").toUpperCase();
+
   // CORS preflight
-  if (event.httpMethod === "OPTIONS") {
+  if (method === "OPTIONS") {
     return {
       statusCode: 204,
       headers:    CORS_HEADERS,
@@ -55,14 +61,18 @@ export const handler = async (event) => {
     };
   }
 
-  if (event.httpMethod !== "POST") {
+  if (method !== "POST") {
     return error200("Method not allowed");
   }
 
-  // Parse body safely
+  // Parse body safely -- handles v1 (string body) and v2 (Request.json())
   let body;
   try {
-    body = JSON.parse(event.body || "{}");
+    if (typeof req.json === "function") {
+      body = await req.json();
+    } else {
+      body = JSON.parse(req.body || "{}");
+    }
   } catch (e) {
     console.error("[chat] JSON parse error:", e.message);
     return error200("Invalid JSON body");
