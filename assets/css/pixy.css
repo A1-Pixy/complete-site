@@ -1384,6 +1384,7 @@ p {
 /* Chat message rows */
 .chat-row { display:flex; }
 .chat-row.is-user { justify-content:flex-end; }
+.chat-row.is-bot  { flex-direction:column; }
 
 .bubble,.chat-bubble {
   max-width:88%;

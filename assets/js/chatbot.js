@@ -163,7 +163,7 @@
       transcript.push({
         role: "bot",
         text: "Pixy Assistant ready. Ask about a blend, what you're cooking, or gift ideas.",
-        quickReplies: ["Shop Blends", "Best for Chicken", "Best for Seafood", "Gift Ideas", "Wholesale", "Shipping & Returns", "Contact Us"]
+        quickReplies: ["Best for Chicken", "Gift Ideas", "Shop Blends"]
       });
       saveTranscript(transcript);
     }
