@@ -44,6 +44,13 @@ export default async (req) => {
   console.log("[orders-create] SQUARE_LOCATION:", SQUARE_LOCATION);
   console.log("[orders-create] SQUARE_ENV:", SQUARE_ENV);
 
+  if (SQUARE_ENV !== "production") {
+    console.error(
+      "[orders-create] ❌ SQUARE_ENVIRONMENT is '" + SQUARE_ENV + "' — payments route to Square SANDBOX." +
+      " Set SQUARE_ENVIRONMENT=production in Netlify Site settings → Environment variables."
+    );
+  }
+
   const supabaseMissing =
     !SUPABASE_URL     || SUPABASE_URL.startsWith("YOUR_")     ||
     !SERVICE_ROLE_KEY || SERVICE_ROLE_KEY.startsWith("YOUR_");

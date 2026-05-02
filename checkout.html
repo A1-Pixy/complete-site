@@ -196,15 +196,12 @@
     "use strict";
 
     // ── Square Web Payments SDK Config ────────────────────────────
-    // To enable live payments, replace these with your Square keys:
-    //   applicationId: "sandbox-sq0idb-YOUR_ID" (test) or "sq0idp-YOUR_ID" (live)
-    //   locationId:    "YOUR_LOCATION_ID"
-    // Then set SQUARE_ENABLED = true
+    // Production app ID: Square Dashboard → Applications → your app → Production → Application ID
+    // Production location ID: Square Dashboard → Locations → your location → Location ID
     var SQUARE_ENABLED    = true;
-    var SQUARE_APP_ID     = "sandbox-sq0idb-lyY-HBO3EdI5Xt2vNGa25w";
+    var SQUARE_APP_ID     = "sandbox-sq0idb-lyY-HBO3EdI5Xt2vNGa25w"; // ← REPLACE with production app ID (sq0idp-...)
     var SQUARE_LOCATION   = "LYSZ9V893FBZF";
-    var SQUARE_SDK_URL    = "https://sandbox.web.squarecdn.com/v1/square.js"; // sandbox
-    // For production: "https://web.squarecdn.com/v1/square.js"
+    var SQUARE_SDK_URL    = "https://web.squarecdn.com/v1/square.js"; // production
 
     // ── State ─────────────────────────────────────────────────────
     var _cart     = { items: [], subtotal: 0, count: 0 };
@@ -400,8 +397,12 @@
           })
         });
 
-        var data = await res.json();
-        if (!data.ok) throw new Error(data.error || "Order failed");
+        var data;
+        try { data = await res.json(); }
+        catch (_) { throw new Error("Server returned HTTP " + res.status + " (non-JSON). Check Netlify function logs."); }
+
+        console.log("[checkout] orders-create response:", res.status, data);
+        if (!data.ok) throw new Error(data.error || "Order failed (HTTP " + res.status + ")");
 
         var _sc2 = _cart.subtotal >= 37 ? 0 : 5.99;
         sessionStorage.setItem("pixy_last_order", JSON.stringify({ items: _cart.items, subtotal: _cart.subtotal + _sc2 }));
@@ -409,9 +410,10 @@
         window.location.href = "thankyou.html?order=" + encodeURIComponent(data.orderCode);
       } catch (err) {
         hideProcessing();
+        console.error("[checkout] Place order failed:", err.message, err);
         var msg = err.message || "Payment failed. Please try again.";
         if (msg.toLowerCase().indexOf("unavailable") !== -1 || msg.toLowerCase().indexOf("service") !== -1) {
-          msg = "Payment service temporarily unavailable. Your cart is saved — please email support@pixydustseasoning.com to complete your order.";
+          msg = "Payment service temporarily unavailable. Your cart is saved — please email support@pdseasoning.com to complete your order.";
         }
         showStep2Error(msg);
       }
