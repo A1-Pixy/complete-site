@@ -9,8 +9,8 @@
 
   var CHAT_ENDPOINT   = "/.netlify/functions/chat";
   var CATALOG_SRC     = "assets/data/product-catalog.js";
-  var LS_KEY          = "pixy_chat_v3";
-  var SS_KEY          = "pixy_chat_session_v3";
+  var LS_KEY          = "pixy_chat_v4";
+  var SS_KEY          = "pixy_chat_session_v4";
   var MAX_HISTORY     = 20;
   var API_HISTORY     = 10;
 
@@ -159,14 +159,6 @@
     injectStyles();
 
     var transcript = loadTranscript();
-    if (!transcript.length) {
-      transcript.push({
-        role: "bot",
-        text: "Pixy Assistant ready. Ask about a blend, what you're cooking, or gift ideas.",
-        quickReplies: ["Best for Chicken", "Gift Ideas", "Shop Blends"]
-      });
-      saveTranscript(transcript);
-    }
     renderAll(bodyEl, transcript);
 
     // -----------------------------------------------------------------
@@ -519,13 +511,13 @@
     for (var i = 0; i < transcript.length; i++) {
       var m = transcript[i];
       if (m && m.role && typeof m.text === "string") {
-        addBubble(bodyEl, m.role, m.text, m.products, m.quickReplies);
+        addBubble(bodyEl, m.role, m.text, m.products);
       }
     }
     bodyEl.scrollTop = bodyEl.scrollHeight;
   }
 
-  function addBubble(bodyEl, role, text, products, quickReplies) {
+  function addBubble(bodyEl, role, text, products) {
     var row = document.createElement("div");
     row.className = "chat-row " + (role === "user" ? "is-user" : "is-bot");
 
@@ -535,11 +527,6 @@
 
     row.appendChild(bubble);
 
-    if (role === "bot" && Array.isArray(quickReplies) && quickReplies.length) {
-      var qrEl = renderQuickReplies(quickReplies);
-      if (qrEl) row.appendChild(qrEl);
-    }
-
     if (role === "bot" && Array.isArray(products) && products.length) {
       var ctaEl = renderProductButtons(products);
       if (ctaEl) row.appendChild(ctaEl);
@@ -547,33 +534,6 @@
 
     bodyEl.appendChild(row);
     return row;
-  }
-
-  function renderQuickReplies(buttons) {
-    if (!buttons || !buttons.length) return null;
-    var div = document.createElement("div");
-    div.className = "chat-quick-replies";
-    for (var i = 0; i < buttons.length; i++) {
-      (function (label) {
-        var btn = document.createElement("button");
-        btn.className = "chat-quick-btn";
-        btn.type = "button";
-        btn.textContent = label;
-        btn.addEventListener("click", function () {
-          var chatEl  = document.querySelector("[data-chat]");
-          if (!chatEl) return;
-          var formEl  = chatEl.querySelector("[data-chat-form]");
-          var inputEl = chatEl.querySelector('input[type="text"], input[name="message"]');
-          if (!inputEl || !formEl || inputEl.disabled) return;
-          inputEl.value = label;
-          var evt = document.createEvent ? document.createEvent("Event") : new Event("submit");
-          if (evt.initEvent) evt.initEvent("submit", true, true);
-          formEl.dispatchEvent(evt);
-        });
-        div.appendChild(btn);
-      }(buttons[i]));
-    }
-    return div;
   }
 
   function renderProductButtons(products) {

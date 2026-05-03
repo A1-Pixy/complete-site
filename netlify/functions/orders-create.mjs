@@ -1,5 +1,5 @@
 /*!
- * functions/orders-create.mjs — Pixy Dust Seasoning
+ * netlify/functions/orders-create.mjs — Pixy Dust Seasoning
  *
  * POST /.netlify/functions/orders-create
  * Body: {
@@ -15,7 +15,7 @@
  *   SUPABASE_SERVICE_ROLE_KEY
  *   SQUARE_ACCESS_TOKEN
  *   SQUARE_LOCATION_ID
- *   SQUARE_ENVIRONMENT  (default "sandbox")
+ *   SQUARE_ENVIRONMENT  (default "production")
  */
 
 import { json, handleCors }      from "./lib/response.mjs";
@@ -36,7 +36,8 @@ export default async (req) => {
   const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const SQUARE_TOKEN     = process.env.SQUARE_ACCESS_TOKEN;
   const SQUARE_LOCATION  = process.env.SQUARE_LOCATION_ID;
-  const SQUARE_ENV       = process.env.SQUARE_ENVIRONMENT || "sandbox";
+  // Default "production" — never silently route real payments to sandbox
+  const SQUARE_ENV       = (process.env.SQUARE_ENVIRONMENT || "production").trim().toLowerCase();
 
   console.log("[orders-create] SUPABASE_URL set:", !!SUPABASE_URL);
   console.log("[orders-create] SERVICE_ROLE_KEY set:", !!SERVICE_ROLE_KEY);
@@ -51,16 +52,17 @@ export default async (req) => {
     );
   }
 
-  const supabaseMissing =
-    !SUPABASE_URL     || SUPABASE_URL.startsWith("YOUR_")     ||
-    !SERVICE_ROLE_KEY || SERVICE_ROLE_KEY.startsWith("YOUR_");
+  const missingSupabase = [];
+  if (!SUPABASE_URL     || SUPABASE_URL.startsWith("YOUR_"))     missingSupabase.push("SUPABASE_URL");
+  if (!SERVICE_ROLE_KEY || SERVICE_ROLE_KEY.startsWith("YOUR_")) missingSupabase.push("SUPABASE_SERVICE_ROLE_KEY");
 
-  if (supabaseMissing) {
-    console.error("[orders-create] ❌ Supabase env vars are placeholder or missing.");
-    console.error("[orders-create]    SUPABASE_URL =", SUPABASE_URL);
-    console.error("[orders-create]    SERVICE_ROLE_KEY set:", !!SERVICE_ROLE_KEY);
-    console.error("[orders-create]    Fix: paste real values into .env and restart netlify dev");
-    return json(500, { ok: false, error: "Server configuration error" }, CORS);
+  if (missingSupabase.length) {
+    console.error("[orders-create] ❌ Missing or placeholder Supabase env vars:", missingSupabase.join(", "));
+    return json(500, {
+      ok:     false,
+      error:  "Server configuration error",
+      detail: "Missing env vars: " + missingSupabase.join(", ")
+    }, CORS);
   }
 
   let body;
@@ -70,7 +72,6 @@ export default async (req) => {
 
   const { items, shipping, payment } = body || {};
 
-  // ── Validate ──────────────────────────────────────────────────────
   if (!Array.isArray(items) || !items.length) {
     return json(400, { ok: false, error: "items array is required" }, CORS);
   }
@@ -78,7 +79,7 @@ export default async (req) => {
     return json(400, { ok: false, error: "shipping info is required" }, CORS);
   }
 
-  // ── Recalculate totals server-side in cents (never trust client) ──
+  // Recalculate totals server-side in cents — never trust the client
   const subtotalCents = items.reduce((sum, i) => {
     return sum + Math.round((parseFloat(i.price) || 0) * (parseInt(i.qty, 10) || 1) * 100);
   }, 0);
@@ -135,7 +136,7 @@ export default async (req) => {
       console.log("[orders-create] Square success, payment ID:", squarePaymentId);
     } catch (err) {
       console.error("[orders-create] Square request error:", err.message);
-      return json(500, { ok: false, error: "Payment service unavailable" }, CORS);
+      return json(500, { ok: false, error: "Payment service unavailable", detail: err.message }, CORS);
     }
   }
 
@@ -164,24 +165,21 @@ export default async (req) => {
     payment_status:    paymentStatus
   };
 
-  console.log("[orders-create] Supabase URL:", SUPABASE_URL, "| service key set:", !!SERVICE_ROLE_KEY);
-  console.log("[orders-create] order_code:", orderCode, "| payment_status:", paymentStatus, "| total_cents:", totalCents);
-  console.log("[orders-create] Inserting order payload:", JSON.stringify(orderPayload));
+  console.log("[orders-create] Inserting order:", orderCode, "| payment_status:", paymentStatus, "| total_cents:", totalCents);
 
   try {
-    // Service role key works as both Bearer and apikey — no anon key needed
+    // Service role key used as both Bearer and apikey — bypasses RLS
     const result = await supabaseServiceInsert(SUPABASE_URL, SERVICE_ROLE_KEY, SERVICE_ROLE_KEY, "orders", orderPayload);
     console.log("[orders-create] ✅ Supabase insert success:", JSON.stringify(result));
   } catch (err) {
-    console.error("[orders-create] ❌ Supabase insert FAILED. Full error:", err.message);
-    // Payment already captured — return success so customer isn't stranded
+    console.error("[orders-create] ❌ Supabase insert FAILED:", err.message);
+    // Payment already captured — return partial success so the customer isn't stranded
     if (squarePaymentId) {
       return json(207, { ok: true, orderCode, warning: "Payment captured but DB write failed", detail: err.message }, CORS);
     }
     return json(500, { ok: false, error: "Failed to save order", detail: err.message }, CORS);
   }
 
-  // ── Order notification email via Netlify Forms ────────────────────
   await sendOrderNotification({ orderCode, shipping, items, subtotalCents, shippingCents, totalCents, squarePaymentId });
 
   return json(201, { ok: true, orderCode }, CORS);
@@ -196,18 +194,18 @@ async function sendOrderNotification({ orderCode, shipping, items, subtotalCents
     ).join("\n");
 
     const body = new URLSearchParams({
-      "form-name":       "order-notification",
-      "order_code":      orderCode,
-      "customer_name":   `${shipping.firstName || ""} ${shipping.lastName || ""}`.trim(),
-      "customer_email":  shipping.email,
-      "phone":           shipping.phone || "—",
-      "shipping_address":`${shipping.address}, ${shipping.city}, ${shipping.state} ${shipping.zip}`,
-      "items":           itemLines,
-      "subtotal":        `$${(subtotalCents / 100).toFixed(2)}`,
-      "shipping":        shippingCents === 0 ? "FREE" : `$${(shippingCents / 100).toFixed(2)}`,
-      "total":           `$${(totalCents / 100).toFixed(2)}`,
+      "form-name":        "order-notification",
+      "order_code":       orderCode,
+      "customer_name":    `${shipping.firstName || ""} ${shipping.lastName || ""}`.trim(),
+      "customer_email":   shipping.email,
+      "phone":            shipping.phone || "—",
+      "shipping_address": `${shipping.address}, ${shipping.city}, ${shipping.state} ${shipping.zip}`,
+      "items":            itemLines,
+      "subtotal":         `$${(subtotalCents / 100).toFixed(2)}`,
+      "shipping":         shippingCents === 0 ? "FREE" : `$${(shippingCents / 100).toFixed(2)}`,
+      "total":            `$${(totalCents / 100).toFixed(2)}`,
       "square_payment_id": squarePaymentId || "—",
-      "timestamp":       new Date().toISOString()
+      "timestamp":        new Date().toISOString()
     }).toString();
 
     const res = await fetch(siteUrl + "/", {
@@ -217,12 +215,12 @@ async function sendOrderNotification({ orderCode, shipping, items, subtotalCents
     });
 
     if (res.ok) {
-      console.log("[orders-create] ✅ Order notification email sent for", orderCode);
+      console.log("[orders-create] ✅ Order notification sent for", orderCode);
     } else {
       console.warn("[orders-create] ⚠️ Order notification form returned", res.status, "for", orderCode);
     }
   } catch (err) {
-    console.error("[orders-create] ⚠️ Order notification email FAILED (order still succeeded):", err.message);
+    console.error("[orders-create] ⚠️ Order notification FAILED (order still succeeded):", err.message);
   }
 }
 

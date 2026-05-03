@@ -1384,7 +1384,6 @@ p {
 /* Chat message rows */
 .chat-row { display:flex; }
 .chat-row.is-user { justify-content:flex-end; }
-.chat-row.is-bot  { flex-direction:column; }
 
 .bubble,.chat-bubble {
   max-width:88%;
@@ -3264,38 +3263,6 @@ body.search-is-open { overflow: hidden !important; }
   .search-kbd-hint   { display: none; }
 }
 
-/* ================================================================
-   CHATBOT — quick-reply buttons
-================================================================ */
-.chat-quick-replies {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 8px 0 4px;
-}
-
-.chat-quick-btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(217,185,108,.30);
-  background: rgba(217,185,108,.07);
-  color: rgba(217,185,108,.9);
-  font-size: .76rem;
-  letter-spacing: .05em;
-  cursor: pointer;
-  transition: background .15s, border-color .15s, color .15s;
-  font-family: var(--sans);
-  min-height: 32px;
-  line-height: 1;
-  white-space: nowrap;
-}
-.chat-quick-btn:hover {
-  background: rgba(217,185,108,.16);
-  border-color: rgba(217,185,108,.55);
-  color: var(--gold0);
-}
 
 /* ══════════════════════════════════════════════════════
    GRILLS & OUTDOOR KITCHEN — shop.html

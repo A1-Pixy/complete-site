@@ -196,19 +196,19 @@
     "use strict";
 
     // ── Square Web Payments SDK Config ────────────────────────────
-    // Production app ID: Square Dashboard → Applications → your app → Production → Application ID
-    // Production location ID: Square Dashboard → Locations → your location → Location ID
-    var SQUARE_ENABLED    = true;
-    var SQUARE_APP_ID     = "sandbox-sq0idb-lyY-HBO3EdI5Xt2vNGa25w"; // ← REPLACE with production app ID (sq0idp-...)
-    var SQUARE_LOCATION   = "LYSZ9V893FBZF";
-    var SQUARE_SDK_URL    = "https://web.squarecdn.com/v1/square.js"; // production
+    // App ID, Location ID, and SDK URL are loaded at runtime from
+    // /.netlify/functions/square-config which reads SQUARE_APP_ID,
+    // SQUARE_LOCATION_ID, and SQUARE_ENVIRONMENT from Netlify env vars.
+    // No Square credentials are hardcoded here.
+    var SQUARE_ENABLED = true;
 
     // ── State ─────────────────────────────────────────────────────
-    var _cart     = { items: [], subtotal: 0, count: 0 };
-    var _step     = 1;
-    var _payments = null;
-    var _card     = null;
-    var _shipping = {};
+    var _cart      = { items: [], subtotal: 0, count: 0 };
+    var _step      = 1;
+    var _payments  = null;
+    var _card      = null;
+    var _shipping  = {};
+    var _squareCfg = null; // populated by fetchSquareConfig()
 
     // ── Cart rendering ────────────────────────────────────────────
     function renderCartSummary(cart) {
@@ -297,14 +297,45 @@
       if (s1) s1.classList.toggle("active", n === 1);
       if (s2) s2.classList.toggle("active", n === 2);
 
-      if (n === 2 && SQUARE_ENABLED) initSquare();
+      if (n === 2 && SQUARE_ENABLED) initSquare().catch(function (e) { console.error("[checkout] initSquare error:", e); });
     }
 
     // ── Square integration ────────────────────────────────────────
-    function initSquare() {
-      if (_payments) return; // already init'd
+    async function fetchSquareConfig() {
+      if (_isLocalDev) return null; // Live Server can’t reach Netlify functions
+      try {
+        var r = await fetch("/.netlify/functions/square-config");
+        if (!r.ok) {
+          console.error("[checkout] square-config returned HTTP", r.status);
+          return null;
+        }
+        var d = await r.json();
+        if (!d.ok) {
+          console.error("[checkout] square-config error:", d.error);
+          return null;
+        }
+        console.log("[checkout] Square config loaded. environment:", d.environment);
+        return d;
+      } catch (err) {
+        console.error("[checkout] Failed to load square-config:", err.message);
+        return null;
+      }
+    }
+
+    async function initSquare() {
+      if (_payments) return; // already init’d
+      if (!_squareCfg) _squareCfg = await fetchSquareConfig();
+      if (!_squareCfg || !_squareCfg.appId || !_squareCfg.locationId) {
+        console.warn("[checkout] Square config unavailable — falling back to placeholder mode");
+        document.getElementById("payment-placeholder").style.display = "none";
+        document.getElementById("place-order-btn").disabled = false;
+        var secNote0 = document.querySelector(".checkout-security");
+        if (secNote0) secNote0.style.display = "none";
+        showStep2Error("Card payment is unavailable right now. Place your order and we’ll contact you to arrange payment.");
+        return;
+      }
       if (!window.Square) {
-        loadScript(SQUARE_SDK_URL, function () { initSquarePayments(); });
+        loadScript(_squareCfg.sdkUrl, function () { initSquarePayments(); });
       } else {
         initSquarePayments();
       }
@@ -317,7 +348,7 @@
 
     async function initSquarePayments() {
       try {
-        _payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION);
+        _payments = window.Square.payments(_squareCfg.appId, _squareCfg.locationId);
         _card     = await _payments.card();
         await _card.attach("#card-container");
         document.getElementById("card-container").style.display = "";
@@ -328,7 +359,9 @@
         _card = null;
         document.getElementById("payment-placeholder").style.display = "none";
         document.getElementById("place-order-btn").disabled = false;
-        showStep2Error("Card entry unavailable right now. Your order will be placed and we’ll contact you to arrange payment.");
+        var secNote = document.querySelector(".checkout-security");
+        if (secNote) secNote.style.display = "none";
+        showStep2Error("Card payment is unavailable right now. Place your order and we’ll contact you to arrange payment.");
       }
     }
 
@@ -365,6 +398,8 @@
             })
           });
           var data = await res.json();
+          console.log("[checkout] orders-create response:", res.status, data);
+          if (data.detail) console.error("[checkout] Server detail:", data.detail);
           if (data.ok && data.orderCode) {
             var _sc = _cart.subtotal >= 37 ? 0 : 5.99;
             sessionStorage.setItem("pixy_last_order", JSON.stringify({ items: _cart.items, subtotal: _cart.subtotal + _sc }));
@@ -375,7 +410,7 @@
           }
         } catch (err) {
           hideProcessing();
-          showStep2Error("Order could not be placed: " + err.message);
+          showStep2Error("Your order could not be placed. Please try again or email support@pdseasoning.com.");
         }
         return;
       }
@@ -402,6 +437,7 @@
         catch (_) { throw new Error("Server returned HTTP " + res.status + " (non-JSON). Check Netlify function logs."); }
 
         console.log("[checkout] orders-create response:", res.status, data);
+        if (data.detail) console.error("[checkout] Server detail:", data.detail);
         if (!data.ok) throw new Error(data.error || "Order failed (HTTP " + res.status + ")");
 
         var _sc2 = _cart.subtotal >= 37 ? 0 : 5.99;
@@ -412,8 +448,11 @@
         hideProcessing();
         console.error("[checkout] Place order failed:", err.message, err);
         var msg = err.message || "Payment failed. Please try again.";
-        if (msg.toLowerCase().indexOf("unavailable") !== -1 || msg.toLowerCase().indexOf("service") !== -1) {
-          msg = "Payment service temporarily unavailable. Your cart is saved — please email support@pdseasoning.com to complete your order.";
+        if (msg.toLowerCase().indexOf("unavailable") !== -1 ||
+            msg.toLowerCase().indexOf("service") !== -1 ||
+            msg.toLowerCase().indexOf("save order") !== -1 ||
+            msg.toLowerCase().indexOf("server") !== -1) {
+          msg = "We couldn’t complete your order right now. Your cart is saved — please try again or email support@pdseasoning.com.";
         }
         showStep2Error(msg);
       }

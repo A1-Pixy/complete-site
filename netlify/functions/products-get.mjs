@@ -1,5 +1,5 @@
 /*!
- * functions/products-get.mjs — Pixy Dust Seasoning
+ * netlify/functions/products-get.mjs — Pixy Dust Seasoning
  * Public GET: read active products from Supabase.
  *
  * Query params:
@@ -34,12 +34,18 @@ export default async (req) => {
 
   console.log("[products-get] SUPABASE_URL set:", !!SUPABASE_URL, "| SUPABASE_ANON_KEY set:", !!SUPABASE_ANON_KEY);
 
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY ||
-      SUPABASE_URL.startsWith("YOUR_") || SUPABASE_ANON_KEY.startsWith("YOUR_")) {
-    console.error("[products-get] ❌ Missing or placeholder Supabase env vars.",
-      "SUPABASE_URL set:", !!SUPABASE_URL,
-      "| SUPABASE_ANON_KEY set:", !!SUPABASE_ANON_KEY);
-    return json(500, { ok: false, error: "Server configuration error" }, corsHeaders());
+  const missingVars = [
+    !SUPABASE_URL      || SUPABASE_URL.startsWith("YOUR_")      ? "SUPABASE_URL"      : null,
+    !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.startsWith("YOUR_") ? "SUPABASE_ANON_KEY" : null
+  ].filter(Boolean);
+
+  if (missingVars.length) {
+    console.error("[products-get] ❌ Missing or placeholder Supabase env vars:", missingVars.join(", "));
+    return json(500, {
+      ok:     false,
+      error:  "Server configuration error",
+      detail: "Missing env vars: " + missingVars.join(", ")
+    }, corsHeaders());
   }
 
   try {
@@ -53,11 +59,9 @@ export default async (req) => {
     const params = {
       select: SELECT_FIELDS,
       order:  "sort_order.asc,name.asc",
-      limit:  String(limit)
+      limit:  String(limit),
+      active: "eq.true"
     };
-
-    // RLS already filters active=true for anon key, but be explicit for clarity
-    params.active = "eq.true";
 
     if (category) params.category = "eq." + category;
     if (slug)     params.slug     = "eq." + slug;
