@@ -2,7 +2,7 @@
 publish = "."
 
 [functions]
-directory = "netlify/functions"
+directory = "functions"
 # esbuild handles both CommonJS (gemini.js, mailchimp-sync.js) and ESM (.mjs) functions correctly.
 node_bundler = "esbuild"
 
