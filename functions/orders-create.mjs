@@ -164,14 +164,12 @@ export default async (req) => {
     payment_status:    paymentStatus
   };
 
-  console.log("[orders-create] Supabase URL:", SUPABASE_URL, "| service key set:", !!SERVICE_ROLE_KEY);
-  console.log("[orders-create] order_code:", orderCode, "| payment_status:", paymentStatus, "| total_cents:", totalCents);
-  console.log("[orders-create] Inserting order payload:", JSON.stringify(orderPayload));
+  console.log("[orders-create] Inserting to Supabase: order_code=", orderPayload.order_code, "payment_status=", orderPayload.payment_status);
 
   try {
     // Service role key works as both Bearer and apikey — no anon key needed
     const result = await supabaseServiceInsert(SUPABASE_URL, SERVICE_ROLE_KEY, SERVICE_ROLE_KEY, "orders", orderPayload);
-    console.log("[orders-create] ✅ Supabase insert success:", JSON.stringify(result));
+    console.log("[orders-create] Supabase insert success");
   } catch (err) {
     console.error("[orders-create] ❌ Supabase insert FAILED. Full error:", err.message);
     // Payment already captured — return success so customer isn't stranded
