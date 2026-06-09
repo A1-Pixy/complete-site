@@ -38,19 +38,6 @@ export default async (req) => {
   const SQUARE_LOCATION  = process.env.SQUARE_LOCATION_ID;
   const SQUARE_ENV       = process.env.SQUARE_ENVIRONMENT || "sandbox";
 
-  console.log("[orders-create] SUPABASE_URL set:", !!SUPABASE_URL);
-  console.log("[orders-create] SERVICE_ROLE_KEY set:", !!SERVICE_ROLE_KEY);
-  console.log("[orders-create] SQUARE_TOKEN set:", !!SQUARE_TOKEN);
-  console.log("[orders-create] SQUARE_LOCATION:", SQUARE_LOCATION);
-  console.log("[orders-create] SQUARE_ENV:", SQUARE_ENV);
-
-  if (SQUARE_ENV !== "production") {
-    console.error(
-      "[orders-create] ❌ SQUARE_ENVIRONMENT is '" + SQUARE_ENV + "' — payments route to Square SANDBOX." +
-      " Set SQUARE_ENVIRONMENT=production in Netlify Site settings → Environment variables."
-    );
-  }
-
   const supabaseMissing =
     !SUPABASE_URL     || SUPABASE_URL.startsWith("YOUR_")     ||
     !SERVICE_ROLE_KEY || SERVICE_ROLE_KEY.startsWith("YOUR_");
