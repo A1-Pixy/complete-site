@@ -18,6 +18,7 @@
  *   SQUARE_ENVIRONMENT  (default "sandbox")
  */
 
+import { randomUUID }            from "node:crypto";
 import { json, handleCors }      from "./lib/response.mjs";
 import { supabaseServiceInsert } from "./lib/supabase.mjs";
 
@@ -104,7 +105,7 @@ export default async (req) => {
         },
         body: JSON.stringify({
           source_id:           payment.token,
-          idempotency_key:     crypto.randomUUID(),
+          idempotency_key:     randomUUID(),
           location_id:         SQUARE_LOCATION,
           amount_money:        { amount: totalCents, currency: "USD" },
           buyer_email_address: shipping.email,
