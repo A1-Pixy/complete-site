@@ -88,6 +88,132 @@ const PL_SUPPORT_CASES = [
 var PL_LIVE_ORDERS = null;
 
 // ============================================================
+// FULFILLMENT WORKFLOW — internal mock state, localStorage only
+// No Supabase writes. No live email. Approval gate required
+// before any state change is applied.
+// ============================================================
+var PL_FA_STATE_KEY     = 'pl_fulfillment_state_v1';
+var PL_FA_APPROVALS_KEY = 'pl_fulfillment_approvals_v1';
+
+var FULFILLMENT_STATUSES = ['New', 'Reviewed', 'Needs Info', 'Ready to Fulfill', 'Packed', 'Shipped', 'Delivered', 'Issue'];
+var ISSUE_STATES = ['Missing Tracking', 'Missing Shipping Info', 'Address Review Needed', 'Payment/Order Mismatch', 'Fulfillment Delayed', 'Resolved'];
+
+function plLoadJSON(key, fallback) {
+  try {
+    var raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+function plSaveJSON(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) { /* storage unavailable — degrade silently */ }
+}
+
+var PL_FULFILLMENT_STATE     = plLoadJSON(PL_FA_STATE_KEY, {});
+var PL_FULFILLMENT_APPROVALS = plLoadJSON(PL_FA_APPROVALS_KEY, []);
+
+// Transient — which inline form (if any) is open per order. Not persisted.
+var plOpenForms = {};
+
+function plSaveFulfillmentState()     { plSaveJSON(PL_FA_STATE_KEY, PL_FULFILLMENT_STATE); }
+function plSaveFulfillmentApprovals() { plSaveJSON(PL_FA_APPROVALS_KEY, PL_FULFILLMENT_APPROVALS); }
+
+// Derive a safe default internal state from sanitized order fields only.
+// This is what moves orders beyond a blanket "Missing Tracking" label.
+function plGetFulfillmentState(order) {
+  var id = String(order.id);
+  if (!PL_FULFILLMENT_STATE[id]) {
+    PL_FULFILLMENT_STATE[id] = {
+      fulfillmentStatus: 'New',
+      issueState:        order.trackingNumber ? 'Resolved' : 'Missing Tracking',
+      carrier:           '',
+      trackingNumber:    order.trackingNumber || '',
+      trackingUrl:       '',
+      shipDate:          '',
+      deliveryEstimate:  order.expectedDelivery || '',
+      trackingStatus:    '',
+      reviewed:          false
+    };
+    plSaveFulfillmentState();
+  }
+  return PL_FULFILLMENT_STATE[id];
+}
+
+function plHasPendingAction(orderId) {
+  return PL_FULFILLMENT_APPROVALS.some(function(a) {
+    return a.orderId === String(orderId) && a.status === 'Pending Approval';
+  });
+}
+
+// Queue a state-changing action. Nothing is applied until approved in the Approvals tab.
+function plQueueFulfillmentAction(order, actionType, label, payload) {
+  var item = {
+    id:              'fa-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+    orderId:         String(order.id),
+    customerSafeRef: (order.customerName || 'Customer') + ' — ' + (order.productName || 'Order'),
+    actionType:      actionType,
+    label:            label,
+    payload:          payload || {},
+    status:          'Pending Approval',
+    createdAt:        new Date().toISOString().slice(0, 10)
+  };
+  PL_FULFILLMENT_APPROVALS.push(item);
+  plSaveFulfillmentApprovals();
+  return item;
+}
+
+// Apply an approved action's effect to internal fulfillment state.
+// Called only from the Approvals tab after explicit approval.
+function plApplyFulfillmentAction(item) {
+  var state = PL_FULFILLMENT_STATE[item.orderId];
+  if (!state) return;
+
+  switch (item.actionType) {
+    case 'mark-reviewed':
+      state.reviewed = true;
+      if (state.fulfillmentStatus === 'New') state.fulfillmentStatus = 'Reviewed';
+      break;
+    case 'flag-issue':
+      state.fulfillmentStatus = 'Issue';
+      state.issueState = item.payload.issueType || 'Address Review Needed';
+      break;
+    case 'resolve-issue':
+      state.issueState = 'Resolved';
+      if (state.fulfillmentStatus === 'Issue') state.fulfillmentStatus = 'Reviewed';
+      break;
+    case 'move-ready':
+      state.fulfillmentStatus = 'Ready to Fulfill';
+      break;
+    case 'move-packed':
+      state.fulfillmentStatus = 'Packed';
+      break;
+    case 'move-shipped':
+      state.fulfillmentStatus = 'Shipped';
+      break;
+    case 'tracking-draft':
+      state.carrier          = item.payload.carrier          || state.carrier;
+      state.trackingNumber   = item.payload.trackingNumber   || state.trackingNumber;
+      state.trackingUrl      = item.payload.trackingUrl      || state.trackingUrl;
+      state.shipDate         = item.payload.shipDate         || state.shipDate;
+      state.deliveryEstimate = item.payload.deliveryEstimate || state.deliveryEstimate;
+      state.trackingStatus   = 'Draft Created';
+      if (state.issueState === 'Missing Tracking') state.issueState = 'Resolved';
+      break;
+  }
+  plSaveFulfillmentState();
+}
+
+function plStatusBadgeClass(status) {
+  var map = {
+    'New':'pl-badge-muted', 'Reviewed':'pl-badge-cyan', 'Needs Info':'pl-badge-gold',
+    'Ready to Fulfill':'pl-badge-cyan', 'Packed':'pl-badge-gold', 'Shipped':'pl-badge-green',
+    'Delivered':'pl-badge-green', 'Issue':'pl-badge-red'
+  };
+  return map[status] || 'pl-badge-muted';
+}
+
+// ============================================================
 // HELPERS
 // ============================================================
 function plCalcProfit(p) {
@@ -561,10 +687,94 @@ function renderOrderKanban(el, orders) {
               (o.lateFlag ? '<span class="pl-late-badge">LATE</span>' : '') +
             '</div>' +
             (o.supportNotes ? '<div style="font-size:9px;color:#526a7a;margin-top:5px;line-height:1.4">' + escHtml(o.supportNotes) + '</div>' : '') +
+            renderFulfillmentBlock(o) +
           '</div>';
         }).join('') +
       '</div>';
     }).join('') +
+  '</div>';
+}
+
+// ---- Fulfillment workflow block rendered inside each order card ----
+function renderFulfillmentBlock(order) {
+  var state      = plGetFulfillmentState(order);
+  var pending    = plHasPendingAction(order.id);
+  var hasTracking = state.carrier || state.trackingNumber || state.trackingUrl || state.shipDate || state.deliveryEstimate;
+  var hasIssue    = state.issueState && state.issueState !== 'Resolved';
+
+  var html = '<div class="pl-fulfillment-block">';
+
+  html += '<div class="pl-fulfillment-row">' +
+    '<span class="pl-mini-label">Internal Mock Workflow State</span>' +
+    '<span class="pl-badge ' + plStatusBadgeClass(state.fulfillmentStatus) + '">' + escHtml(state.fulfillmentStatus) + '</span>' +
+    (hasIssue ? '<span class="pl-badge pl-badge-red">' + escHtml(state.issueState) + '</span>' : '') +
+  '</div>';
+
+  if (hasTracking) {
+    html += '<div class="pl-tracking-info">';
+    if (state.carrier)          html += '<div><span class="pl-tracking-label">CARRIER</span>' + escHtml(state.carrier) + '</div>';
+    if (state.trackingNumber)   html += '<div><span class="pl-tracking-label">TRACKING #</span>' + escHtml(state.trackingNumber) + '</div>';
+    if (state.trackingUrl)      html += '<div><span class="pl-tracking-label">URL</span><a href="' + escHtml(state.trackingUrl) + '" target="_blank" rel="noopener" class="pl-tracking-link">view</a></div>';
+    if (state.shipDate)         html += '<div><span class="pl-tracking-label">SHIP DATE</span>' + escHtml(state.shipDate) + '</div>';
+    if (state.deliveryEstimate) html += '<div><span class="pl-tracking-label">DELIVERY EST.</span>' + escHtml(state.deliveryEstimate) + '</div>';
+    if (state.trackingStatus)   html += '<div><span class="pl-tracking-label">TRACKING STATUS</span>' + escHtml(state.trackingStatus) + '</div>';
+    html += '</div>';
+  } else {
+    html += '<div class="pl-tracking-empty">No tracking draft yet.</div>';
+  }
+
+  if (pending) {
+    html += '<div class="pl-pending-chip">&#8987; Pending Approval State — action blocked until approved</div>';
+  }
+
+  html += '<div class="pl-fulfillment-actions">' +
+    plWfBtn(order.id, 'mark-reviewed',          'Mark Reviewed',         pending || state.reviewed) +
+    plWfBtn(order.id, 'flag-issue-toggle',      'Flag Issue',            pending) +
+    plWfBtn(order.id, 'resolve-issue',          'Resolve Issue',         pending || !hasIssue) +
+    plWfBtn(order.id, 'move-ready',             'Ready to Fulfill',      pending) +
+    plWfBtn(order.id, 'move-packed',            'Packed',                pending) +
+    plWfBtn(order.id, 'move-shipped',           'Shipped',               pending) +
+    plWfBtn(order.id, 'tracking-draft-toggle',  'Create Tracking Draft', pending) +
+  '</div>';
+
+  if (plOpenForms[order.id] === 'flag-issue')      html += renderFlagIssueForm(order);
+  if (plOpenForms[order.id] === 'tracking-draft')  html += renderTrackingDraftForm(order);
+
+  html += '</div>';
+  return html;
+}
+
+function plWfBtn(orderId, action, label, disabled) {
+  return '<button type="button" class="pl-wf-btn' + (disabled ? ' disabled' : '') + '" data-wf-action="' + action + '" data-order-id="' + orderId + '"' + (disabled ? ' disabled' : '') + '>' + label + '</button>';
+}
+
+function renderFlagIssueForm(order) {
+  var options = ['Missing Tracking','Missing Shipping Info','Address Review Needed','Payment/Order Mismatch','Fulfillment Delayed'];
+  return '<div class="pl-inline-form">' +
+    '<div class="pl-mini-label">Select issue type</div>' +
+    '<select class="pl-select pl-inline-select" id="pl-issue-select-' + order.id + '">' +
+      options.map(function(o) { return '<option value="' + o + '">' + o + '</option>'; }).join('') +
+    '</select>' +
+    '<div class="pl-inline-form-actions">' +
+      '<button type="button" class="pl-action-btn red-btn" data-wf-action="flag-issue-submit" data-order-id="' + order.id + '">Flag Issue (Pending Approval)</button>' +
+      '<button type="button" class="pl-action-btn" data-wf-action="cancel-form" data-order-id="' + order.id + '">Cancel</button>' +
+    '</div>' +
+  '</div>';
+}
+
+function renderTrackingDraftForm(order) {
+  return '<div class="pl-inline-form">' +
+    '<div class="pl-mini-label">Tracking Draft — Internal Mock Only, No Email Sent</div>' +
+    '<input class="pl-calc-input pl-inline-input" id="pl-td-carrier-'  + order.id + '" placeholder="Carrier (e.g. USPS, UPS, FedEx)"/>' +
+    '<input class="pl-calc-input pl-inline-input" id="pl-td-tracking-' + order.id + '" placeholder="Tracking Number"/>' +
+    '<input class="pl-calc-input pl-inline-input" id="pl-td-url-'      + order.id + '" placeholder="Tracking URL"/>' +
+    '<input class="pl-calc-input pl-inline-input" id="pl-td-shipdate-' + order.id + '" placeholder="Ship Date (YYYY-MM-DD)"/>' +
+    '<input class="pl-calc-input pl-inline-input" id="pl-td-eta-'      + order.id + '" placeholder="Delivery Estimate (YYYY-MM-DD)"/>' +
+    '<textarea class="pl-listing-textarea pl-inline-input" id="pl-td-note-' + order.id + '" placeholder="Internal note — not visible to customer"></textarea>' +
+    '<div class="pl-inline-form-actions">' +
+      '<button type="button" class="pl-action-btn cyan-btn" data-wf-action="tracking-draft-submit" data-order-id="' + order.id + '">Create Draft (Pending Approval)</button>' +
+      '<button type="button" class="pl-action-btn" data-wf-action="cancel-form" data-order-id="' + order.id + '">Cancel</button>' +
+    '</div>' +
   '</div>';
 }
 
@@ -576,24 +786,76 @@ function renderOrderMonitor(el) {
     '<div class="pl-kanban-hint">Scroll sideways to view all order stages &rarr;</div>' +
     '<div id="pl-order-kanban-wrap"></div>';
 
+  var wrap = document.getElementById('pl-order-kanban-wrap');
+  var currentOrders = [];
+
+  function reRenderKanban() {
+    renderOrderKanban(wrap, currentOrders);
+  }
+
+  wrap.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-wf-action]');
+    if (!btn || btn.disabled) return;
+
+    var orderId = btn.dataset.orderId;
+    var order = currentOrders.find(function(o) { return String(o.id) === String(orderId); });
+    if (!order) return;
+    var action = btn.dataset.wfAction;
+
+    if (action === 'flag-issue-toggle')     { plOpenForms[orderId] = 'flag-issue';     reRenderKanban(); return; }
+    if (action === 'tracking-draft-toggle') { plOpenForms[orderId] = 'tracking-draft'; reRenderKanban(); return; }
+    if (action === 'cancel-form')           { delete plOpenForms[orderId];             reRenderKanban(); return; }
+
+    if (action === 'mark-reviewed') {
+      plQueueFulfillmentAction(order, 'mark-reviewed', 'Mark Reviewed', {});
+    } else if (action === 'resolve-issue') {
+      plQueueFulfillmentAction(order, 'resolve-issue', 'Resolve Issue', {});
+    } else if (action === 'move-ready') {
+      plQueueFulfillmentAction(order, 'move-ready', 'Move to Ready to Fulfill', {});
+    } else if (action === 'move-packed') {
+      plQueueFulfillmentAction(order, 'move-packed', 'Move to Packed', {});
+    } else if (action === 'move-shipped') {
+      plQueueFulfillmentAction(order, 'move-shipped', 'Move to Shipped', {});
+    } else if (action === 'flag-issue-submit') {
+      var sel = document.getElementById('pl-issue-select-' + orderId);
+      var issueType = sel ? sel.value : 'Address Review Needed';
+      plQueueFulfillmentAction(order, 'flag-issue', 'Flag Issue: ' + issueType, { issueType: issueType });
+      delete plOpenForms[orderId];
+    } else if (action === 'tracking-draft-submit') {
+      var get = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+      var payload = {
+        carrier:          get('pl-td-carrier-'  + orderId),
+        trackingNumber:   get('pl-td-tracking-' + orderId),
+        trackingUrl:      get('pl-td-url-'      + orderId),
+        shipDate:         get('pl-td-shipdate-' + orderId),
+        deliveryEstimate: get('pl-td-eta-'      + orderId),
+        internalNote:     get('pl-td-note-'     + orderId)
+      };
+      plQueueFulfillmentAction(order, 'tracking-draft', 'Create Tracking Draft', payload);
+      delete plOpenForms[orderId];
+    } else {
+      return;
+    }
+
+    reRenderKanban();
+  });
+
   loadOrderMonitorData(function(err, result) {
     var badge = document.getElementById('pl-orders-badge');
-    var wrap  = document.getElementById('pl-order-kanban-wrap');
     if (!badge || !wrap) return;
 
-    var orders;
     if (!err && result && result.ok && Array.isArray(result.orders)) {
-      orders = result.orders.map(normalizeLiveOrder);
-      PL_LIVE_ORDERS = orders;
+      currentOrders = result.orders.map(normalizeLiveOrder);
+      PL_LIVE_ORDERS = currentOrders;
       badge.className   = 'pl-data-source-badge pl-data-source-live';
-      badge.innerHTML   = '&#9679; LIVE SUPABASE';
+      badge.innerHTML   = '&#9679; LIVE SUPABASE — Live Order Source';
     } else {
-      orders = PL_ORDERS;
+      currentOrders = PL_ORDERS;
       badge.className   = 'pl-data-source-badge pl-data-source-mock';
       badge.innerHTML   = '&#9632; MOCK FALLBACK';
     }
 
-    renderOrderKanban(wrap, orders);
+    renderOrderKanban(wrap, currentOrders);
   });
 }
 
@@ -605,6 +867,13 @@ function renderApprovalQueue(el) {
     '<h3 class="pl-section-title">Approval Queue</h3>' +
     '<div id="pl-approvals-list">' +
       PL_APPROVALS.map(function(item) { return renderApprovalCard(item); }).join('') +
+    '</div>' +
+    '<h3 class="pl-section-title" style="margin-top:28px">Fulfillment Workflow Approvals</h3>' +
+    '<div class="pl-fa-note">Internal mock workflow only — pending approval state. No customer messaging, refunds, or supplier orders are ever sent automatically. Actions stay blocked until approved here.</div>' +
+    '<div id="pl-fulfillment-approvals-list">' +
+      (PL_FULFILLMENT_APPROVALS.length
+        ? PL_FULFILLMENT_APPROVALS.slice().reverse().map(renderFulfillmentApprovalCard).join('')
+        : '<div style="color:#526a7a;font-size:12px;padding:14px 0;">No fulfillment actions pending. Use Order Monitor to queue a workflow action.</div>') +
     '</div>' +
     '<h3 class="pl-section-title" style="margin-top:28px">Lab Agents</h3>' +
     '<div class="pl-agent-grid">' +
@@ -638,6 +907,42 @@ function renderApprovalQueue(el) {
       b.style.cursor = 'not-allowed';
     });
   });
+
+  document.getElementById('pl-fulfillment-approvals-list').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-fa-action]');
+    if (!btn) return;
+    var faId   = btn.dataset.faId;
+    var action = btn.dataset.faAction;
+    var item   = PL_FULFILLMENT_APPROVALS.find(function(a) { return a.id === faId; });
+    if (!item || item.status !== 'Pending Approval') return;
+
+    if (action === 'approve') {
+      item.status = 'Approved';
+      plApplyFulfillmentAction(item);
+    } else if (action === 'reject') {
+      item.status = 'Rejected';
+    }
+    plSaveFulfillmentApprovals();
+    renderApprovalQueue(el);
+  });
+}
+
+function renderFulfillmentApprovalCard(item) {
+  var badgeCls = item.status === 'Approved' ? 'pl-badge-green' : item.status === 'Rejected' ? 'pl-badge-red' : 'pl-badge-gold';
+  return '<div class="pl-approval-card">' +
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">' +
+      '<div class="pl-approval-type">Fulfillment Action &middot; ' + escHtml(item.label) + '</div>' +
+      '<span class="pl-badge ' + badgeCls + '">' + escHtml(item.status) + '</span>' +
+    '</div>' +
+    '<div class="pl-approval-item">' + escHtml(item.customerSafeRef) + '</div>' +
+    '<div class="pl-approval-detail">Internal mock workflow state change. No live customer messaging, refund, or supplier order is triggered.</div>' +
+    (item.status === 'Pending Approval'
+      ? '<div class="pl-approval-actions pl-approval-action-row">' +
+          '<button type="button" class="action-btn approve" data-fa-id="' + item.id + '" data-fa-action="approve">Approve</button>' +
+          '<button type="button" class="action-btn reject"  data-fa-id="' + item.id + '" data-fa-action="reject">Reject</button>' +
+        '</div>'
+      : '<div class="pl-action-blocked-note">' + (item.status === 'Approved' ? 'Action applied to internal state.' : 'Action blocked — rejected.') + '</div>') +
+  '</div>';
 }
 
 function renderApprovalCard(item) {

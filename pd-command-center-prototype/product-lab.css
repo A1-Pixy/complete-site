@@ -736,3 +736,117 @@
   background: rgba(0,230,118,0.06);
   cursor: not-allowed;
 }
+
+/* ---- FULFILLMENT WORKFLOW (Order Monitor) ---- */
+.pl-fulfillment-block {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0,212,255,0.1);
+}
+.pl-fulfillment-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.pl-mini-label {
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #526a7a;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  width: 100%;
+}
+.pl-tracking-info {
+  font-size: 9px;
+  color: #8ca7ba;
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+.pl-tracking-label {
+  display: inline-block;
+  min-width: 86px;
+  color: #526a7a;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 7px;
+  letter-spacing: 0.5px;
+}
+.pl-tracking-link { color: #00d4ff; text-decoration: underline; }
+.pl-tracking-empty {
+  font-size: 9px;
+  color: rgba(82,106,122,0.6);
+  margin-bottom: 6px;
+  font-style: italic;
+}
+.pl-pending-chip {
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  color: #c8a84b;
+  background: rgba(200,168,75,0.1);
+  border: 1px solid rgba(200,168,75,0.35);
+  border-radius: 3px;
+  padding: 3px 7px;
+  margin-bottom: 6px;
+}
+.pl-fulfillment-actions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.pl-wf-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  padding: 4px 7px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid rgba(0,212,255,0.3);
+  background: none;
+  color: #00d4ff;
+  transition: all 0.2s;
+}
+.pl-wf-btn:hover { background: rgba(0,212,255,0.1); }
+.pl-wf-btn.disabled,
+.pl-wf-btn:disabled {
+  color: #526a7a;
+  border-color: rgba(82,106,122,0.25);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.pl-inline-form {
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 3px;
+  background: rgba(0,212,255,0.03);
+}
+.pl-inline-select,
+.pl-inline-input {
+  margin-bottom: 6px;
+}
+.pl-inline-form-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pl-fa-note {
+  font-size: 10px;
+  color: #526a7a;
+  background: rgba(200,168,75,0.04);
+  border: 1px solid rgba(200,168,75,0.12);
+  border-radius: 3px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.pl-action-blocked-note {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #526a7a;
+}
