@@ -1,0 +1,3 @@
+slug,sku,name,blurb,story,ingredients,price,compare_at_price,category,tags,image,inventory_count,in_stock,featured,active,sort_order,square_payment_link,ecwid_product_id
+replace-slug,replace-sku,Replace Product Name,Short card description (1-2 sentences),Longer product story for product detail page,Ingredient list as plain text,13.00,,Pouches,"{}",assets/images/pouches/replace.webp,0,true,false,true,10,,
+replace-slug-2,replace-sku-2,Second Product Name,Short card description,Product story here,Ingredients here,7.95,9.95,Bottles,"{}",assets/images/bottles/replace.webp,0,true,false,true,20,,

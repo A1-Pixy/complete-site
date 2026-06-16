@@ -1,0 +1,23 @@
+[
+  {
+    "slug": "replace-slug",
+    "sku": "replace-sku",
+    "name": "Replace Product Name",
+    "blurb": "Short card description shown in product grids and drawers.",
+    "story": "Longer product narrative shown on the product detail page.",
+    "ingredients": "Ingredient list as plain text.",
+    "price": 13.00,
+    "compare_at_price": null,
+    "category": "Pouches",
+    "tags": [],
+    "image": "assets/images/pouches/replace.webp",
+    "gallery_images": [],
+    "inventory_count": 0,
+    "in_stock": true,
+    "featured": false,
+    "active": true,
+    "sort_order": 10,
+    "square_payment_link": null,
+    "ecwid_product_id": null
+  }
+]
