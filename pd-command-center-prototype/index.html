@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PD Seasoning AI Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../command-center.css" />
+  <link rel="stylesheet" href="product-lab.css" />
+</head>
+<body>
+
+<!-- Background canvas for animated particles -->
+<canvas id="bgCanvas" class="bg-canvas"></canvas>
+
+<!-- Cinematic bloom layers -->
+<div class="bloom-layer bloom-left"></div>
+<div class="bloom-layer bloom-center"></div>
+<div class="bloom-layer bloom-right"></div>
+<div class="bloom-layer bloom-gate"></div>
+
+<!-- ═══════════════════════════════════════════ HEADER ═══════════════════════════════════════════ -->
+<header class="cc-header">
+  <div class="header-left">
+    <div class="pd-logo">
+      <span class="pd-mark">PD</span>
+      <span class="pd-name">Seasoning</span>
+    </div>
+    <div class="header-titles">
+      <h1 class="header-main">AI Command Center</h1>
+      <p class="header-sub">Agent Flow / System Architecture</p>
+    </div>
+  </div>
+  <div class="header-status-pills">
+    <span class="pill pill--green">● Online</span>
+    <span class="pill pill--gold">⚠ Needs Review</span>
+    <span class="pill pill--blue">✓ Clean</span>
+    <span class="pill pill--blue">🔒 No Secrets Exposed</span>
+  </div>
+  <div class="system-status-panel">
+    <div class="sys-status-label">System Status</div>
+    <div class="sys-status-value">All Systems Operational</div>
+    <div class="sys-status-dot"></div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════ MAIN GRID ═══════════════════════════════════════════ -->
+<main class="cc-main">
+
+  <!-- ══════════ LEFT — AI AGENTS ══════════ -->
+  <section class="panel panel-agents">
+    <div class="panel-header">
+      <h2 class="panel-title">AI Agents</h2>
+      <p class="panel-subtitle">Closed Agent Side</p>
+    </div>
+
+    <div class="agent-list">
+
+      <div class="agent-card" data-agent="website">
+        <div class="agent-icon">🌐</div>
+        <div class="agent-info">
+          <div class="agent-name">Website Agent</div>
+          <div class="agent-meta">
+            <span class="status-dot green"></span>
+            <span class="status-label">Online</span>
+          </div>
+          <div class="activity-bars">
+            <span class="bar" style="height:10px"></span>
+            <span class="bar" style="height:16px"></span>
+            <span class="bar" style="height:8px"></span>
+            <span class="bar" style="height:14px"></span>
+            <span class="bar" style="height:12px"></span>
+          </div>
+        </div>
+        <div class="conn-node right-node"></div>
+      </div>
+
+      <div class="agent-card" data-agent="order">
+        <div class="agent-icon">📦</div>
+        <div class="agent-info">
+          <div class="agent-name">Order Agent</div>
+          <div class="agent-meta">
+            <span class="status-dot green"></span>
+            <span class="status-label">Online</span>
+          </div>
+          <div class="activity-bars">
+            <span class="bar" style="height:14px"></span>
+            <span class="bar" style="height:9px"></span>
+            <span class="bar" style="height:16px"></span>
+            <span class="bar" style="height:11px"></span>
+            <span class="bar" style="height:14px"></span>
+          </div>
+        </div>
+        <div class="conn-node right-node"></div>
+      </div>
+
+      <div class="agent-card" data-agent="marketing">
+        <div class="agent-icon">📣</div>
+        <div class="agent-info">
+          <div class="agent-name">Marketing Agent</div>
+          <div class="agent-meta">
+            <span class="status-dot green"></span>
+            <span class="status-label">Online</span>
+          </div>
+          <div class="activity-bars">
+            <span class="bar" style="height:8px"></span>
+            <span class="bar" style="height:16px"></span>
+            <span class="bar" style="height:13px"></span>
+            <span class="bar" style="height:10px"></span>
+            <span class="bar" style="height:15px"></span>
+          </div>
+        </div>
+        <div class="conn-node right-node"></div>
+      </div>
+
+      <div class="agent-card" data-agent="recipe">
+        <div class="agent-icon">🍳</div>
+        <div class="agent-info">
+          <div class="agent-name">Recipe Agent</div>
+          <div class="agent-meta">
+            <span class="status-dot green"></span>
+            <span class="status-label">Online</span>
+          </div>
+          <div class="activity-bars">
+            <span class="bar" style="height:12px"></span>
+            <span class="bar" style="height:8px"></span>
+            <span class="bar" style="height:15px"></span>
+            <span class="bar" style="height:10px"></span>
+            <span class="bar" style="height:13px"></span>
+          </div>
+        </div>
+        <div class="conn-node right-node"></div>
+      </div>
+
+      <div class="agent-card" data-agent="inventory">
+        <div class="agent-icon">🏪</div>
+        <div class="agent-info">
+          <div class="agent-name">Inventory Agent</div>
+          <div class="agent-meta">
+            <span class="status-dot green"></span>
+            <span class="status-label">Online</span>
+          </div>
+          <div class="activity-bars">
+            <span class="bar" style="height:16px"></span>
+            <span class="bar" style="height:11px"></span>
+            <span class="bar" style="height:9px"></span>
+            <span class="bar" style="height:14px"></span>
+            <span class="bar" style="height:12px"></span>
+          </div>
+        </div>
+        <div class="conn-node right-node"></div>
+      </div>
+
+      <div class="agent-card" data-agent="finance">
+        <div class="agent-icon">💰</div>
+        <div class="agent-info">
+          <div class="agent-name">Finance Agent</div>
+          <div class="agent-meta">
+            <span class="status-dot green"></span>
+            <span class="status-label">Online</span>
+          </div>
+          <div class="activity-bars">
+            <span class="bar" style="height:10px"></span>
+            <span class="bar" style="height:14px"></span>
+            <span class="bar" style="height:8px"></span>
+            <span class="bar" style="height:16px"></span>
+            <span class="bar" style="height:11px"></span>
+          </div>
+        </div>
+        <div class="conn-node right-node"></div>
+      </div>
+
+      <div class="agent-card" data-agent="security">
+        <div class="agent-icon">🛡️</div>
+        <div class="agent-info">
+          <div class="agent-name">Security Agent</div>
+          <div class="agent-meta">
+            <span class="status-dot green"></span>
+            <span class="status-label">Online</span>
+          </div>
+          <div class="activity-bars">
+            <span class="bar" style="height:13px"></span>
+            <span class="bar" style="height:9px"></span>
+            <span class="bar" style="height:16px"></span>
+            <span class="bar" style="height:12px"></span>
+            <span class="bar" style="height:10px"></span>
+          </div>
+        </div>
+        <div class="conn-node right-node"></div>
+      </div>
+
+    </div><!-- /agent-list -->
+
+    <!-- Agent Metrics -->
+    <div class="metrics-card">
+      <div class="metrics-title">Agent Metrics</div>
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <div class="metric-value">7/7</div>
+          <div class="metric-label">Active Agents</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">248</div>
+          <div class="metric-label">Tasks Today</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">99.7%</div>
+          <div class="metric-label">Success Rate</div>
+        </div>
+      </div>
+    </div>
+
+  </section><!-- /panel-agents -->
+
+
+  <!-- ══════════ CENTER — COMMAND CORE ══════════ -->
+  <section class="panel panel-center">
+
+    <!-- Power spine vertical beam -->
+    <div class="power-spine"></div>
+    <div class="spine-glow"></div>
+
+    <!-- SVG Flow Lines -->
+    <svg class="flow-svg" id="flowSvg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Lines drawn by JS after layout -->
+    </svg>
+
+    <!-- Top module: Task Router -->
+    <div class="center-module cm-top" id="modTaskRouter">
+      <div class="cm-icon">⚡</div>
+      <div class="cm-text">
+        <div class="cm-name">Task Router</div>
+        <div class="cm-sub">Intelligent Task Routing</div>
+      </div>
+      <div class="cm-pulse"></div>
+    </div>
+
+    <!-- Top module: Business Memory -->
+    <div class="center-module cm-top" id="modMemory">
+      <div class="cm-icon">🧠</div>
+      <div class="cm-text">
+        <div class="cm-name">Business Memory</div>
+        <div class="cm-sub">Context • Knowledge • History</div>
+      </div>
+      <div class="cm-pulse"></div>
+    </div>
+
+    <!-- COMMAND CORE -->
+    <div class="command-core" id="commandCore">
+      <div class="core-hex-border"></div>
+      <div class="core-hex-bg"></div>
+      <div class="core-ring core-ring-1"></div>
+      <div class="core-ring core-ring-2"></div>
+      <div class="core-ring core-ring-3"></div>
+      <div class="core-inner">
+        <div class="core-label-pd">PD</div>
+        <div class="core-label-main">Command Core</div>
+        <div class="core-label-sub">AI Orchestration</div>
+      </div>
+      <div class="core-spark sp1"></div>
+      <div class="core-spark sp2"></div>
+      <div class="core-spark sp3"></div>
+      <div class="core-spark sp4"></div>
+    </div>
+
+    <!-- Governed Access nodes -->
+    <div class="governed-nodes">
+      <div class="governed-node">
+        <span class="gov-lock">🔒</span>
+        <span class="gov-label">Governed Access</span>
+      </div>
+      <div class="governed-node">
+        <span class="gov-lock">🔒</span>
+        <span class="gov-label">Governed Access</span>
+      </div>
+    </div>
+
+    <!-- Approved Actions label -->
+    <div class="approved-actions-label">
+      <div class="aa-arrow">▼</div>
+      <div class="aa-text">Approved Actions</div>
+    </div>
+
+    <!-- Bottom module: Approval Queue -->
+    <div class="center-module cm-bottom" id="modApproval">
+      <div class="cm-icon">📋</div>
+      <div class="cm-text">
+        <div class="cm-name">Approval Queue</div>
+        <div class="cm-sub">Prioritize • Review • Verify</div>
+      </div>
+      <div class="cm-pulse"></div>
+    </div>
+
+    <!-- Bottom module: Audit Logs -->
+    <div class="center-module cm-bottom" id="modAudit">
+      <div class="cm-icon">📊</div>
+      <div class="cm-text">
+        <div class="cm-name">Audit Logs</div>
+        <div class="cm-sub">Activity • Events • Integrity</div>
+      </div>
+      <div class="cm-pulse"></div>
+    </div>
+
+    <!-- Human Approval Gate -->
+    <div class="approval-gate" id="approvalGate">
+      <div class="gate-icon">👤</div>
+      <div class="gate-text">
+        <div class="gate-name">Human Approval Gate</div>
+        <div class="gate-sub">Manual Review Required</div>
+      </div>
+      <div class="gate-glow"></div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="action-btn" data-action="audit">Run Audit</button>
+      <button class="action-btn" data-action="checkout">Review Checkout</button>
+      <button class="action-btn" data-action="sync">Sync Products</button>
+      <button class="action-btn" data-action="campaign">Create Campaign</button>
+      <button class="action-btn action-btn--gold" data-action="approve">Approve Task</button>
+      <button type="button" class="action-btn action-btn--gold" id="product-lab-btn">&#9879; AI Product Lab</button>
+    </div>
+
+    <!-- Log Panel -->
+    <div class="log-panel" id="logPanel">
+      <div class="log-header">
+        <span class="log-title">⟩ Activity Log</span>
+        <span class="log-count" id="logCount">0 events</span>
+      </div>
+      <div class="log-entries" id="logEntries">
+        <div class="log-entry log-entry--init">System initialized. All agents online.</div>
+      </div>
+    </div>
+
+  </section><!-- /panel-center -->
+
+
+  <!-- ══════════ RIGHT — BUSINESS SYSTEMS ══════════ -->
+  <section class="panel panel-systems">
+    <div class="panel-header">
+      <h2 class="panel-title">Business Systems</h2>
+      <p class="panel-subtitle">Open Protocol</p>
+    </div>
+
+    <div class="system-list">
+
+      <div class="system-card" data-sys="square">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">💳</div>
+        <div class="sys-info">
+          <div class="sys-name">Square Checkout</div>
+          <div class="sys-desc">Payments</div>
+        </div>
+        <span class="status-pill pill--green">Online</span>
+      </div>
+
+      <div class="system-card" data-sys="supabase">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">🗄️</div>
+        <div class="sys-info">
+          <div class="sys-name">Supabase Orders</div>
+          <div class="sys-desc">Database</div>
+        </div>
+        <span class="status-pill pill--green">Online</span>
+      </div>
+
+      <div class="system-card" data-sys="netlify">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">⚙️</div>
+        <div class="sys-info">
+          <div class="sys-name">Netlify Functions</div>
+          <div class="sys-desc">Serverless</div>
+        </div>
+        <span class="status-pill pill--green">Online</span>
+      </div>
+
+      <div class="system-card" data-sys="github">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">🐙</div>
+        <div class="sys-info">
+          <div class="sys-name">GitHub Repo</div>
+          <div class="sys-desc">Code &amp; Deploy</div>
+        </div>
+        <span class="status-pill pill--green">Online</span>
+      </div>
+
+      <div class="system-card system-card--review" data-sys="mailchimp">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">📧</div>
+        <div class="sys-info">
+          <div class="sys-name">Mailchimp VIP</div>
+          <div class="sys-desc">Marketing</div>
+        </div>
+        <span class="status-pill pill--gold">Needs Review</span>
+      </div>
+
+      <div class="system-card" data-sys="qr">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">📱</div>
+        <div class="sys-info">
+          <div class="sys-name">QR Recipes</div>
+          <div class="sys-desc">Smart Links</div>
+        </div>
+        <span class="status-pill pill--green">Online</span>
+      </div>
+
+      <div class="system-card" data-sys="inventory-db">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">📦</div>
+        <div class="sys-info">
+          <div class="sys-name">Inventory Database</div>
+          <div class="sys-desc">Product DB</div>
+        </div>
+        <span class="status-pill pill--blue">Clean</span>
+      </div>
+
+      <div class="system-card" data-sys="finance">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">📈</div>
+        <div class="sys-info">
+          <div class="sys-name">Finance Reports</div>
+          <div class="sys-desc">Transactions &amp; P&amp;L</div>
+        </div>
+        <span class="status-pill pill--blue">Clean</span>
+      </div>
+
+      <div class="system-card" data-sys="admin">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">🖥️</div>
+        <div class="sys-info">
+          <div class="sys-name">Admin Panel</div>
+          <div class="sys-desc">Control Center</div>
+        </div>
+        <span class="status-pill pill--green">Online</span>
+      </div>
+
+      <div class="system-card" data-sys="emails">
+        <div class="conn-node left-node"></div>
+        <div class="sys-icon">✉️</div>
+        <div class="sys-info">
+          <div class="sys-name">Customer Emails</div>
+          <div class="sys-desc">Communications</div>
+        </div>
+        <span class="status-pill pill--blue">Clean</span>
+      </div>
+
+    </div><!-- /system-list -->
+  </section><!-- /panel-systems -->
+
+</main><!-- /cc-main -->
+
+<!-- ═══════════════════════════════════════════ FOOTER ═══════════════════════════════════════════ -->
+<footer class="cc-footer">
+  <div class="footer-left-label">Autonomous • Monitored • Governed</div>
+  <div class="footer-center">
+    <div class="footer-main">Real-Time Orchestration Layer</div>
+    <div class="footer-sub">Secure • Compliant • Observable • Intelligent</div>
+  </div>
+  <div class="footer-right-label">Open Protocol • Execute • Measure</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════ AI PRODUCT LAB OVERLAY ══════════════════════════════════════════ -->
+<div class="product-lab-overlay hidden" id="product-lab-overlay">
+  <div class="product-lab-panel">
+
+    <div class="pl-panel-header-row">
+      <div>
+        <div class="pl-panel-eyebrow">PD SEASONING</div>
+        <div class="pl-panel-title">AI PRODUCT &amp; FULFILLMENT LAB</div>
+        <div class="pl-panel-tagline">Mock Module &middot; All Data Simulated &middot; No Live APIs</div>
+      </div>
+      <button type="button" id="product-lab-close" class="pl-close-btn">&times;</button>
+    </div>
+
+    <nav class="pl-tabs">
+      <button type="button" class="pl-tab active" data-tab="radar">Product Radar</button>
+      <button type="button" class="pl-tab" data-tab="validator">Validator</button>
+      <button type="button" class="pl-tab" data-tab="suppliers">Suppliers</button>
+      <button type="button" class="pl-tab" data-tab="margin">Margin Calc</button>
+      <button type="button" class="pl-tab" data-tab="listing">Listing Builder</button>
+      <button type="button" class="pl-tab" data-tab="orders">Order Monitor</button>
+      <button type="button" class="pl-tab" data-tab="approvals">Approvals</button>
+      <button type="button" class="pl-tab" data-tab="support">Support</button>
+    </nav>
+
+    <div id="pl-content"></div>
+
+  </div>
+</div>
+
+<script src="../command-center.js"></script>
+<script src="product-lab.js"></script>
+</body>
+</html>
