@@ -573,7 +573,8 @@
         if (view) {
           activate(view.replace(/\s+/g, "%20"));
         } else {
-          activate("Pouches");
+          var defaultView = window.matchMedia("(max-width: 600px)").matches ? "BestSellers" : "Pouches";
+          activate(defaultView);
         }
 
         // ── Best sellers ───────────────────────────────────────
