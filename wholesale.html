@@ -1,12 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wholesale — Pixy Dust Seasoning</title>
-  <meta name="description" content="Pixy Dust wholesale and partnership program. Shelf-ready luxury packaging for restaurants, retailers, and hospitality groups. Apply today." />
+  <meta name="description" content="PD Seasoning wholesale options for restaurants, retailers, caterers, food trucks, and hospitality accounts. Case packs and bulk foodservice pouches. Apply today." />
   <meta property="og:title" content="Wholesale — Pixy Dust Seasoning" />
-  <meta property="og:description" content="Bring Pixy Dust to your shelves. Shelf-ready luxury packaging and consistent flavor performance." />
+  <meta property="og:description" content="Wholesale case packs and bulk foodservice pouches for approved business accounts. Apply for a wholesale account." />
   <meta property="og:image" content="assets/images/signature-collection-badge.png" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -19,6 +19,98 @@
   <script src="assets/js/pixy-cart.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/agents.js" defer></script>
+  <style>
+    /* Wholesale page — scoped styles */
+    .ws-option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 8px; }
+    @media (max-width: 600px) { .ws-option-grid { grid-template-columns: 1fr; } }
+
+    .ws-option-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(217,185,108,.15);
+      border-radius: var(--r, 10px);
+      padding: 22px 20px;
+    }
+    .ws-option-card h3 { font-size: 16px; margin: 0 0 10px; color: var(--gold, #d9b96c); }
+    .ws-option-card ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+    .ws-option-card li { font-size: 13.5px; color: rgba(243,243,243,.72); padding-left: 18px; position: relative; line-height: 1.55; }
+    .ws-option-card li::before { content: '—'; position: absolute; left: 0; color: rgba(217,185,108,.5); }
+
+    .ws-hero-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+
+    /* Checkbox grid for blends */
+    .check-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 16px; }
+    @media (max-width: 600px) { .check-grid { grid-template-columns: repeat(2, 1fr); } }
+    .check-item { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+    .check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--gold, #d9b96c); flex-shrink: 0; }
+
+    /* Radio groups */
+    .radio-group { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .radio-item { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+    .radio-item input[type="radio"] { width: 16px; height: 16px; accent-color: var(--gold, #d9b96c); flex-shrink: 0; }
+
+    /* Ack block */
+    .ws-ack {
+      background: rgba(217,185,108,.06);
+      border: 1px solid rgba(217,185,108,.18);
+      border-radius: var(--r, 10px);
+      padding: 18px 20px;
+      font-size: 13.5px;
+      color: rgba(243,243,243,.75);
+      line-height: 1.65;
+    }
+
+    .ws-section-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--gold, #d9b96c);
+      font-weight: 600;
+      margin: 0 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(217,185,108,.15);
+    }
+
+    .field select,
+    .field input,
+    .field textarea {
+      width: 100%;
+    }
+
+    .ws-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+    @media (max-width: 600px) {
+      .ws-steps-grid { grid-template-columns: 1fr; }
+    }
+
+    .ws-step-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(217,185,108,.15);
+      border-radius: var(--r, 10px);
+      padding: 22px 20px;
+    }
+    .ws-step-num {
+      font-size: 26px;
+      font-family: var(--serif);
+      color: rgba(217,185,108,.5);
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    .ws-step-card h3 {
+      font-size: 15px;
+      margin: 0 0 8px;
+      color: var(--text);
+    }
+    .ws-step-card p {
+      font-size: 13.5px;
+      color: rgba(243,243,243,.72);
+      margin: 0;
+      line-height: 1.55;
+    }
+  </style>
 </head>
 <body>
 
@@ -35,17 +127,17 @@
       <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
-            <nav id="mainNav" class="nav main-nav" aria-label="Primary">
+      <nav id="mainNav" class="nav main-nav" aria-label="Primary">
         <a href="shop.html">Shop</a>
         <a href="gifting.html">Gifting</a>
         <a href="kitchen-table.html">Kitchen Table</a>
         <a href="contact.html">Contact Us</a>
+        <a href="wholesale.html">Wholesale</a>
         <div class="nav-more" data-nav-more>
           <button class="nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" data-nav-more-toggle>More <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
           <div class="nav-more-menu" data-nav-more-menu>
             <a href="about.html">About</a>
             <a href="juniors.html">Juniors</a>
-            <a href="wholesale.html">Wholesale</a>
             <a href="recipes.html">Recipes</a>
             <a href="gallery.html">Gallery</a>
             <a href="faq.html">FAQ</a>
@@ -70,14 +162,16 @@
   <main id="main" class="page">
     <div class="container">
 
-      <!-- CTA Hero -->
+      <!-- ── 1. Hero ── -->
       <section class="pg-hero" aria-label="Wholesale hero">
         <div class="pg-hero-inner">
           <div>
-            <p class="kicker">Wholesale &amp; Partnerships</p>
-            <h1>Bring Pixy Dust<br>to Your Shelves.</h1>
-            <p class="subcopy" style="margin-top:10px;">Restaurants, retailers, and premium hospitality programs. Shelf-ready luxury packaging. Consistent flavor performance.</p>
-            <a class="btn btn-primary" href="#wholesale-form" style="margin-top:16px;">Apply Now</a>
+            <p class="kicker">Wholesale &amp; Foodservice</p>
+            <h1>Wholesale for Restaurants,<br>Retailers &amp; Foodservice</h1>
+            <p class="subcopy" style="margin-top:10px;">PD Seasoning wholesale options are available for approved restaurants, retailers, caterers, food trucks, butcher counters, seafood counters, and hospitality accounts. Choose from shelf-ready retail bottle cases or bulk foodservice pouches designed for back-of-house use.</p>
+            <div class="ws-hero-btns">
+              <a class="btn btn-primary" href="#wholesale-application">Apply for a Wholesale Account</a>
+            </div>
           </div>
           <aside aria-label="Pixy Dust products" style="display:flex;align-items:center;justify-content:center;">
             <img src="assets/images/pouches/file_000000004b3471f59f1ba7668ac538ff.png"
@@ -87,100 +181,296 @@
         </div>
       </section>
 
-      <!-- Program Tiers -->
-      <section aria-label="Wholesale programs" style="padding-top:44px;">
-        <div class="grid three">
-          <div class="card">
-            <h3 class="card-title" data-cms-text="wholesale-restaurants-title">Restaurants</h3>
-            <p class="muted" data-cms-text="wholesale-restaurants-body">Menu-ready blends with consistent flavor performance.</p>
+      <!-- ── 2. Wholesale Options ── -->
+      <section aria-label="Wholesale options" style="padding-top:48px;">
+        <h2 class="section-title">Wholesale Options</h2>
+        <div class="ws-option-grid">
+          <div class="ws-option-card">
+            <h3>Retail Wholesale</h3>
+            <ul>
+              <li>Case packs of 12 retail bottles</li>
+              <li>Best for grocery, gift, butcher, seafood, and specialty retail accounts</li>
+            </ul>
           </div>
-          <div class="card">
-            <h3 class="card-title" data-cms-text="wholesale-retailers-title">Retailers</h3>
-            <p class="muted" data-cms-text="wholesale-retailers-body">Shelf-ready luxury packaging and strong customer pull.</p>
-          </div>
-          <div class="card">
-            <h3 class="card-title" data-cms-text="wholesale-bulk-title">Bulk &amp; Private Label</h3>
-            <p class="muted" data-cms-text="wholesale-bulk-body">1 lb, 5 lb, and private label options. Contact us for volume pricing.</p>
+          <div class="ws-option-card">
+            <h3>Foodservice Wholesale</h3>
+            <ul>
+              <li>3 lb, 5 lb, and 10 lb resealable pouches</li>
+              <li>Best for restaurants, caterers, food trucks, and hospitality kitchens</li>
+            </ul>
           </div>
         </div>
       </section>
 
       <div class="divider"></div>
 
-      <!-- Application Form -->
-      <section id="wholesale-form" aria-label="Wholesale application">
+      <!-- ── 3. Retail Partner Proof ── -->
+      <section aria-label="Where Pixy Dust is carried">
+        <h2 class="section-title">Found on Shelves &amp; Menus</h2>
+        <p class="muted" style="margin:8px 0 16px;font-size:14px;">Pixy Dust is trusted by retailers and culinary partners across the Midwest. Your account would be in good company.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+          <span class="retailer-badge">Fresh Thyme Market</span>
+          <span class="retailer-badge">Meijer</span>
+          <span class="retailer-badge">Schnucks</span>
+          <span class="retailer-badge">Mac's Bar</span>
+          <span class="retailer-badge">Erbe Farms</span>
+          <span class="retailer-badge">Old House on Hog Hollow</span>
+          <span class="retailer-badge">State Street Market</span>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 4. Who We Work With ── -->
+      <section aria-label="Who wholesale is for">
+        <h2 class="section-title">Who We Work With</h2>
+        <p class="muted" style="margin:8px 0 16px;font-size:14px;">Wholesale accounts are approved for business buyers in food service, retail, and hospitality. If your business buys product for resale or back-of-house use, you qualify to apply.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <span class="retailer-badge">Restaurants</span>
+          <span class="retailer-badge">Butcher Shops</span>
+          <span class="retailer-badge">Seafood Counters</span>
+          <span class="retailer-badge">Grocery &amp; Specialty Retail</span>
+          <span class="retailer-badge">Gift Shops</span>
+          <span class="retailer-badge">Caterers</span>
+          <span class="retailer-badge">Food Trucks</span>
+          <span class="retailer-badge">Hospitality &amp; Hotels</span>
+          <span class="retailer-badge">Online Retailers</span>
+          <span class="retailer-badge">Bulk Seasoning Buyers</span>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 5. How It Works ── -->
+      <section aria-label="Wholesale account process">
+        <h2 class="section-title">How It Works</h2>
+        <div class="ws-steps-grid">
+          <div class="ws-step-card">
+            <div class="ws-step-num">01</div>
+            <h3>Apply</h3>
+            <p>Fill out the application below. Tell us about your business, your intended use, and the blends you're interested in.</p>
+          </div>
+          <div class="ws-step-card">
+            <div class="ws-step-num">02</div>
+            <h3>Review</h3>
+            <p>Our team reviews your application within 3–5 business days and follows up by email or phone with next steps.</p>
+          </div>
+          <div class="ws-step-card">
+            <div class="ws-step-num">03</div>
+            <h3>Order</h3>
+            <p>Once approved, you'll receive your account details and place your first wholesale order.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 6. Direct Contact ── -->
+      <section aria-label="Direct wholesale contact">
+        <div class="callout" style="text-align:center;padding:28px 24px;">
+          <h2 class="section-title" style="margin-bottom:10px;">Have Questions Before You Apply?</h2>
+          <p class="muted" style="margin:0 auto;max-width:500px;font-size:14px;">Our wholesale team is happy to answer questions directly. Email us at <a href="mailto:wholesale@pdseasoning.com" style="color:var(--gold);">wholesale@pdseasoning.com</a> and we'll be in touch.</p>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ── 7. Wholesale Application Form ── -->
+      <section id="wholesale-application" aria-label="Wholesale account application">
         <div class="card">
-          <h2 class="section-title">Wholesale Application</h2>
-          <form class="form" id="wholesaleForm" name="wholesale" method="post" data-netlify="true" novalidate>
-            <input type="hidden" name="form-name" value="wholesale" />
+          <h2 class="section-title">Wholesale Account Application</h2>
+          <p class="muted" style="margin-top:4px;margin-bottom:28px;font-size:14px;">Complete the form below to apply for a wholesale account. Our team will review your application and follow up within 3–5 business days.</p>
+
+          <form class="form" id="wholesaleForm" name="wholesale-application" method="post" data-netlify="true" novalidate>
+            <input type="hidden" name="form-name" value="wholesale-application" />
+
+            <!-- Business Information -->
+            <p class="ws-section-label">Business Information</p>
             <div class="grid two">
               <div class="field">
-                <label for="biz">Business Name</label>
-                <input id="biz" name="business" type="text" required />
+                <label for="bizName">Business Name <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+                <input id="bizName" name="business-name" type="text" autocomplete="organization" required />
               </div>
               <div class="field">
-                <label for="contactName">Contact Name</label>
-                <input id="contactName" name="contact" type="text" required />
+                <label for="dbaName">DBA / Trade Name</label>
+                <input id="dbaName" name="dba" type="text" />
               </div>
               <div class="field">
-                <label for="emailW">Email</label>
-                <input id="emailW" name="email" type="email" inputmode="email" autocomplete="email" required />
-              </div>
-              <div class="field">
-                <label for="phoneW">Phone</label>
-                <input id="phoneW" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
-              </div>
-              <div class="field">
-                <label for="typeW">Business Type</label>
-                <select id="typeW" name="type" required>
+                <label for="bizType">Business Type <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+                <select id="bizType" name="business-type" required>
                   <option value="">Select one</option>
                   <option>Restaurant</option>
-                  <option>Retailer</option>
-                  <option>Online Store</option>
+                  <option>Catering</option>
+                  <option>Food Truck</option>
+                  <option>Grocery / Specialty Retail</option>
+                  <option>Butcher / Seafood Counter</option>
+                  <option>Hospitality / Hotel</option>
+                  <option>Online Retailer</option>
+                  <option>Gift / Specialty Shop</option>
                   <option>Other</option>
                 </select>
               </div>
               <div class="field">
-                <label for="msgW">Message and Volume Needs</label>
-                <textarea id="msgW" name="message" rows="5" required></textarea>
+                <label for="contactName">Contact Name <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+                <input id="contactName" name="contact-name" type="text" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="titleRole">Title / Role</label>
+                <input id="titleRole" name="title" type="text" autocomplete="organization-title" />
+              </div>
+              <div class="field">
+                <label for="phoneW">Phone <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+                <input id="phoneW" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+              </div>
+              <div class="field">
+                <label for="emailW">Email <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+                <input id="emailW" name="email" type="email" inputmode="email" autocomplete="email" required />
+              </div>
+              <div class="field">
+                <label for="websiteW">Website or Social Page</label>
+                <input id="websiteW" name="website" type="url" inputmode="url" placeholder="https://" />
               </div>
             </div>
-            <button class="btn btn-primary" type="submit" id="wholesaleSubmit">Submit Application</button>
-            <p class="form-note" id="wholesaleNote" aria-live="polite" style="display:none;"></p>
+            <div class="field" style="margin-top:4px;">
+              <label for="billingAddr">Billing Address <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+              <textarea id="billingAddr" name="billing-address" rows="3" autocomplete="street-address" required placeholder="Street, City, State, ZIP"></textarea>
+            </div>
+            <div class="field">
+              <label for="shippingAddr">Shipping Address</label>
+              <textarea id="shippingAddr" name="shipping-address" rows="3" placeholder="If different from billing address"></textarea>
+            </div>
+
+            <!-- Wholesale Request -->
+            <p class="ws-section-label" style="margin-top:30px;">Wholesale Request</p>
+            <div class="field">
+              <label>Intended Use <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+              <div class="radio-group" role="group" aria-label="Intended use">
+                <label class="radio-item"><input type="radio" name="intended-use" value="Resale" required /> Resale</label>
+                <label class="radio-item"><input type="radio" name="intended-use" value="Foodservice" /> Foodservice</label>
+                <label class="radio-item"><input type="radio" name="intended-use" value="Both" /> Both</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Blends of Interest</label>
+              <div class="check-grid" role="group" aria-label="Blends of interest" style="margin-top:8px;">
+                <label class="check-item"><input type="checkbox" name="blend-smoke-bbq" value="Smoke BBQ" /> Smoke BBQ</label>
+                <label class="check-item"><input type="checkbox" name="blend-garlic-pepper" value="Garlic Pepper" /> Garlic Pepper</label>
+                <label class="check-item"><input type="checkbox" name="blend-stir-fry" value="Stir Fry" /> Stir Fry</label>
+                <label class="check-item"><input type="checkbox" name="blend-jerk" value="Jerk" /> Jerk</label>
+                <label class="check-item"><input type="checkbox" name="blend-universal-ap" value="Universal All Purpose" /> Universal All Purpose</label>
+                <label class="check-item"><input type="checkbox" name="blend-deep-blue" value="Deep Blue Seafood" /> Deep Blue Seafood</label>
+                <label class="check-item"><input type="checkbox" name="blend-steak-rub" value="Steak Rub" /> Steak Rub</label>
+                <label class="check-item"><input type="checkbox" name="blend-sugar-free" value="Sugar Free All Purpose" /> Sugar Free All Purpose</label>
+                <label class="check-item"><input type="checkbox" name="blend-fajita-taco" value="Fajita Taco" /> Fajita Taco</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Preferred Format</label>
+              <div class="check-grid" role="group" aria-label="Preferred format" style="margin-top:8px;">
+                <label class="check-item"><input type="checkbox" name="format-case-12" value="Case of 12 Bottles" /> Case of 12 Bottles</label>
+                <label class="check-item"><input type="checkbox" name="format-3lb" value="3 lb Pouch" /> 3 lb Pouch</label>
+                <label class="check-item"><input type="checkbox" name="format-5lb" value="5 lb Pouch" /> 5 lb Pouch</label>
+                <label class="check-item"><input type="checkbox" name="format-10lb" value="10 lb Pouch" /> 10 lb Pouch</label>
+              </div>
+            </div>
+
+            <div class="grid two">
+              <div class="field">
+                <label for="monthlyVol">Estimated Monthly Volume</label>
+                <input id="monthlyVol" name="monthly-volume" type="text" placeholder="e.g. 5 cases, 20 lb" />
+              </div>
+              <div class="field">
+                <label for="firstOrder">Estimated First Order Size</label>
+                <input id="firstOrder" name="first-order" type="text" placeholder="e.g. 2 cases, 10 lb" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="notesW">Notes or Questions</label>
+              <textarea id="notesW" name="notes" rows="4" placeholder="Anything you'd like us to know about your account or requirements"></textarea>
+            </div>
+
+            <!-- Acknowledgment -->
+            <p class="ws-section-label" style="margin-top:30px;">Acknowledgment</p>
+            <div class="ws-ack" style="margin-bottom:20px;">
+              By submitting this application, the applicant confirms that all information provided is accurate and that this account is intended for business use only. Wholesale pricing is not for personal consumer orders.
+            </div>
+            <div class="grid two">
+              <div class="field">
+                <label for="authName">Authorized Name <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+                <input id="authName" name="authorized-name" type="text" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="authTitle">Title <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+                <input id="authTitle" name="authorized-title" type="text" required />
+              </div>
+              <div class="field">
+                <label for="authDate">Date <span aria-hidden="true" style="color:var(--gold)">*</span></label>
+                <input id="authDate" name="authorized-date" type="date" required />
+              </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit" id="wholesaleSubmit" style="margin-top:10px;">Submit Application</button>
+            <p class="form-note" id="wholesaleNote" aria-live="polite" style="display:none;margin-top:12px;"></p>
           </form>
+
           <script>
             (function(){
               var form = document.getElementById('wholesaleForm');
               var note = document.getElementById('wholesaleNote');
               var btn  = document.getElementById('wholesaleSubmit');
               if (!form) return;
+
+              /* Pre-fill today's date */
+              var dateField = document.getElementById('authDate');
+              if (dateField && !dateField.value) {
+                dateField.value = new Date().toISOString().split('T')[0];
+              }
+
               form.addEventListener('submit', function(e){
                 e.preventDefault();
                 var invalid = form.querySelector(':invalid');
                 if (invalid) { invalid.focus(); return; }
                 btn.disabled = true;
                 btn.textContent = 'Submitting…';
+
+                /* Collect checkboxes as comma-separated values for Netlify */
                 var data = new FormData(form);
-                fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                  body: new URLSearchParams(data).toString() })
-                  .then(function(r){
-                    if (r.ok) {
-                      form.reset();
-                      note.textContent = 'Application received. Our team will follow up within 2 business days.';
-                      note.style.color = 'var(--gold)';
-                    } else {
-                      note.textContent = 'Something went wrong. Please try again or email support@pixydustseasoning.com';
-                      note.style.color = '#e07070';
-                      btn.disabled = false; btn.textContent = 'Submit Application';
-                    }
-                    note.style.display = '';
-                  })
-                  .catch(function(){
-                    note.textContent = 'Something went wrong. Please try again or email support@pixydustseasoning.com';
+                var blends = [];
+                form.querySelectorAll('input[type="checkbox"][name^="blend-"]:checked').forEach(function(cb){ blends.push(cb.value); });
+                var formats = [];
+                form.querySelectorAll('input[type="checkbox"][name^="format-"]:checked').forEach(function(cb){ formats.push(cb.value); });
+                if (blends.length)  data.set('blends-of-interest', blends.join(', '));
+                if (formats.length) data.set('preferred-formats', formats.join(', '));
+
+                fetch('/', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                  body: new URLSearchParams(data).toString()
+                })
+                .then(function(r){
+                  if (r.ok) {
+                    form.reset();
+                    note.textContent = 'Application received. Our team will review it and follow up within 3–5 business days.';
+                    note.style.color = 'var(--gold)';
+                    window.scrollTo({ top: document.getElementById('wholesale-application').offsetTop - 80, behavior: 'smooth' });
+                  } else {
+                    note.textContent = 'Something went wrong. Please try again or email wholesale@pdseasoning.com';
                     note.style.color = '#e07070';
-                    note.style.display = '';
-                    btn.disabled = false; btn.textContent = 'Submit Application';
-                  });
+                    btn.disabled = false;
+                    btn.textContent = 'Submit Application';
+                  }
+                  note.style.display = '';
+                })
+                .catch(function(){
+                  note.textContent = 'Something went wrong. Please try again or email wholesale@pdseasoning.com';
+                  note.style.color = '#e07070';
+                  note.style.display = '';
+                  btn.disabled = false;
+                  btn.textContent = 'Submit Application';
+                });
               });
             })();
           </script>
@@ -215,7 +505,7 @@
 
   <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
 
-    <footer class="site-footer" role="contentinfo">
+  <footer class="site-footer" role="contentinfo">
     <div class="container footer-inner">
       <div class="footer-left">
         <div class="footer-line">&copy; <span id="year"></span> Pixy Dust Seasoning. All rights reserved.</div>
@@ -238,8 +528,6 @@
       </div>
     </div>
   </footer>
-
-
 
 </body>
 </html>
