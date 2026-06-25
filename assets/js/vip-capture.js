@@ -34,6 +34,10 @@
     return window.location.pathname.indexOf("vip-access") !== -1;
   }
 
+  function isMobile() {
+    return window.innerWidth <= 600;
+  }
+
   // ── Lead submission (called by popup, exit intent, and chatbot) ───────────
   function submitLead(email, name, tag, source) {
     return fetch(SYNC_ENDPOINT, {
@@ -280,7 +284,7 @@
 
   // ── Timed popup trigger (5–8 s after page load) ──────────────────────────
   function setupTimedPopup() {
-    if (alreadyShown() || isVipPage()) return;
+    if (isMobile() || alreadyShown() || isVipPage()) return;
     var delay = DELAY_MIN + Math.random() * (DELAY_MAX - DELAY_MIN);
     setTimeout(function () {
       if (!popupShown) showOverlay("popup");
@@ -289,7 +293,7 @@
 
   // ── Exit intent trigger (mouse leaves toward top of page) ────────────────
   function setupExitIntent() {
-    if (exitWired || alreadyShown() || isVipPage()) return;
+    if (isMobile() || exitWired || alreadyShown() || isVipPage()) return;
     exitWired = true;
     document.addEventListener("mouseleave", function (e) {
       if (e.clientY <= 0 && !popupShown) showOverlay("exit");
