@@ -1018,6 +1018,7 @@ p {
   letter-spacing: .05em;
   cursor: pointer;
   transition: background .18s, color .18s, border-color .18s;
+  min-height: 44px; /* minimum tap target — mobile requirement */
 }
 .shop-filter-btn:hover,
 .shop-filter-btn.active {
@@ -1657,7 +1658,7 @@ input::placeholder { color:var(--muted2); }
 
   .main-nav {
     position:absolute;
-    right:20px; top:72px;
+    right:20px; top:var(--nav-h);
     width:min(320px,calc(100% - 40px));
     flex-direction:column;
     align-items:stretch;
@@ -1718,6 +1719,12 @@ input::placeholder { color:var(--muted2); }
     flex-basis: calc((100% - 16px) / 2);
     width: calc((100% - 16px) / 2);
   }
+
+  /* Hide carousel scrollbars on tablet/mobile */
+  .carousel-track::-webkit-scrollbar,
+  .jr-carousel-track::-webkit-scrollbar { display:none; }
+  .carousel-track,
+  .jr-carousel-track { scrollbar-width:none; }
 }
 
 /* ── 28. Responsive — ≤600px ──────────────────────────────────── */
@@ -1725,7 +1732,11 @@ input::placeholder { color:var(--muted2); }
   .section { padding:64px 0; }
   .hero h1 { font-size:clamp(32px,9vw,42px); }
 
-  .stage { height:360px; }
+  /* Hero: remove forced 92vh lock — let content determine height on phone */
+  .hero { min-height:unset; }
+
+  /* Stage: place product carousel first visually, then headline/CTAs below */
+  .stage { height:300px; order:-1; }
 
   /* Grids collapse to 1 col */
   .grid.two      { grid-template-columns:1fr; }
@@ -1748,13 +1759,18 @@ input::placeholder { color:var(--muted2); }
   /* Callout full width */
   .callout { padding:20px; }
 
-  /* Chat panel adjusts */
+  /* Chat panel adjusts — lifted to clear repositioned FAB */
   .chat {
-    right:8px; bottom:80px;
+    right:8px; bottom:136px;
     width:min(calc(100vw - 16px),90vw);
     height:min(480px,70vh);
   }
-  .chat-fab { right:12px; bottom:12px; }
+  /* FAB lifted so it never overlaps the toast (toast sits at bottom:18px) */
+  .chat-fab { right:14px; bottom:72px; }
+
+  /* Hide brand text in topbar — logo image only on small screens */
+  .topbar .brand-name,
+  .topbar .brand-sub { display:none; }
 
   /* mini cards full width */
   .mini-card { min-width:85vw; }
@@ -1830,6 +1846,21 @@ input::placeholder { color:var(--muted2); }
   .nav-link { padding:12px 10px; }
   .product-actions { gap:8px; }
   .product-actions .btn { flex:1; justify-content:center; }
+}
+
+/* ── Mobile: section padding for 601px–880px (tablet / large phone) ── */
+@media (min-width:601px) and (max-width:880px) {
+  .section { padding:56px 0; }
+}
+
+/* ── Mobile: product media height on small phones ─────────────── */
+@media (max-width:480px) {
+  .product-layout .product-media { min-height:240px; }
+}
+
+/* ── Accessibility: respect reduced-motion preference ─────────── */
+@media (prefers-reduced-motion:reduce) {
+  .glow { animation:none; }
 }
 
 /* ── Video System ─────────────────────────────────────────────── */
