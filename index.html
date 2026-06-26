@@ -32,15 +32,15 @@
             <nav id="mainNav" class="nav main-nav" aria-label="Primary">
         <a href="shop.html">Shop</a>
         <a href="gifting.html">Gifting</a>
-        <a href="kitchen-table.html">Kitchen Table</a>
+        <a href="recipes.html">Recipes</a>
         <a href="contact.html">Contact Us</a>
-        <a href="wholesale.html">Wholesale</a>
         <div class="nav-more" data-nav-more>
           <button class="nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" data-nav-more-toggle>More <span class="nav-arrow" aria-hidden="true">&#x25be;</span></button>
           <div class="nav-more-menu" data-nav-more-menu>
             <a href="about.html">About</a>
+            <a href="wholesale.html">Wholesale</a>
+            <a href="kitchen-table.html">Kitchen Table</a>
             <a href="juniors.html">Juniors</a>
-            <a href="recipes.html">Recipes</a>
             <a href="gallery.html">Gallery</a>
             <a href="faq.html">FAQ</a>
           </div>
@@ -77,6 +77,7 @@
             <a class="btn btn-primary" href="shop.html?view=Pouches">Shop Signature Blends</a>
             <a class="btn btn-secondary" href="gifting.html">Build a Gift Set</a>
           </div>
+          <p style="margin-top:10px;"><a href="gifting.html" style="color:var(--gold);font-size:14px;letter-spacing:.03em;">Build a Gift Set →</a></p>
 
           <p class="hero-trust">
             <strong>Found at:</strong> Fresh Thyme · Meijer · Schnucks
@@ -121,37 +122,21 @@
       </div>
     </section>
 
-    <!-- ── 3. SOCIAL / RETAIL PROOF ── -->
-    <section class="section" data-cms-section="partners">
+    <!-- ── 3. VIP SIGNUP ── -->
+    <section class="section" data-cms-section="email">
       <div class="container">
-        <div class="section-head">
-          <h2 class="section-title" data-cms-text="partners-title">Found on Shelves &amp; Menus</h2>
-          <p class="section-sub" data-cms-text="partners-sub">Trusted by retailers and culinary partners across the Midwest.</p>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
-          <span class="retailer-badge">Fresh Thyme Market</span>
-          <span class="retailer-badge">Meijer</span>
-          <span class="retailer-badge">Schnucks</span>
-          <span class="retailer-badge">Mac's Bar</span>
-          <span class="retailer-badge">Erbe Farms</span>
-          <span class="retailer-badge">Old House on Hog Hollow</span>
-          <span class="retailer-badge">State Street Market</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── 3.5 WHOLESALE CTA ── -->
-    <section class="section" data-cms-section="wholesale-cta">
-      <div class="container">
-        <div class="gifting-strip">
-          <div>
-            <p class="kicker">For Restaurants &amp; Retailers</p>
-            <h2 class="section-title">Carry Pixy Dust in Your Business</h2>
-            <p class="muted" style="max-width:460px;margin:8px 0 0;">Wholesale and foodservice accounts welcome. Options available for approved restaurants, retailers, butcher counters, gift shops, and hospitality accounts.</p>
+        <div class="callout">
+          <div class="callout-copy">
+            <h2 class="section-title" data-cms-text="vip-title">Join the VIP List — Get 10% Off</h2>
+            <p class="section-sub" data-cms-text="vip-sub">Subscribe for 10% off your first order, plus new drops, flash sales, and early access — members only.</p>
           </div>
-          <div class="gifting-strip-actions">
-            <a class="btn btn-primary" href="wholesale.html">Apply for Wholesale</a>
-          </div>
+          <form class="form-inline" name="subscribe" method="post" data-netlify="true" data-subscribe-form>
+            <input type="hidden" name="form-name" value="subscribe" />
+            <label class="sr-only" for="emailHome">Email</label>
+            <input id="emailHome" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Enter your email" required />
+            <button class="btn btn-primary" type="submit">Subscribe</button>
+          </form>
+          <div class="form-note" id="subscribe-note" aria-live="polite"></div>
         </div>
       </div>
     </section>
@@ -173,21 +158,37 @@
       </div>
     </section>
 
-    <!-- ── 5. VIP SIGNUP ── -->
-    <section class="section" data-cms-section="email">
+    <!-- ── 5. SOCIAL / RETAIL PROOF ── -->
+    <section class="section" data-cms-section="partners">
       <div class="container">
-        <div class="callout">
-          <div class="callout-copy">
-            <h2 class="section-title" data-cms-text="vip-title">Join the VIP List — Get 10% Off</h2>
-            <p class="section-sub" data-cms-text="vip-sub">Subscribe for 10% off your first order, plus new drops, flash sales, and early access — members only.</p>
+        <div class="section-head">
+          <h2 class="section-title" data-cms-text="partners-title">Found on Shelves &amp; Menus</h2>
+          <p class="section-sub" data-cms-text="partners-sub">Trusted by retailers and culinary partners across the Midwest.</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+          <span class="retailer-badge">Fresh Thyme Market</span>
+          <span class="retailer-badge">Meijer</span>
+          <span class="retailer-badge">Schnucks</span>
+          <span class="retailer-badge">Mac's Bar</span>
+          <span class="retailer-badge">Erbe Farms</span>
+          <span class="retailer-badge">Old House on Hog Hollow</span>
+          <span class="retailer-badge">State Street Market</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6. WHOLESALE CTA ── -->
+    <section class="section" data-cms-section="wholesale-cta">
+      <div class="container">
+        <div class="gifting-strip">
+          <div>
+            <p class="kicker">For Restaurants &amp; Retailers</p>
+            <h2 class="section-title">Carry Pixy Dust in Your Business</h2>
+            <p class="muted" style="max-width:460px;margin:8px 0 0;">Wholesale and foodservice accounts welcome. Options available for approved restaurants, retailers, butcher counters, gift shops, and hospitality accounts.</p>
           </div>
-          <form class="form-inline" name="subscribe" method="post" data-netlify="true" data-subscribe-form>
-            <input type="hidden" name="form-name" value="subscribe" />
-            <label class="sr-only" for="emailHome">Email</label>
-            <input id="emailHome" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Enter your email" required />
-            <button class="btn btn-primary" type="submit">Subscribe</button>
-          </form>
-          <div class="form-note" id="subscribe-note" aria-live="polite"></div>
+          <div class="gifting-strip-actions">
+            <a class="btn btn-primary" href="wholesale.html">Apply for Wholesale</a>
+          </div>
         </div>
       </div>
     </section>
@@ -236,7 +237,10 @@
             <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
           </div>
         </div>
+        <a href="shipping.html">Shipping</a>
+        <a href="returns.html">Returns</a>
         <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
         <a href="privacy.html">Privacy Policy</a>
         <a href="cookies.html">Cookie Policy</a>
       </div>
