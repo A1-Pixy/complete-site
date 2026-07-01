@@ -19,6 +19,20 @@
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/search.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
+  <style>
+    /* Recipe cards get a photographic anchor so browsing reads as a discovery
+       experience rather than a text list — reuses existing pouch photography. */
+    .recipe-card { display:flex; flex-direction:column; overflow:hidden; }
+    .recipe-card-media {
+      height: 160px;
+      margin: -22px -22px 16px;
+      background-color: var(--bg2, #12121a);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-bottom: 1px solid var(--line, rgba(255,255,255,.1));
+    }
+  </style>
 </head>
 
 <body>
@@ -91,7 +105,8 @@
       <section aria-label="Featured recipes" style="padding-top:44px;">
         <div class="grid three">
 
-          <article class="card">
+          <article class="card recipe-card">
+            <div class="recipe-card-media" style="background-image:url('assets/images/pouches/chophouse.webp');"></div>
             <p class="kicker" style="margin-bottom:8px;">Chop House Steak</p>
             <h3 class="card-title">Seared Ribeye with Herb Butter</h3>
             <p class="muted">Coat generously before a cast-iron sear. Rest, slice, finish with compound butter and a pinch of Chop House.</p>
@@ -100,7 +115,8 @@
             </div>
           </article>
 
-          <article class="card">
+          <article class="card recipe-card">
+            <div class="recipe-card-media" style="background-image:url('assets/images/pouches/asian.webp');"></div>
             <p class="kicker" style="margin-bottom:8px;">Asian Stir Fry</p>
             <h3 class="card-title">Wok-Seared Shrimp &amp; Noodles</h3>
             <p class="muted">High heat, quick toss. Season shrimp before the wok, deglaze with a splash of soy, finish with sesame oil.</p>
@@ -109,7 +125,8 @@
             </div>
           </article>
 
-          <article class="card">
+          <article class="card recipe-card">
+            <div class="recipe-card-media" style="background-image:url('assets/images/pouches/jerk.webp');"></div>
             <p class="kicker" style="margin-bottom:8px;">Jerk</p>
             <h3 class="card-title">Jerk Chicken Thighs</h3>
             <p class="muted">Marinate overnight with Jerk blend, citrus, and oil. Grill over medium-high heat until caramelized and cooked through.</p>
@@ -118,7 +135,8 @@
             </div>
           </article>
 
-          <article class="card">
+          <article class="card recipe-card">
+            <div class="recipe-card-media" style="background-image:url('assets/images/pouches/fajita.webp');"></div>
             <p class="kicker" style="margin-bottom:8px;">Fajita</p>
             <h3 class="card-title">Cast-Iron Steak Fajitas</h3>
             <p class="muted">Season skirt steak heavily. Sear fast, slice thin against the grain. Char your peppers and onions in the same pan.</p>
@@ -127,7 +145,8 @@
             </div>
           </article>
 
-          <article class="card">
+          <article class="card recipe-card">
+            <div class="recipe-card-media" style="background-image:url('assets/images/pouches/smoke.webp');"></div>
             <p class="kicker" style="margin-bottom:8px;">Smoke BBQ</p>
             <h3 class="card-title">Low &amp; Slow Pork Ribs</h3>
             <p class="muted">Dry rub generously with Smoke BBQ the night before. Cook low and slow at 225°F for 5–6 hours. Finish with a glaze.</p>
@@ -136,7 +155,8 @@
             </div>
           </article>
 
-          <article class="card">
+          <article class="card recipe-card">
+            <div class="recipe-card-media" style="background-image:url('assets/images/pouches/Garlicpepper.webp');"></div>
             <p class="kicker" style="margin-bottom:8px;">Garlic Pepper</p>
             <h3 class="card-title">Roasted Garlic Vegetables</h3>
             <p class="muted">Toss seasonal vegetables in olive oil and Garlic Pepper. Roast at 400°F until edges caramelize. Finish with lemon zest.</p>

@@ -110,6 +110,30 @@
       margin: 0;
       line-height: 1.55;
     }
+
+    /* Mobile: sticky "Apply" bar keeps the primary conversion action reachable
+       while a business buyer scrolls through proof/process sections. Hidden
+       once the real application form has scrolled into view. */
+    .ws-sticky-apply { display: none; }
+    @media (max-width: 640px) {
+      .ws-sticky-apply {
+        display: block;
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        z-index: 4;
+        padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+        background: var(--bg1);
+        border-top: 1px solid var(--stroke);
+        box-shadow: 0 -12px 24px rgba(0,0,0,.35);
+      }
+      .ws-sticky-apply.is-hidden { transform: translateY(100%); }
+      .ws-sticky-apply .btn { width: 100%; justify-content: center; min-height: 50px; }
+      .check-item, .radio-item { min-height: 40px; }
+      .page { padding-bottom: 88px; }
+      /* Clear the sticky apply bar so the chat FAB never overlaps it */
+      .chat-fab { bottom: 148px; }
+      .ws-sticky-apply.is-hidden ~ .chat-fab { bottom: 72px; }
+    }
   </style>
 </head>
 <body>
@@ -450,6 +474,22 @@
 
     </div>
   </main>
+
+  <div class="ws-sticky-apply" id="wsStickyApply">
+    <a class="btn btn-primary" href="#wholesale-application">Apply for a Wholesale Account</a>
+  </div>
+  <script>
+    (function () {
+      "use strict";
+      var bar  = document.getElementById("wsStickyApply");
+      var form = document.getElementById("wholesale-application");
+      if (!bar || !form || typeof IntersectionObserver === "undefined") return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { bar.classList.toggle("is-hidden", e.isIntersecting); });
+      }, { rootMargin: "0px 0px -40% 0px" });
+      io.observe(form);
+    })();
+  </script>
 
   <button class="chat-fab" type="button" aria-label="Open Pixy Assistant" data-chat-open>
     <span class="chat-fab-glow" aria-hidden="true"></span>
