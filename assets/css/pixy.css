@@ -2613,6 +2613,11 @@ input::placeholder { color:var(--muted2); }
   .cart-item   { padding: 14px 16px; gap: 12px; }
   .cart-drawer-head,
   .cart-drawer-foot { padding-left: 16px; padding-right: 16px; }
+
+  /* Bump cart controls to a 44px minimum tap target on phones */
+  .cart-drawer-close { width: 44px; height: 44px; }
+  .cart-qty-btn { width: 44px; height: 44px; }
+  .cart-item-remove { width: 44px; height: 44px; }
 }
 
 /* ── Shop mobile: replace horizontal carousels with vertical grid ── */
@@ -3623,6 +3628,18 @@ body.search-is-open { overflow: hidden !important; }
 @media (max-width: 767px) {
   .page {
     padding-bottom: 100px;
+  }
+}
+
+/* Task 4: Product detail — cap image panel height on phones so buy buttons
+   surface above the fold without scrolling past story + ingredients.
+   The ≤880px rule sets .product-media { min-height:320px } (unscoped).
+   The ≤480px rule already sets .product-layout .product-media { min-height:240px }.
+   This fills the 481–600px gap and reduces the overall image zone on all phones. */
+@media (max-width: 600px) {
+  .product-layout .product-media {
+    min-height: 220px;
+    padding: 20px;
   }
 }
 
