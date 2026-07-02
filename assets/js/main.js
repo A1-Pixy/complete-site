@@ -598,6 +598,9 @@
     var prev  = document.getElementById("heroPrev");
     var next  = document.getElementById("heroNext");
     if (!stage || !prev || !next) return;
+    // Mobile hero is a static single-featured-blend moment (no swipe/arrows) —
+    // matches the CSS hide rule for .arrow at the same breakpoint.
+    if (window.matchMedia("(max-width: 640px)").matches) return;
     if (stage.getAttribute("data-swipe-wired") === "1") return;
     stage.setAttribute("data-swipe-wired", "1");
 

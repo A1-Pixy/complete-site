@@ -69,14 +69,15 @@
     </div>
   </header>
 
-  <main id="main" class="page">
+  <main id="main" class="page page-shop">
 
-    <!-- ── Page Header ── -->
-    <section class="section collection" id="Pouches" data-view-section="Pouches">
+    <!-- ── Page Header (always visible — not tied to any single category's
+         toggled section, so it survives regardless of which view is active) ── -->
+    <section class="section collection">
       <div class="container">
         <div class="section-head">
-          <h1 class="page-title">Shop</h1>
-          <p class="section-sub">Premium blends, curated collections, and individual spices.</p>
+          <h1 class="page-title shop-title">Shop</h1>
+          <p class="section-sub shop-subtitle">Premium blends, curated collections, and individual spices.</p>
 
           <nav class="shop-filters" aria-label="Shop categories" style="display:flex;gap:8px;margin-top:18px;">
             <button class="shop-filter-btn" type="button" data-filter-target="BestSellers">Best Sellers</button>
@@ -88,7 +89,9 @@
           </nav>
         </div>
 
-        <!-- Best Sellers pseudo-section (shown when filter = BestSellers) -->
+        <!-- Best Sellers pseudo-section (shown when filter = BestSellers) —
+             lives outside the toggled category sections so it isn't hidden
+             along with Pouches/Bottles/Grills/Spices. -->
         <div id="best-sellers-section" style="display:none;">
           <div class="card" style="margin-bottom:0;">
             <h2 class="section-title">Best Sellers</h2>
@@ -96,7 +99,11 @@
             <div id="shop-best-sellers-grid" class="grid three"></div>
           </div>
         </div>
+      </div>
+    </section>
 
+    <section class="section collection" id="Pouches" data-view-section="Pouches">
+      <div class="container">
         <div id="pouches-section">
           <div class="card">
             <h2 class="section-title">Signature Blends</h2>
@@ -196,7 +203,7 @@
         getSections().forEach(function (s) {
           var key   = (s.getAttribute("data-view-section") || "").replace(/\s+/g, "%20");
           var match = decodeURIComponent(key) === decodeURIComponent(target);
-          s.style.display = (match || isBestSellers) ? "" : "none";
+          s.style.display = match ? "" : "none";
         });
 
         if (bsSection)    bsSection.style.display    = isBestSellers ? "" : "none";
@@ -243,9 +250,9 @@
             (p.price != null ? '<p class="card-price">$' + Number(p.price).toFixed(2) + '</p>' : '') +
             '<p class="muted" style="font-size:12px;flex:1;">' + (p.blurb || "") + '</p>' +
             '<div style="display:flex;gap:8px;margin-top:auto;padding-top:10px;flex-wrap:wrap;">' +
-              '<button class="btn btn-primary" type="button" style="flex:1;" ' +
+              '<button class="btn btn-primary card-buy-btn" type="button" style="flex:1;" ' +
                 'onclick="(function(k){if(window.PIXY_CART){var r=window.PIXY_CART.addByKey(k,1);if(r&&window.PIXY_CART.open)window.PIXY_CART.open();}})(\''+p.key+'\')">Buy Now</button>' +
-              '<a class="btn btn-secondary" href="' + href + '" style="flex:1;text-align:center;">View Details</a>' +
+              '<a class="btn btn-secondary card-view-details" href="' + href + '" style="flex:1;text-align:center;">View Details</a>' +
             '</div>' +
           '</article>';
         }
@@ -354,6 +361,7 @@
             <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
           </div>
         </div>
+        <a href="shop.html">Shop</a>
         <a href="shipping.html">Shipping</a>
         <a href="returns.html">Returns</a>
         <a href="faq.html">FAQ</a>

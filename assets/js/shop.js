@@ -123,7 +123,7 @@
     actions.className = "product-actions";
 
     var details = document.createElement("a");
-    details.className = "btn";
+    details.className = "btn card-view-details";
     details.href = href;
     details.textContent = "View Details";
     decorateProductLink(details);
@@ -132,7 +132,7 @@
     if (p.key) {
       var add = document.createElement("button");
       add.type = "button";
-      add.className = "btn btn-secondary";
+      add.className = "btn btn-secondary card-buy-btn";
       add.textContent = "Add to Cart";
       (function(pkey) {
         add.addEventListener("click", function (ev) {
@@ -157,6 +157,11 @@
   // ================================================================
   // C. COLLECTION CAROUSELS (data-category="..." wrappers)
   // ================================================================
+  // Live product data (Supabase, via products-get) stores category as free
+  // text with no enum/constraint — normalize before comparing so drift in
+  // case or whitespace doesn't silently empty a whole tab.
+  function normCategory(s) { return String(s || "").trim().toLowerCase(); }
+
   function fillCarouselWrap(wrap) {
     if (!wrap) return;
     var category = wrap.getAttribute("data-category");
@@ -168,7 +173,7 @@
 
     var list = [];
     for (var i = 0; i < products.length; i++) {
-      if (products[i] && products[i].category === category) list.push(products[i]);
+      if (products[i] && normCategory(products[i].category) === normCategory(category)) list.push(products[i]);
     }
 
     track.innerHTML = "";

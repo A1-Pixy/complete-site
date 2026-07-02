@@ -1833,6 +1833,11 @@ input::placeholder { color:var(--muted2); }
 .decision-card .card-title { color:var(--text); }
 .decision-label { color:var(--gold) !important; }
 
+/* Trust strip: compact one-line variant (Wholesale short-form mobile flow)
+   replaces the full badge section on mobile; hidden by default so desktop
+   is unaffected. */
+.trust-strip-compact { display:none; }
+
 /* ── Global cart button — consistent across all header styles ─── */
 .site-header .cart-btn {
   min-width:80px;
@@ -3661,14 +3666,22 @@ body.search-is-open { overflow: hidden !important; }
   .nav-icon-btn:active, .topbar .cart-btn:active, .nav-toggle:active {
     transform: scale(.94);
   }
-  /* — Hero: one clear message, one obvious CTA — */
+  /* — Hero: one dominant product moment, one primary CTA (static, no swipe) — */
   .hero-inner { gap:20px; }
   .kicker { font-size:11px; letter-spacing:.24em; }
   .hero h1 { line-height:1.08; margin-bottom:10px; }
   .hero .subcopy { font-size:15px; line-height:1.55; color:var(--muted); }
   .cta-row { gap:10px; margin-top:18px; }
   .cta-row .btn { min-height:52px; font-size:15px; letter-spacing:.06em; }
-  .cta-row .btn-secondary { opacity:.85; }
+  /* Only one CTA on mobile — "Build a Gift Set" stays reachable via nav */
+  .cta-row .btn-secondary { display:none; }
+  .cta-row .btn-primary { width:100%; }
+
+  /* Hero stage: static single blend, informational only (name + price) —
+     no arrows, no stage-level actions. Pairs with the swipe-wiring skip
+     in assets/js/main.js at the same breakpoint. */
+  .stage .arrow { display:none; }
+  .stage-actions { display:none; }
 
   /* — Buttons: tactile, premium micro-motion — */
   .btn { transition: transform .12s ease-out, box-shadow .15s ease, opacity .15s ease; }
@@ -3680,10 +3693,16 @@ body.search-is-open { overflow: hidden !important; }
   .section-title { font-size:22px; letter-spacing:.02em; }
   .section-sub { font-size:14px; color:var(--muted); }
 
-  /* — Product cards: bigger imagery, luxury type, one clear CTA — */
+  /* — Product cards: image, name, price, one visible button. No border
+       (repeated bordered boxes read as a "wall of products"), no blurb
+       copy, whole-card tap to the product page stays as a convenience
+       via the existing image/title <a> wrapper — the one visible button
+       is the primary action, not the only way to reach the product. — */
   .card.product {
     border-radius: var(--r);
     padding: 16px;
+    border-color: transparent;
+    box-shadow: var(--shadow2);
   }
   .card.product .card-title {
     font-family: var(--serif);
@@ -3694,6 +3713,22 @@ body.search-is-open { overflow: hidden !important; }
     color: var(--gold);
     font-weight: 700;
     font-size: 15px;
+  }
+  .card.product .pouch-placeholder,
+  .card.product .product-media {
+    height: 220px !important;
+  }
+  .card.product > .muted {
+    display: none;
+  }
+  /* One CTA per card: hide "View Details" everywhere, keep the buy
+     action. Tagged explicitly in shop.js/shop.html since the two card
+     templates use .btn-primary/.btn-secondary for opposite buttons. */
+  .card.product .card-view-details {
+    display: none;
+  }
+  .card.product .card-buy-btn {
+    flex: 1 1 100%;
   }
   .card.product:active { transform: translateY(-2px); }
   .grid.three, .grid.products, .grid.two { gap:16px; }
@@ -3799,6 +3834,69 @@ body.search-is-open { overflow: hidden !important; }
   /* — Shop: carousel arrows sit closer to thumb reach, "View all" is clear — */
   .carousel-btn { min-width:40px; min-height:40px; }
   .viewall-btn { font-size:13px; }
+
+  /* — Shop (mobile only): the first section was padding-top'd for the
+       fixed header TWICE — once on .page (clears the header) and again
+       on .page > .section.collection:first-child (+40px on top of that),
+       stacking to ~2x header height of empty gradient before any content.
+       Scoped to .page-shop so desktop Shop and other .collection pages
+       (Spices, Kitchen Table, etc.) are untouched. — */
+  .page-shop.page > .section.collection:first-child { padding-top: 20px; }
+
+  /* — Shop (mobile only): "Shop / Premium blends..." repeats what the
+       customer already knows from tapping "Shop" in nav — cut so filter
+       pills and the first product row are visible without scrolling. — */
+  .page-shop .shop-title,
+  .page-shop .shop-subtitle { display: none; }
+
+  /* — Home hero (mobile only): "Featured blend" label sits above the
+       hero product art, which is reordered above the headline on phones
+       — so it's the first text a customer sees, competing with the
+       actual headline/CTA below it. Name/price/CTA stay, just the tag. — */
+  .blend .label { display: none; }
+
+  /* — Header (mobile only): search hidden — logo/menu/cart only, on
+       every buying-path page's header (Home, Shop, Product, Cart). — */
+  #openSearchBtn { display: none; }
+
+  /* Trust strip toggle — used by Wholesale's short-form mobile flow. */
+  .trust-strip-compact {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    padding: 16px 0;
+  }
+  .trust-strip-full { display: none; }
+
+  /* — Home (mobile only): reorder promo blocks so the buying path reads
+       Hero → Best Sellers → Gift Set mention → Recipes teaser → compact
+       Wholesale/contact link → VIP → Trust, instead of six equal-weight
+       stacked cards. No HTML removed — desktop keeps top-to-bottom order. — */
+  .home-main { display: flex; flex-direction: column; }
+  .home-main > .hero                              { order: 1; }
+  .home-main > [data-cms-section="best-sellers"]  { order: 2; }
+  .home-main > [data-cms-section="gifting-cta"]   { order: 3; }
+  .home-main > [data-cms-section="recipes-teaser"] { order: 4; }
+  .home-main > [data-cms-section="wholesale-cta"] { order: 5; }
+  .home-main > [data-cms-section="email"]         { order: 6; }
+  .home-main > [data-cms-section="partners"]      { order: 7; }
+
+  /* Promo blocks (Wholesale CTA, VIP signup) are support content, not
+     equal to the buy path — compact padding so they read as a line, not
+     a full section. */
+  .home-main > [data-cms-section="wholesale-cta"],
+  .home-main > [data-cms-section="email"] { padding: 32px 0; }
+
+  /* — Footer (mobile only): compact closing strip, not a second page. — */
+  .site-footer { padding: 24px 0; }
+  .footer-inner { gap: 8px; }
+  .footer-tag { display: none; }
+  .footer-right { flex-direction: row; flex-wrap: wrap; gap: 6px 12px; }
+  .footer-right a { font-size: 13px; }
+  .footer-right a[href="cookies.html"] { font-size: 11px; color: var(--muted2); }
+  .footer-follow,
+  .footer-right a[href="faq.html"] { display: none; }
 
   /* — Reduced motion: disable the micro-motion above — */
   @media (prefers-reduced-motion: reduce) {

@@ -61,7 +61,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="home-main">
     <!-- ── 1. HERO ── -->
     <section class="hero" aria-label="Hero">
       <div class="hero-inner">
@@ -152,7 +152,7 @@
       </div>
     </section>
 
-    <!-- ── 5. GIFTING ── -->
+    <!-- ── 5. GIFTING (simple gift set mention) ── -->
     <section class="section" data-cms-section="gifting-cta">
       <div class="container">
         <div class="gifting-strip">
@@ -163,27 +163,45 @@
           </div>
           <div class="gifting-strip-actions">
             <a class="btn btn-primary" href="gifting.html">Shop Gift Sets</a>
-            <a class="btn btn-secondary" href="gifting.html">View All Sets</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── 6. SOCIAL / RETAIL PROOF ── -->
+    <!-- ── 5b. RECIPES TEASER (support content, not a Shop grid) ── -->
+    <section class="section" data-cms-section="recipes-teaser">
+      <div class="container">
+        <div class="gifting-strip">
+          <div>
+            <p class="kicker">Not Sure Where to Start?</p>
+            <h2 class="section-title">Cook With Your Blend</h2>
+            <p class="muted" style="max-width:420px;margin:8px 0 0;">Simple recipes for every signature blend — dish, use case, and the exact blend to grab.</p>
+          </div>
+          <div class="gifting-strip-actions">
+            <a class="btn btn-secondary" href="recipes.html">See Recipes</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6. SOCIAL / RETAIL PROOF (compact on mobile) ── -->
     <section class="section" data-cms-section="partners">
       <div class="container">
-        <div class="section-head">
-          <h2 class="section-title" data-cms-text="partners-title">Found on Shelves &amp; Menus</h2>
-          <p class="section-sub" data-cms-text="partners-sub">Trusted by retailers and culinary partners across the Midwest.</p>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
-          <span class="retailer-badge">Fresh Thyme Market</span>
-          <span class="retailer-badge">Meijer</span>
-          <span class="retailer-badge">Schnucks</span>
-          <span class="retailer-badge">Mac's Bar</span>
-          <span class="retailer-badge">Erbe Farms</span>
-          <span class="retailer-badge">Old House on Hog Hollow</span>
-          <span class="retailer-badge">State Street Market</span>
+        <p class="trust-strip-compact">Trusted by Fresh Thyme, Meijer, Schnucks, Mac's Bar, Erbe Farms.</p>
+        <div class="trust-strip-full">
+          <div class="section-head">
+            <h2 class="section-title" data-cms-text="partners-title">Found on Shelves &amp; Menus</h2>
+            <p class="section-sub" data-cms-text="partners-sub">Trusted by retailers and culinary partners across the Midwest.</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+            <span class="retailer-badge">Fresh Thyme Market</span>
+            <span class="retailer-badge">Meijer</span>
+            <span class="retailer-badge">Schnucks</span>
+            <span class="retailer-badge">Mac's Bar</span>
+            <span class="retailer-badge">Erbe Farms</span>
+            <span class="retailer-badge">Old House on Hog Hollow</span>
+            <span class="retailer-badge">State Street Market</span>
+          </div>
         </div>
       </div>
     </section>
@@ -233,6 +251,7 @@
             <a href="https://www.youtube.com/@PixyDustcookoff" target="_blank" rel="noreferrer">YouTube</a>
           </div>
         </div>
+        <a href="shop.html">Shop</a>
         <a href="shipping.html">Shipping</a>
         <a href="returns.html">Returns</a>
         <a href="faq.html">FAQ</a>
@@ -288,8 +307,8 @@
             priceHtml +
             '<p class="muted" style="font-size:13px;flex:1;">' + (p.blurb || "") + '</p>' +
             '<div class="product-actions" style="display:flex;gap:8px;margin-top:auto;padding-top:12px;flex-wrap:wrap;">' +
-              '<button class="btn btn-primary" type="button" style="flex:1;" onclick="(function(key){if(window.PIXY_CART){var r=window.PIXY_CART.addByKey(key,1);if(r&&window.PIXY_CART.open)window.PIXY_CART.open();}})(\''+p.key+'\')">Buy Now</button>' +
-              '<a class="btn btn-secondary" href="' + href + '" style="flex:1;text-align:center;">View Details</a>' +
+              '<button class="btn btn-primary card-buy-btn" type="button" style="flex:1;" onclick="(function(key){if(window.PIXY_CART){var r=window.PIXY_CART.addByKey(key,1);if(r&&window.PIXY_CART.open)window.PIXY_CART.open();}})(\''+p.key+'\')">Buy Now</button>' +
+              '<a class="btn btn-secondary card-view-details" href="' + href + '" style="flex:1;text-align:center;">View Details</a>' +
             '</div>' +
           '</article>';
         }
