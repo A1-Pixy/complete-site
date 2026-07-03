@@ -32,6 +32,14 @@
 (function () {
   "use strict";
 
+  // Real iOS Safari can crash when a position:fixed/sticky backdrop-filter
+  // header sits over a continuously-repainting canvas (see #heroDust below
+  // and .topbar/.site-header in pixy.css). Flag it so CSS can drop the
+  // blur on iOS only; this doesn't reproduce in headless/simulated WebKit.
+  var isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (isIOSDevice) document.documentElement.classList.add("is-ios");
+
   // ── Constants ──────────────────────────────────────────────────
   var LS_CHAT_OPEN    = "pixy_chat_open_v1";
   var LS_CHAT_POS     = "pixy_chat_pos_v1";
@@ -513,6 +521,17 @@
     var ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // iOS Safari (real devices) can crash when a continuously-repainting
+    // canvas sits under a position:fixed / backdrop-filter:blur() header
+    // (see .topbar in pixy.css). This does not reproduce in headless/
+    // simulated WebKit, only on real hardware. Render one static frame
+    // there instead of looping. Also respect prefers-reduced-motion.
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    var reducedMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var staticOnly = isIOS || reducedMotion;
+
     // Mobile: fewer particles + throttled frame rate
     var isMobile = window.innerWidth < 768;
     var dpr = Math.max(1, window.devicePixelRatio || 1);
@@ -549,11 +568,26 @@
     }
 
     // Mobile: cap at 40 particles; desktop: adaptive up to 220
-    var maxN = isMobile ? 40 : 220;
-    var minN = isMobile ? 20 : 90;
+    // iOS/reduced-motion: a small fixed set drawn once, no animation loop
+    var maxN = staticOnly ? 24 : (isMobile ? 40 : 220);
+    var minN = staticOnly ? 24 : (isMobile ? 20 : 90);
     var N = Math.min(maxN, Math.max(minN, Math.floor((W * H) / 8500)));
     var parts = [];
     for (var pi = 0; pi < N; pi++) parts.push(spawn(true));
+
+    if (staticOnly) {
+      ctx.clearRect(0, 0, W, H);
+      for (var si = 0; si < parts.length; si++) {
+        var sp = parts[si];
+        ctx.beginPath();
+        ctx.globalAlpha = sp.a;
+        ctx.arc(sp.x, sp.y, sp.r, 0, Math.PI * 2);
+        ctx.fillStyle = sp.sparkle ? "#f5e8c0" : "#d8b35a";
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      return; // no requestAnimationFrame loop on iOS / reduced-motion
+    }
 
     // Mobile: throttle to ~20fps to save battery/CPU; desktop: full 60fps
     var frameInterval = isMobile ? (1000 / 20) : 0;
